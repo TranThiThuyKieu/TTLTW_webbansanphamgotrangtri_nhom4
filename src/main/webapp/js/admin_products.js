@@ -6,28 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-document.addEventListener('DOMContentLoaded', function () {
-
-    const promoBtn = document.querySelector('.add-uu-dai');
-    const modal = document.getElementById('promotionModal');
-    const overlay = document.getElementById('modalOverlay');
-
-    if (promoBtn) {
-        promoBtn.addEventListener('click', function () {
-            modal.style.display = 'block';
-            overlay.style.display = 'block';
-        });
-    }
-
-    if (overlay) {
-        overlay.addEventListener('click', function () {
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-        });
-    }
-
-});
-
 
 function toggleActive(productId, willBeActive) {
 
