@@ -1,0 +1,38 @@
+package controller;
+
+import dao.ProductDao;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import model.ProductType;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+@WebServlet(name = "AdminProductTypeServlet", value = "/AdminProductTypeServlet")
+public class AdminProductTypeServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ProductDao productDao = new ProductDao();
+
+        List<ProductType> listPT = productDao.getAllProductTypes();
+
+
+        Map<Integer, Integer> productCountMap = productDao.countProductByType();
+
+        request.setAttribute("listPT", listPT);
+        request.setAttribute("productCountMap", productCountMap);
+        request.setAttribute("activePage", "productType");
+        request.getRequestDispatcher("admin_products_type.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+}

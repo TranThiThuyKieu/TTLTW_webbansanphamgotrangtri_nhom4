@@ -811,5 +811,30 @@ public class ProductDao {
             return false;
         }
     }
+    public Map<Integer, Integer> countProductByType() {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        String sql = """
+        SELECT product_type_id, COUNT(*) AS total
+        FROM products
+        WHERE isActive = 1
+        GROUP BY product_type_id
+    """;
+
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                map.put(
+                        rs.getInt("product_type_id"),
+                        rs.getInt("total")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
 
 }
