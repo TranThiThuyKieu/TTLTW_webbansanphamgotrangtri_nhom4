@@ -8,7 +8,7 @@
             </li>
 
             <li class="${activePage == '' ? 'active' : ''}">
-                <a href="${pageContext.request.contextPath}/products">sản phẩm</a>
+                <a href="${pageContext.request.contextPath}/products">Sản phẩm</a>
             </li>
             <li class="${activePage == '' ? 'active' : ''}">
                 <a href="${pageContext.request.contextPath}/AdminProductTypeServlet">Loại sản phẩm</a>
