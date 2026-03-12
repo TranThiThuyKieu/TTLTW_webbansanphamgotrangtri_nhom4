@@ -279,5 +279,26 @@ public class UserDao {
         }
         return false;
     }
+    public String getPasswordById(int userId) throws Exception {
+        String sql = "SELECT password FROM users WHERE id = ?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getString("password");
+                return null;
+            }
+        }
+    }
+    public boolean updatePassword(int userId, String newPassword) throws Exception {
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            String hashedPassword = PasswordUtils.hashPassword(newPassword);
+            ps.setString(1, hashedPassword);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() == 1;
+        }
+    }
 }
 
