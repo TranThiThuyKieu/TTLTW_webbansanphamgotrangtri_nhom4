@@ -3,9 +3,11 @@ package dao;
 import model.User;
 import utils.PasswordUtils;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
+import static dao.DBContext.getConnection;
 
 public class UserDao {
     public User checkLogin(String email, String password) {
@@ -52,6 +54,25 @@ public class UserDao {
             e.printStackTrace();
         }
         return null;
+    }
+    public int countNewUsersLast30Days() {
+        String sql = "SELECT COUNT(*) FROM users WHERE (role = 'User') and (createAt IS NULL OR createAt >= ?)";
+        LocalDateTime since = LocalDateTime.now(ZoneId.systemDefault()).minusDays(30);
+        Timestamp sinceTs = Timestamp.valueOf(since);
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setTimestamp(1, sinceTs);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 
 }
