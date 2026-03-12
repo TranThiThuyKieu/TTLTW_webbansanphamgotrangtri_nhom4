@@ -861,5 +861,30 @@ public class ProductDao {
         }
         return map;
     }
+    public Map<Integer, Integer> countProductBySource() {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        String sql = """
+        SELECT source_id, COUNT(*) AS total
+        FROM products
+        WHERE isActive = 1
+        GROUP BY source_id
+    """;
+
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                map.put(
+                        rs.getInt("source_id"),
+                        rs.getInt("total")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
 
 }
