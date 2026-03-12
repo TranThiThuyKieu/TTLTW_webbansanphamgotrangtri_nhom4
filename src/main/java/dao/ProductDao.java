@@ -836,5 +836,30 @@ public class ProductDao {
         }
         return map;
     }
+    public Map<Integer, Integer> countProductByCategory() {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        String sql = """
+        SELECT category_id, COUNT(*) AS total
+        FROM products
+        WHERE isActive = 1
+        GROUP BY category_id
+    """;
+
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                map.put(
+                        rs.getInt("category_id"),
+                        rs.getInt("total")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
 
 }
