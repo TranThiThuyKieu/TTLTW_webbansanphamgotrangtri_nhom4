@@ -18,7 +18,7 @@
                 </li>
 
             <li class="${activePage == '' ? 'active' : ''}">
-                <a href="${pageContext.request.contextPath}/AdminProductTypeServlet"> Nhà cung cấp</a>
+                <a href="${pageContext.request.contextPath}/AdminCountProductSourceServlet"> Nhà cung cấp</a>
             </li>
             <li class="${activePage == '' ? 'active' : ''}">
                 <a href="${pageContext.request.contextPath}/admin-orders">Đơn hàng</a>
