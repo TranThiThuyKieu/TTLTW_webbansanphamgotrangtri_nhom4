@@ -267,5 +267,17 @@ public class UserDao {
         }
         return false;
     }
+    public boolean updateUserAvatarId(int userId, int imageId) {
+        String sql = "UPDATE users SET avatar_id = ? WHERE id = ?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, imageId);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
 
