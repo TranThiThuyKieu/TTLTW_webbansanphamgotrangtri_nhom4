@@ -7,7 +7,6 @@ public class ContactSettingsDao {
     public boolean updateSettings(ContactSettings settings) {
         Connection conn = null;
         PreparedStatement ps = null;
-
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(
@@ -34,4 +33,61 @@ public class ContactSettingsDao {
             try { if (conn != null) conn.close(); } catch (Exception ignored) {}
         }
     }
-}
+    public ContactSettings getSettings() {
+        ContactSettings settings = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement("SELECT * FROM contact_settings WHERE id = 1 LIMIT 1");
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                settings = new ContactSettings();
+                settings.setId(rs.getInt("id"));
+                settings.setPhone(rs.getString("phone"));
+                settings.setEmail(rs.getString("email"));
+                settings.setAddress(rs.getString("address"));
+                settings.setFacebookUrl(rs.getString("facebook_url"));
+                settings.setInstagramUrl(rs.getString("instagram_url"));
+                settings.setTwitterUrl(rs.getString("twitter_url"));
+                settings.setGoogleUrl(rs.getString("google_url"));
+            } else {
+                createDefaultSettings();
+                return getSettings();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (Exception ignored) {}
+            try { if (ps != null) ps.close(); } catch (Exception ignored) {}
+            try { if (conn != null) conn.close(); } catch (Exception ignored) {}
+        }
+        return settings;
+    }
+    private void createDefaultSettings() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = new DBContext().getConnection();
+            String sql = "INSERT INTO contact_settings (id, phone, email, address, facebook_url, instagram_url, twitter_url, google_url) " +
+                    "VALUES (1, ?, ?, ?, ?, ?, ?, ?)";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "+84 123 456 789");
+            ps.setString(2, "contact@company.com");
+            ps.setString(3, "Đại học Nông Lâm TP.HCM");
+            ps.setString(4, "https://facebook.com/yourshop");
+            ps.setString(5, "https://instagram.com/yourshop");
+            ps.setString(6, "https://twitter.com/yourshop");
+            ps.setString(7, "https://google.com/search?q=yourshop");
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try { if (ps != null) ps.close(); } catch (Exception ignored) {}
+            try { if (conn != null) conn.close(); } catch (Exception ignored) {}
+        }
+}}

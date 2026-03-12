@@ -9,7 +9,7 @@ import model.ContactSettings;
 
 import java.io.IOException;
 @WebServlet("/update-contact-settings")
-public class UpdateContactSettingsServlet extends HttpServlet { // rồi
+public class UpdateContactSettingsServlet extends HttpServlet {
     private final ContactSettingsDao settingsDao = new ContactSettingsDao();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
