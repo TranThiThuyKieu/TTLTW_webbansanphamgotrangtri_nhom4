@@ -1,0 +1,456 @@
+:root {
+    --background-color: #FFFFFF;
+    --primary-color: #8B5E3C;
+    --text-color: #3b2f2f;
+    --text-color2:#6b5743;
+    --btn:#A56B43;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+
+}
+#product{
+    color: #333;
+    text-decoration: none;
+
+}
+#product:hover{
+    color: var(--primary-color);
+}
+
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+    padding: 20px 30px;
+    min-width: 260px;
+    z-index: 999;
+}
+
+.product-menu:hover .submenu {
+    display: block;
+}
+.submenu a {
+    display: block;
+    color: #3E2F1C;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 0;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.25s;
+    border-radius: 8px;
+}
+
+.submenu a:hover {
+    color: #8B5E3C;
+    background: rgba(139, 94, 60, 0.08);
+}
+.overlay-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 0;
+}
+
+.overlay-card {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    height: 240px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    color: #fff;
+    text-align: center;
+    padding: 0 40px;
+    transition: 0.3s;
+}
+
+.overlay-card h3 {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+.overlay-card button {
+    padding: 10px 30px;
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    color: #191919;
+    background: #fff;
+    transition: 0.3s;
+}
+
+.overlay-card:hover {
+    background: rgba(0, 0, 0, 0.65);
+    transform: translateY(-10px);
+}
+
+
+@media (max-width: 768px) {
+    .overlay-section {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 50px 20px;
+    }
+
+    .overlay-card {
+        height: 200px;
+        border-radius: 50px;
+    }
+}
+
+.filter-sidebar {
+    width: 200px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 8px;
+    height: fit-content;
+    left: 0px;
+    flex-shrink: 0;
+
+}
+
+.filter-sidebar h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.filter-group h4 {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.filter-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    padding-left: 5px;
+}
+.filter-group input[type="checkbox"] {
+    accent-color: #8B5E3C;
+    margin-right: 8px;
+    transform: scale(1.2);
+}
+.product-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    width: 90%;
+    margin: auto;
+}
+.social-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.social-icons a{
+    font-size: 20px;
+    margin-right: 10px;
+
+    color: #333;
+    text-decoration: none;
+}
+
+.social-icons a:hover,
+.footer-col a:hover {
+    color: #8B5E3C;
+}
+
+.product-all{
+    background: #FFFFFF;
+    padding: 20px 0;
+    text-align: center;
+    font-family: sans-serif;
+    margin-bottom: 90px;
+}
+
+.product-all .titleProduct {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: var(--text-color);
+    letter-spacing: 1px;
+}
+
+.products {
+    justify-content: center;
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    justify-items: center;
+}
+.product-card {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--background-color);
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 280px;
+    padding-bottom: 25px;
+    transition: transform 0.3s ease;
+    border: 2px solid var(--primary-color);
+    position: relative;
+
+
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.product-card h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--text-color);
+    margin: 18px 0 10px;
+}
+
+
+.rating {
+    font-size: 16px;
+    color: #e3b23c;
+    margin-bottom: 5px;
+}
+
+.rating span {
+    font-size: 13px;
+    color: #5c4e4e;
+}
+
+.price {
+    font-size: 18px;
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.action-buttons {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.add-cart,
+.buy-now {
+    width: 80%;
+    color: #fff;
+    border: none;
+    padding: 10px 0;
+    border-radius: 25px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-cart {
+    background-color: var(--primary-color);
+}
+
+.add-cart:hover {
+    background-color: var(--btn);
+}
+
+.buy-now {
+    background-color: var(--text-color);
+}
+
+.buy-now:hover {
+    background-color: var(--text-color2);
+}
+.badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #7B3F00;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 10px;
+
+}
+.set{
+    padding: 20px;
+}
+.product-card a.product-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.product-card .set {
+    transition: transform 0.3s ease;
+}
+
+.product-card .set:hover {
+    transform: translateY(-5px);
+}
+.ri-star-s-fill, .ri-star-fill {
+    color: #ffcc00 !important;
+}
+.ri-star-s-line, .ri-star-line {
+    color: #ccc !important;
+}
+.rating i {
+    font-size: 18px;
+    margin-right: 2px;
+}
+.score-box .rating i {
+    font-size: 24px;
+}
+.pagination-wrapper {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.page-btn {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 20px;
+    border: 2px solid var(--primary-color);
+    background: #fff;
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.page-btn.active {
+    background: var(--primary-color);
+    color: #fff;
+    cursor: default;
+}
+
+.page-btn:has(span) {
+    pointer-events: none;
+}
+.filter-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.filter-select:focus {
+    border-color: #ff9800;
+    outline: none;
+}
+
+.btn-filter-submit {
+    width: 100%;
+    padding: 10px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-filter-submit:hover {
+    background-color: #ff9800;
+}
+.no-product{
+    grid-column: 1 / -1;
+    width: 100%;
+    text-align: center;
+    padding: 100px 0;
+}
+
+.no-product-p{
+    font-size: 18px;
+    color: #888;
+}
+aside.filter-sidebar button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #8b5e3c !important;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+aside.filter-sidebar button[type="submit"]:hover {
+    background-color: #333333 !important;
+}

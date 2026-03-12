@@ -1,0 +1,227 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HOME DECOR - QUẢN LÝ ADMIN</title>
+    <link rel="icon" type="image/png"  href="../img/logo.png" >
+    <link rel="stylesheet" href="css/admin_customer_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/admin_profile_style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_manage_admin.css">
+
+</head>
+<body>
+<div class="admin-container">
+    <%@ include file="admin_header.jsp" %>
+    <div class="main-wrapper">
+        <%@ include file="admin_sidebar.jsp" %>
+        <main class="content-area">
+
+            <section class="admin-content-card">
+                <h2 class="page-title">Danh Sách Quản Trị Viên</h2>
+
+                <div class="controls-bar">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Tìm kiếm admin...">
+                    </div>
+                    <div class="header-actions">
+                        <button class="action-btn customize-btn" onclick="openAddUserModal()">
+                            <i class="fas fa-user-shield"></i> Thêm Admin Mới
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="customer-container">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Họ Tên Quản Trị</th>
+                                <th>Email</th>
+                                <th>Vai Trò</th>
+                                <th>Trạng Thái</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${listAdmins}" var="a">
+                                <tr class="${a.id == sessionScope.LOGGED_USER.id ? 'self-account' : ''}">
+                                    <td>${a.id}</td>
+                                    <td class="customer-name-cell">
+                                        <strong>${a.displayName != null ? a.displayName : a.username}</strong>
+                                        <c:if test="${a.id == sessionScope.LOGGED_USER.id}">
+                                            <span style="color: #28a745; font-size: 11px;">(Bạn)</span>
+                                        </c:if>
+                                        <br><small style="color: #888;">@${a.username}</small>
+                                    </td>
+                                    <td>${a.email}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${a.role == 'Admin'}">
+                                                <span class="role-admin-tag">Quản trị viên</span>
+                                            </c:when>
+                                            <c:when test="${a.role == 'Staff'}">
+                                                <span class="role-staff-tag">Nhân viên</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="role-user-tag">${a.role}</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <span class="status ${a.status == 'Active' ? 'active-status' : 'inactive-status'}">
+                                                ${a.status == 'Active' ? 'Hoạt Động' : 'Đang Khóa'}
+                                        </span>
+                                    </td>
+                                    <td class="col-actions">
+                                        <i class="fa-solid fa-user-pen"
+                                           title="Sửa quyền hạn"
+                                           onclick="openEditModal('${a.id}', '${a.displayName != null ? a.displayName : a.username}', 'Admin')"
+                                           style="cursor:pointer; color: #8B5E3C; font-size: 18px;"></i>
+
+                                        <c:if test="${a.id != sessionScope.LOGGED_USER.id}">
+                                            <i class="fa-solid fa-trash-can"
+                                               title="Xóa tài khoản admin"
+                                               onclick="confirmDeleteAdmin('${a.id}', '${a.displayName != null ? a.displayName : a.username}')"
+                                               style="cursor:pointer; color:red; margin-left:15px;"></i>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+<div id="editAdminModal" class="modal-overlay" style="display:none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); align-items: center; justify-content: center;">
+    <div class="modal-box" style="background: #fff; width: 400px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+        <div style="background: #8B5E3C; color: white; padding: 15px 20px; display: flex; justify-content: space-between;">
+            <h3 style="margin: 0;">Chỉnh Sửa Quyền Hạn</h3>
+            <span onclick="closeEditModal()" style="cursor: pointer; font-size: 24px;">&times;</span>
+        </div>
+        <form id="editAdminForm" style="padding: 20px;">
+            <input type="hidden" name="adminId" id="edit_admin_id">
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Tên Admin:</label>
+                <input type="text" id="edit_admin_name" readonly style="width:100%; padding: 10px; border: 1px solid #eee; background: #f9f9f9; border-radius: 8px; outline: none;">
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Vai trò mới:</label>
+                <select name="newRole" id="edit_admin_role" style="width:100%; padding: 10px; border: 2px solid #eee; border-radius: 8px; outline: none; cursor: pointer;">
+                    <option value="Admin">Admin (Toàn quyền)</option>
+                    <option value="Staff">Staff (Nhân viên)</option>
+                    <option value="User">User (Khách hàng)</option>
+                </select>
+            </div>
+            <div style="text-align: right; border-top: 1px solid #eee; padding-top: 15px;">
+                <button type="button" onclick="closeEditModal()" style="padding: 10px 15px; background: #eee; border: none; border-radius: 8px; cursor: pointer;">Hủy</button>
+                <button type="button" onclick="submitEditRole()" style="padding: 10px 20px; background: #8B5E3C; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Cập Nhật</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function confirmDeleteAdmin(id, name) {
+        Swal.fire({
+            title: 'Xác nhận xóa?',
+            text: "Bạn đang xóa tài khoản Admin '" + name + "'. Dữ liệu liên quan cũng sẽ bị xóa!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Đúng, xóa ngay!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Gọi đến Servlet bạn đã tạo
+                window.location.href = "AdminDeleteCustomerServlet?id=" + id + "&type=admin";
+            }
+        })
+    }
+</script>
+<div id="addUserModal" class="modal-overlay" style="display:none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); align-items: center; justify-content: center;">
+    <div class="modal-box" style="background: #fff; width: 600px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+        <div style="background: #7f462e; color: white; padding: 15px 20px; display: flex; justify-content: space-between;">
+            <h3 style="margin: 0;">Thêm Người Dùng Mới</h3>
+            <span onclick="closeAddUserModal()" style="cursor: pointer; font-size: 24px;">&times;</span>
+        </div>
+
+        <form id="addUserForm" style="padding: 20px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label>Họ và tên:</label>
+                    <input type="text" name="username" id="new_username" required style="width:100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div class="form-group">
+                    <label>Phân quyền:</label>
+                    <select name="role" id="new_role" style="width:100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="User">User</option>
+                        <option value="Staff">Staff</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Email:</label>
+                    <div style="display: flex; gap: 5px;">
+                        <input type="email" name="email" id="new_email" required style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <button type="button" onclick="sendOtpAdmin()" id="btnSendOtp" style="padding: 0 15px; background: #1cc88a; color: white; border: none; border-radius: 4px; cursor: pointer;">Gửi mã</button>
+                    </div>
+                </div>
+
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Mã xác thực OTP:</label>
+                    <div style="display: flex; gap: 5px;">
+                        <input type="text" name="otp" id="new_otp" placeholder="Nhập mã OTP" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <button type="button" onclick="verifyOtpOnly()" id="btnVerifyOtp" style="padding: 0 15px; background: #e74a3b; color: white; border: none; border-radius: 4px; cursor: pointer;">Xác nhận mã</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mật khẩu:</label>
+                    <input type="password" name="password" id="new_password" required style="width:100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div class="form-group">
+                    <label>Xác nhận mật khẩu:</label>
+                    <input type="password" id="confirm_password" style="width:100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; text-align: right; border-top: 1px solid #eee; padding-top: 15px;">
+                <button type="button" onclick="closeAddUserModal()" style="padding: 10px 20px; background: #858796; color: white; border: none; border-radius: 5px; cursor:pointer;">Hủy</button>
+                <button type="button" id="btnSubmitUser" onclick="submitAddUser()" disabled style="padding: 10px 20px; background: #4e73df; color: white; border: none; border-radius: 5px; cursor:pointer; opacity: 0.5;">Lưu Người Dùng</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    const contextPath = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/js/admin_management.js"></script>
+
+<c:if test="${not empty sessionScope.msg}">
+    <script>
+        Swal.fire({
+            title: "${sessionScope.msgType == 'success' ? 'Thành công!' : 'Lỗi!'}",
+            text: "${sessionScope.msg}",
+            icon: "${sessionScope.msgType}",
+            confirmButtonColor: '#4e73df'
+        });
+    </script>
+    <c:remove var="msg" scope="session" />
+    <c:remove var="msgType" scope="session" />
+</c:if>
+
+</body>
+</html>

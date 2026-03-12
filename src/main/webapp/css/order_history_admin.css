@@ -1,0 +1,158 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(3px);
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 2% auto;
+    padding: 25px;
+    border-radius: 12px;
+    width: 70%;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #888;
+}
+
+.close-btn:hover {
+    color: #e74c3c;
+}
+
+.page-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-to-profile {
+    color: #4e73df;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-other {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+.order-price{
+    color:#e74c3c;
+    font-weight:bold;
+}
+
+.btn-view-detail{
+    border:none;
+    background:none;
+    color:#4e73df;
+    cursor:pointer;
+}
+
+.btn-view-detail:hover{
+    text-decoration:underline;
+}
+
+.order-detail-hidden{
+    display:none;
+}
+
+.order-detail-title{
+    border-bottom:2px solid #eee;
+    padding-bottom:10px;
+}
+
+.order-info-row{
+    display:flex;
+    justify-content:space-between;
+    margin:15px 0;
+}
+
+.text-right{
+    text-align:right;
+}
+
+.order-detail-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.order-table-header{
+    background:#f8f9fa;
+}
+
+.order-row-detail{
+    border-bottom:1px solid #eee;
+}
+
+.td-padding{
+    padding:10px;
+}
+
+.td-center{
+    padding:10px;
+    text-align:center;
+}
+
+.td-right{
+    padding:10px;
+    text-align:right;
+}
+
+.order-update-box{
+    background:#f4f7f6;
+    padding:15px;
+    border-radius:8px;
+    margin-top:20px;
+}
+
+.btn-save-status{
+    background:#27ae60;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.btn-save-status:hover{
+    background:#219150;
+}
