@@ -34,7 +34,7 @@
                 Bạn đang có ${fn:length(cart)} sản phẩm trong giỏ hàng
             </div>
 
-            <c:forEach var="item" items="${cart}">
+            <c:forEach var="item" items="${cartItems}">
                 <div class="cart-item" data-variant-id="${item.variant.id}">
 
                     <input type="checkbox"
@@ -111,7 +111,7 @@
 
 
     <c:set var="total" value="0"/>
-    <c:forEach var="item" items="${cart}">
+    <c:forEach var="item" items="${cartItems}">
         <c:set var="total" value="${total + item.totalPrice}"/>
     </c:forEach>
 
