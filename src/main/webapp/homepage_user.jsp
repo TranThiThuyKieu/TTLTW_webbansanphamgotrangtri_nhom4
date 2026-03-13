@@ -32,7 +32,7 @@
     <div class="products">
         <c:forEach items="${top3Products}" var="p">
             <div class="product-card">
-                <a href="detail?id=${p.id}" class="product-link">
+                <a href="ProductDetailServlet?id=${p.id}" class="product-link">
                     <img src="${p.imageUrl}" alt="${p.nameProduct}">
                     <h2>${p.nameProduct}</h2>
                 </a>
