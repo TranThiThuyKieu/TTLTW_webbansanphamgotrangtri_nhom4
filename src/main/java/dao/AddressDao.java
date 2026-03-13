@@ -13,7 +13,6 @@ public class AddressDao {
     public List<Address> getAddressesByUserId(int userId) {
         List<Address> list = new ArrayList<>();
         String sql = "SELECT * FROM addresses WHERE user_id = ? ORDER BY isDefault DESC";
-
         try (Connection con = DBContext.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
              ps.setInt(1, userId);

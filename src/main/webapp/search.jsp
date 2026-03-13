@@ -31,13 +31,6 @@
             <input type="text" name="txtSearch"
                    value="${txtS}"
                    placeholder="Nhập tên sản phẩm...">
-
-<%--            <select name="category">--%>
-<%--                <option value="all" ${catS == 'all' ? 'selected' : ''}>Phân loại</option>--%>
-<%--                <option value="Bàn ghế" ${catS == 'Bàn ghế' ? 'selected' : ''}>Bàn ghế</option>--%>
-<%--                <option value="Kệ" ${catS == 'Kệ' ? 'selected' : ''}>Kệ</option>--%>
-<%--            </select>--%>
-
             <button type="submit"><i class="fas fa-search"></i></button>
         </form>
 
@@ -61,7 +54,7 @@
                 <c:forEach var="p" items="${listP}">
                     <div class="product-card">
                         <div class="set">
-                            <a href="detail?id=${p.id}">
+                            <a href="ProductDetailServlet?id=${p.id}">
                                 <img src="${p.imageUrl}">
                                 <h2>${p.nameProduct}</h2>
                             </a>
