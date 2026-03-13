@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressDao {
-    public List<Address> getAddressesByUserId(int userId) {
+   public List<Address> getAddressesByUserId(int userId) {
         List<Address> list = new ArrayList<>();
         String sql = "SELECT * FROM addresses WHERE user_id = ? ORDER BY isDefault DESC";
         try (Connection con = DBContext.getConnection();
