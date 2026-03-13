@@ -28,7 +28,8 @@
     <title>HOME DECOR - TRANG CỦA TÔI</title>
     <link rel="icon" type="image/png" href="img/logo.png" class="lo">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="css/homepage_style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header_user.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer_user.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage_style.css">
 
 </head>
