@@ -10,7 +10,21 @@ public class CategoryDao {
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
-
+    public List<Category> getAllCategory() {
+        List<Category> list = new ArrayList<>();
+        String sql = "SELECT * FROM categories";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Category(rs.getInt("id"), rs.getString("category_name")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     public boolean deleteCategory(int id) {
         String sql = "DELETE FROM categories WHERE id = ?";
         try {
