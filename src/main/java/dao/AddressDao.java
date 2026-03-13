@@ -109,4 +109,76 @@ public class AddressDao {
             e.printStackTrace();
         }
     }
+    public void insert(Address a) {
+        String sql = """
+            INSERT INTO addresses
+            (user_id, name, phone, detail, commune, district, province, isDefault)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """;
+        try (Connection con = DBContext.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+             ps.setInt(1, a.getUserId());
+             ps.setString(2, a.getName());
+             ps.setString(3, a.getPhone());
+             ps.setString(4, a.getDetail());
+             ps.setString(5, a.getCommune());
+             ps.setString(6, a.getDistrict());
+             ps.setString(7, a.getProvince());
+             ps.setInt(8, a.getIsDefault());
+             ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void update(Address a) {
+        String sql = """
+            UPDATE addresses
+            SET name=?, phone=?, detail=?, commune=?, district=?, province=?
+            WHERE id=? AND user_id=?
+        """;
+
+        try (Connection con = DBContext.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+             ps.setString(1, a.getName());
+             ps.setString(2, a.getPhone());
+             ps.setString(3, a.getDetail());
+             ps.setString(4, a.getCommune());
+             ps.setString(5, a.getDistrict());
+             ps.setString(6, a.getProvince());
+             ps.setInt(7, a.getId());
+             ps.setInt(8, a.getUserId());
+             ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void delete(int id, int userId) {
+        String sql = "DELETE FROM addresses WHERE id=? AND user_id=?";
+        try (Connection con = DBContext.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+             ps.setInt(1, id);
+             ps.setInt(2, userId);
+             ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void setDefault(int addressId, int userId) {
+        try (Connection con = DBContext.getConnection()) {
+            String reset = "UPDATE addresses SET isDefault=0 WHERE user_id=?";
+            try (PreparedStatement ps = con.prepareStatement(reset)) {
+                ps.setInt(1, userId);
+                ps.executeUpdate();
+            }
+            String set = "UPDATE addresses SET isDefault=1 WHERE id=? AND user_id=?";
+            try (PreparedStatement ps = con.prepareStatement(set)) {
+                ps.setInt(1, addressId);
+                ps.setInt(2, userId);
+                ps.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
