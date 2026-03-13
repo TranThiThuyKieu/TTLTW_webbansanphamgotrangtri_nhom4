@@ -139,4 +139,30 @@ public class OrderDao {
         }
         return false;
     }
+    public List<Order> getOrdersByUserId(int userId) {
+        List<Order> list = new ArrayList<>();
+        String sql = "SELECT id, user_id, fullName, phone, status, payment_status, " +
+                "totalOrder, subTotal, taxAmount, shippingFee, createAt " +
+                "FROM orders WHERE user_id = ? ORDER BY createAt DESC";
+
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Order o = new Order();
+                o.setId(rs.getInt("id"));
+                o.setFullName(rs.getString("fullName"));
+                o.setStatus(rs.getString("status"));
+                o.setPaymentStatus(rs.getString("payment_status"));
+                o.setCreateAt(rs.getTimestamp("createAt"));
+                o.setSubTotal(rs.getDouble("subTotal"));
+                o.setTaxAmount(rs.getDouble("taxAmount"));
+                o.setShippingFee(rs.getDouble("shippingFee"));
+                o.setTotalOrder(rs.getDouble("totalOrder"));
+                list.add(o);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return list;
+    }
 }
