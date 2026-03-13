@@ -20,5 +20,18 @@ public class PaymentDao {
         }
         return list;
     }
+    public void addPayment(int userId, String cardNumber, String type, String duration) {
+        String sql = "INSERT INTO payments (user_id, card_number, type, duration) VALUES (?, ?, ?, ?)";
+        try (Connection conn = new dao.DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setString(2, cardNumber);
+            ps.setString(3, type);
+            ps.setString(4, duration);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
