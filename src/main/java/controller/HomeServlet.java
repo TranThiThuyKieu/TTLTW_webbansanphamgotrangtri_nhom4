@@ -1,10 +1,12 @@
 // roi
 package controller;
 
+import dao.CategoryDao;
 import dao.ProductDao;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import model.Category;
 import model.Product;
 import model.User;
 
@@ -24,6 +26,8 @@ public class HomeServlet extends HttpServlet {
                 : null;
 
         ProductDao dao = new ProductDao();
+        dao.CategoryDao cDao = new CategoryDao();
+        List<Category> listCC = cDao.getAllCategory();
         List<Product> bestSellers = dao.getTop8BestSellers();
         List<Product> products = dao.getProductsByPage(1, 8);
 
@@ -32,6 +36,7 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("products", products);
         request.setAttribute("bestSeller", bestSellers);
         request.setAttribute("top3Products", top3Products);
+        request.setAttribute("listCC", listCC);
 
         request.getRequestDispatcher("/homepage_user.jsp").forward(request, response);
     }
