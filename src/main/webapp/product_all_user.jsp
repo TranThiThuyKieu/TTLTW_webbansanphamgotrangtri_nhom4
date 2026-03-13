@@ -48,7 +48,7 @@
         <div class="products">
             <c:forEach items="${listP}" var="p">
                 <div class="product-card">
-                    <a href="detail?id=${p.id}" class="product-link">
+                    <a href="ProductDetailServlet?id=${p.id}" class="product-link">
                         <div class="set">
                             <img src="${pageContext.request.contextPath}/${p.imageUrl}"
                                  onerror="this.src='${pageContext.request.contextPath}/img/logo.png'"

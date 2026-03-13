@@ -7,11 +7,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOME DECOR - SẢN PHẨM</title>
-    <link rel="icon" type="image/png"  href="../img/logo.png">
+    <link rel="icon" type="image/png"  href="img/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="css/product_all_style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header_user.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer_user.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/product_all_style.css">
 
-    <link rel="stylesheet" href="css/product_details_user.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/product_details_user.css">
     <link
             href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css"
             rel="stylesheet"
@@ -147,7 +149,6 @@
             </div>
         </form>
     </div>
-</div>
 </div>
 <div class="product-description-container">
     <h2 class="description-title">Mô tả chi tiết sản phẩm</h2>

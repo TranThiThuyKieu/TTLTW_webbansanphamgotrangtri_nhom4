@@ -1004,4 +1004,48 @@ public class ProductDao {
 
         return list;
     }
+    public int getTotalStockByProductId(int productId) {
+        int total = 0;
+        String sql = "SELECT SUM(inventory_quantity) FROM product_variants WHERE product_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, productId);
+             ResultSet rs = ps.executeQuery();
+             if (rs.next()) {
+                total = rs.getInt(1);
+             }
+        }   catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+    public double getAverageRating(int productId) {
+        String sql = "SELECT IFNULL(AVG(rate),0) FROM reviews WHERE product_id=?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, productId);
+             ResultSet rs = ps.executeQuery();
+             if (rs.next()) {
+                return rs.getDouble(1);
+             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public boolean addReview(Reviews review) {
+        String sql = "INSERT INTO reviews (user_id, product_id, rate, comment, createAt) VALUES (?, ?, ?, ?, GETDATE())";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, review.getUserId());
+            ps.setInt(2, review.getProductId());
+            ps.setInt(3, review.getRating());
+            ps.setString(4, review.getComment());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
