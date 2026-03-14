@@ -327,5 +327,18 @@ public class UserDao {
             e.printStackTrace();
         }
     }
+    public boolean updatePasswordByEmail(String email, String newPassword) {
+        String sql = "UPDATE users SET password = ? WHERE email = ?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             String hashedPassword = PasswordUtils.hashPassword(newPassword);
+             ps.setString(1, hashedPassword);
+             ps.setString(2, email);
+             return ps.executeUpdate() == 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
 
