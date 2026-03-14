@@ -73,7 +73,7 @@
     <div class="san-pham-nb">
         <c:forEach items="${bestSeller}" var="p">
             <div class="product-card">
-                <a href="detail?id=${p.id}" class="product-link">
+                <a href="ProductDetailServlet?id=${p.id}" class="product-link">
                     <img src="${p.imageUrl}" alt="${p.nameProduct}">
                     <h2>${p.nameProduct}</h2>
                 </a>
@@ -85,8 +85,8 @@
                     <fmt:formatNumber value="${p.price}" type="number" groupingUsed="true"/> VNĐ
                 </div>
                 <div class="action-buttons">
-                    <a href="detail?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
-                    <a href="detail?id=${p.id}" class="buy-now">Mua hàng</a>
+                    <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
+                    <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
                 </div>
             </div>
         </c:forEach>
