@@ -558,11 +558,6 @@
                                 <c:set var="days" value="${diff / (1000 * 60 * 60 * 24)}" />
 
                                 <div style="display: flex; gap: 10px; align-items: center;">
-                                    <button type="button"
-                                            onclick="openReviewModal(${order.id})"
-                                            style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                                        Viết Đánh Giá
-                                    </button>
                                     <c:choose>
                                         <c:when test="${days <= 7}">
                                             <form action="MyPageServlet" method="post" onsubmit="return confirm('Bạn muốn yêu cầu hoàn hàng cho đơn hàng này?')" style="margin: 0;">
@@ -640,7 +635,7 @@
                         <p style="margin: 5px 0;"><strong>Số lượng:</strong> <%= detail.getQuantity() %> cái</p>
                         <p style="margin: 5px 0;"><strong>Giá:</strong> <fmt:formatNumber value="<%= detail.getTotal() / detail.getQuantity() %>" pattern="#,###"/> VND</p>
                     </div>
-                    <a href="${pageContext.request.contextPath}/detail?id=<%= detail.getProductId() %>&review=true&orderId=<%= orderId %>">
+                    <a href="${pageContext.request.contextPath}/ProductDetailServlet?id=<%= detail.getProductId() %>&review=true&orderId=<%= orderId %>">
     <span style="display: inline-block; background: #8B5E3C; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-weight: bold; width: 100%; text-align: center;">
          Viết đánh giá
     </span>
