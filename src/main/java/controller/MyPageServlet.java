@@ -37,6 +37,37 @@ public class MyPageServlet extends HttpServlet {
             request.setAttribute("listPayments", listPayments);
 
         }
+        else if (tab.equals("don-hang")) {
+
+            OrderDao orderDao = new OrderDao();
+            List<Order> allOrders = orderDao.getOrdersByUserId(user.getId());
+
+            String status = request.getParameter("status");
+            List<Order> list = new ArrayList<>();
+
+            int countOrder = 0;
+            double totalSpent = 0;
+
+            for (Order o : allOrders) {
+
+                o.setDetails(orderDao.getDetailsByOrderId(o.getId()));
+
+                if ("Đã giao".equals(o.getStatus()) && "Đã thanh toán".equals(o.getPaymentStatus())) {
+                    countOrder++;
+                    totalSpent += o.getTotalOrder();
+                }
+
+                if (status == null || status.isEmpty() || o.getStatus().equals(status)) {
+                    list.add(o);
+                }
+            }
+
+            request.setAttribute("listO", list);
+            request.setAttribute("countOrder", countOrder);
+            request.setAttribute("totalSpent", totalSpent);
+            request.setAttribute("allOrders", allOrders);
+
+        }
 
         else if (tab.equals("dia-chi")) {
 

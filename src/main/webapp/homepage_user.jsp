@@ -44,8 +44,8 @@
                     <fmt:formatNumber value="${p.price}" type="number" groupingUsed="true"/> VNĐ
                 </div>
                 <div class="action-buttons">
-                    <a href="detail?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
-                    <a href="detail?id=${p.id}" class="buy-now">Mua hàng</a>
+                    <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
+                    <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
                 </div>
             </div>
         </c:forEach>
