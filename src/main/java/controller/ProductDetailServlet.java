@@ -1,6 +1,7 @@
 package controller;
 
 import dao.ProductDao;
+import dao.ReviewDao;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -28,6 +29,7 @@ public class ProductDetailServlet extends HttpServlet {
             return;
         }
         ProductDao dao = new ProductDao();
+        ReviewDao reviewDao = new ReviewDao();
         Product p = dao.getProductById(productId);
         if (p == null) {
             response.sendRedirect("homepage_user.jsp");
@@ -41,6 +43,7 @@ public class ProductDetailServlet extends HttpServlet {
         p.setReviewList(reviewList);
         double avg = dao.getAverageRating(productId);
         p.setAverageRating(avg);
+        p.setTotalReviews(reviewDao.getReviewCount(productId));
         Map<Integer, String> userNames = new HashMap<>();
         if (reviewList != null) {
             for (Reviews r : reviewList) {
