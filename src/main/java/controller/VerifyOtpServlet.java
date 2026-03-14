@@ -1,0 +1,61 @@
+package controller;
+
+import dao.UserDao;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
+import model.User;
+
+import java.io.IOException;
+
+@WebServlet(name = "VerifyOtpServlet", value = "/VerifyOtpServlet")
+public class VerifyOtpServlet extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        String action = request.getParameter("action");
+        if ("checkOnly".equals(action)) {
+            String inputOtp = request.getParameter("otp");
+            String sessionOtp = (String) session.getAttribute("OTP");
+            response.setContentType("application/json");
+            if (sessionOtp != null && sessionOtp.equals(inputOtp)) {
+                response.getWriter().write("{\"status\": \"success\"}");
+            } else {
+                response.getWriter().write("{\"status\": \"error\"}");
+            }
+            return;
+        }
+        String inputOtp = request.getParameter("otp");
+        String sessionOtp = (String) session.getAttribute("OTP");
+        Long otpTime = (Long) session.getAttribute("OTP_TIME");
+        User regUser = (User) session.getAttribute("REG_USER");
+        if (sessionOtp == null || otpTime == null || regUser == null) {
+            request.setAttribute("ERROR_MESSAGE", "Phiên đăng ký đã hết hạn. Vui lòng đăng ký lại!");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
+        if (System.currentTimeMillis() - otpTime > 5 * 60 * 1000) {
+            session.removeAttribute("OTP");
+            session.removeAttribute("OTP_TIME");
+            session.removeAttribute("REG_USER");
+            request.setAttribute("Error", "OTP đã hết hạn. Vui lòng đăng ký lại!");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
+        if (!sessionOtp.equals(inputOtp)) {
+            request.setAttribute("SHOW_OTP", true);
+            request.setAttribute("ERROR", "OTP không đúng!");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
+        UserDao dao = new UserDao();
+        dao.signup(regUser.getUsername(), regUser.getEmail(), regUser.getPassword());
+        session.removeAttribute("OTP");
+        session.removeAttribute("OTP_TIME");
+        session.removeAttribute("REG_USER");
+        request.setAttribute("MESS_SUCCESS", "Đăng ký thành công! Vui lòng đăng nhập.");
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
+    }
+}

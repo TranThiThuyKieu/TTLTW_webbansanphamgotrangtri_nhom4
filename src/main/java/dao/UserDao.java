@@ -300,5 +300,32 @@ public class UserDao {
             return ps.executeUpdate() == 1;
         }
     }
+    public boolean checkEmailExist(String email) {
+        String SQL = "SELECT id FROM users WHERE email = ?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(SQL)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public void signup(String username, String email, String password) {
+        String SQL = "INSERT INTO users (full_name, email, password, role, status, createAt) VALUES (?, ?, ?, 'User', 'Active', ?)";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(SQL)) {
+            String hashedPassword = PasswordUtils.hashPassword(password);
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ps.setString(3, hashedPassword);
+            ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 
