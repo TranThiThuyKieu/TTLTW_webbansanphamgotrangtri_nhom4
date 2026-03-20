@@ -26,6 +26,11 @@ public class MyPageServlet extends HttpServlet {
             return;
         }
         String tab = request.getParameter("tab");
+
+        if (tab == null) {
+            tab = (String) request.getAttribute("activeTab");
+        }
+
         if (tab == null) {
             tab = "ho-so";
         }
@@ -83,6 +88,6 @@ public class MyPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        doGet(request, response);
     }
 }

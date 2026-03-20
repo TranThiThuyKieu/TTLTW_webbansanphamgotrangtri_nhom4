@@ -355,11 +355,11 @@
             </div>
         </div>
 
-        <div id="bao-mat" class="tab-content"<%= "bao-mat".equals(activeTab) ? "active" : "" %>">
+        <div id="bao-mat" class="tab-content <%= "bao-mat".equals(activeTab) ? "active" : "" %>">
         <h2>Bảo mật</h2>
         <h3>Đổi mật khẩu</h3>
 
-        <form action="ChangePasswordServlet" method="post" class="password-change-form">
+        <form action="ChangePasswordUser" method="post" class="password-change-form">
             <div class="form-group">
                 <label>Mật khẩu hiện tại *</label>
                 <input type="password" name="currentPassword" required>
