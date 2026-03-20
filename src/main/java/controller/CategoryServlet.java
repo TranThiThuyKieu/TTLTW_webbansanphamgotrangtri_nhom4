@@ -11,7 +11,7 @@ import model.Category;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "CategoryServlet", urlPatterns = {"/category-manager", "/add-category", "/delete-category"})
+@WebServlet(name = "CategoryServlet", urlPatterns = {"/update-category", "/add-category", "/delete-category"})
 public class CategoryServlet extends HttpServlet {
 
     @Override
@@ -53,16 +53,27 @@ public class CategoryServlet extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
-
+        String action = request.getServletPath();
         String name = request.getParameter("categoryName");
         CategoryDao dao = new CategoryDao();
 
-        if (dao.insertCategory(name)) {
-            request.getSession().setAttribute("msg", "Đã thêm danh mục: " + name);
-            request.getSession().setAttribute("msgType", "success");
-        } else {
-            request.getSession().setAttribute("msg", "Thêm danh mục thất bại!");
-            request.getSession().setAttribute("msgType", "error");
+        if (action.equals("/update-category")) {
+            int id = Integer.parseInt(request.getParameter("categoryId"));
+            if (dao.updateCategory(id, name)) {
+                request.getSession().setAttribute("msg", "Cập nhật thành công!");
+                request.getSession().setAttribute("msgType", "success");
+            } else {
+                request.getSession().setAttribute("msg", "Cập nhật thất bại!");
+                request.getSession().setAttribute("msgType", "error");
+            }
+        } else if (action.equals("/add-category")) {
+            if (dao.insertCategory(name)) {
+                request.getSession().setAttribute("msg", "Đã thêm danh mục: " + name);
+                request.getSession().setAttribute("msgType", "success");
+            } else {
+                request.getSession().setAttribute("msg", "Thêm danh mục thất bại!");
+                request.getSession().setAttribute("msgType", "error");
+            }
         }
 
         response.sendRedirect(request.getContextPath() + "/AdminCountProductCategoryServlet");

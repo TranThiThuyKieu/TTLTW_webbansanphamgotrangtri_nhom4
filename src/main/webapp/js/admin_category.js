@@ -1,8 +1,26 @@
 function openCategoryModal() {
-    const modal = document.getElementById('categoryModal');
-    const input = document.getElementById('categoryName');
-    if(input) input.value = '';
-    modal.style.display = 'block';
+    const form = document.getElementById('categoryForm');
+
+    document.getElementById('modalId').value = '';
+    document.getElementById('categoryName').value = '';
+
+    document.getElementById('modalTitle').innerText = "Thêm Danh Mục Mới";
+    form.action = "add-category";
+
+    document.getElementById('categoryModal').style.display = 'block';
+}
+
+function editCategory(id, name, parentId) {
+    const form = document.getElementById('categoryForm');
+
+    document.getElementById('modalId').value = id;
+    document.getElementById('categoryName').value = name;
+
+
+    document.getElementById('modalTitle').innerText = "Chỉnh Sửa Danh Mục";
+    form.action = "update-category";
+
+    document.getElementById('categoryModal').style.display = 'block';
 }
 
 function closeCategoryModal() {

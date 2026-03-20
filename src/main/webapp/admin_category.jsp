@@ -52,7 +52,8 @@
                                         ${productCountMap[c.id] != null ? productCountMap[c.id] : 0}
                                 </td>
                                 <td class="col-actions">
-                                    <i class="fa-solid fa-pen-to-square" onclick="openCategoryModal('edit', '${c.id}', '${c.categoryName}')"></i>
+                                    <i class="fa-solid fa-pen-to-square"
+                                       onclick="editCategory('${c.id}', '${c.categoryName}')"></i>
                                     <i class="fa-solid fa-trash-can" onclick="deleteCategory('${c.id}', '${c.categoryName}')" style="cursor:pointer; color:red; margin-left:10px;"></i>
                                 </td>
                             </tr>
@@ -65,16 +66,16 @@
             <div id="categoryModal" class="modal">
                 <div class="modal-content">
                     <span class="close-btn" onclick="closeCategoryModal()">&times;</span>
-                    <h3 id="modalTitle">Thêm Danh Mục Mới</h3>
-                    <form id="categoryForm" action="add-category" method="POST">                        <div class="form-group">
-                        <label for="categoryName">Tên Danh Mục:</label>
-                        <input type="text" name="categoryName" id="categoryName" required>
-                    </div>
+                    <h3 id="modalTitle">Thêm Danh mục Mới</h3>
 
-                        <input type="hidden" id="categoryId">
-                        <button type="submit" class="submit-btn">Lưu Danh Mục</button>
+                    <form id="categoryForm" action="${pageContext.request.contextPath}/add-category" method="post">
+                        <input type="hidden" name="categoryId" id="modalId">
+                        <div class="form-group">
+                            <label for="categoryName">Tên Danh mục:</label>
+                            <input type="text" name="categoryName" id="categoryName" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Lưu Thông Tin</button>
                     </form>
-
                 </div>
             </div>
 
@@ -84,5 +85,6 @@
     </div>
 </div>
 <script src="js/admin_category.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
