@@ -51,7 +51,7 @@
                                 <tr>
                                     <td><input type="checkbox" value="${u.id}"></td>
                                     <td class="customer-name-cell">
-                                        <a href="${pageContext.request.contextPath}/admin/customer-detail?id=${u.id}"
+                                        <a href="${pageContext.request.contextPath}/customer-detail?id=${u.id}"
                                            class="customer-name-link"
                                            style="font-weight: bold; color: #4e73df; text-decoration: none;">
                                                 ${u.displayName != null ? u.displayName : u.username}

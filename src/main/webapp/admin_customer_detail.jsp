@@ -214,7 +214,7 @@
             <span class="close-btn" onclick="closePassForm()">&times;</span>
         </div>
 
-        <form action="${pageContext.request.contextPath}/AdminChangePasswordController" method="post">
+        <form action="${pageContext.request.contextPath}/ChangePasswordCustomerDetail" method="post">
             <input type="hidden" name="userId" value="${customer.id}">
 
             <div class="form-grid">
