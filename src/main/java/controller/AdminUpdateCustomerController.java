@@ -58,14 +58,14 @@ public class AdminUpdateCustomerController extends HttpServlet {
             boolean success = dao.updateUserProfile(user);
 
             if (success) {
-                response.sendRedirect("admin/customer-detail?id=" + customerId + "&msg=success");
+                response.sendRedirect("customer-detail?id=" + customerId + "&msg=success");
             } else {
-                response.sendRedirect("admin/customer-detail?id=" + customerId + "&msg=error");
+                response.sendRedirect("customer-detail?id=" + customerId + "&msg=error");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("admin/customer-detail?id=" + customerId + "&msg=exception");
+            response.sendRedirect("customer-detail?id=" + customerId + "&msg=exception");
         }
     }
 

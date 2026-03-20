@@ -48,21 +48,37 @@ function selectAvatarWithCKFinder() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-
     let form = document.querySelector('#changePasswordModal form');
+    let passError = document.getElementById('passError');
 
     if (form) {
         form.onsubmit = function(e) {
-
             let pass = document.getElementById('newPassword').value;
-            let confirm = document.getElementById('confirmPassword').value;
+            let confirmPass = document.getElementById('confirmPassword').value;
 
-            if (pass !== confirm) {
-                document.getElementById('passError').style.display = 'block';
+            let passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d|.*[!@#$%^&*])(?=\S+$).{8,}$/;
+
+            if (!passRegex.test(pass)) {
+                passError.textContent = "Mật khẩu tối thiểu 8 ký tự, bao gồm chữ hoa, chữ thường, số/ký hiệu và không khoảng trắng.";
+                passError.style.display = 'block';
                 e.preventDefault();
                 return false;
             }
+
+            if (pass !== confirmPass) {
+                passError.textContent = "Mật khẩu xác nhận không khớp!";
+                passError.style.display = 'block';
+                e.preventDefault();
+                return false;
+            }
+
+            let isConfirmed = confirm("Bạn có chắc chắn muốn thay đổi mật khẩu cho người dùng này không?");
+            if (!isConfirmed) {
+                e.preventDefault();
+                return false;
+            }
+
+            passError.style.display = 'none';
         };
     }
-
 });
