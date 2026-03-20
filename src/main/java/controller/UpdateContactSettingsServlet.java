@@ -1,4 +1,5 @@
 package controller;
+
 import dao.ContactSettingsDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,11 +11,15 @@ import model.ContactSettings;
 import java.io.IOException;
 @WebServlet("/update-contact-settings")
 public class UpdateContactSettingsServlet extends HttpServlet {
+
     private final ContactSettingsDao settingsDao = new ContactSettingsDao();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
         req.setCharacterEncoding("UTF-8");
+
         try {
             ContactSettings settings = new ContactSettings();
             settings.setPhone(req.getParameter("phone"));
@@ -24,13 +29,17 @@ public class UpdateContactSettingsServlet extends HttpServlet {
             settings.setInstagramUrl(req.getParameter("instagram_url"));
             settings.setTwitterUrl(req.getParameter("twitter_url"));
             settings.setGoogleUrl(req.getParameter("google_url"));
+
             boolean success = settingsDao.updateSettings(settings);
+
             String redirectUrl = req.getContextPath() + "/admin-contact-settings";
+
             if (success) {
                 resp.sendRedirect(redirectUrl + "?success=true");
             } else {
                 resp.sendRedirect(redirectUrl + "?error=true");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             resp.sendRedirect(
@@ -38,6 +47,7 @@ public class UpdateContactSettingsServlet extends HttpServlet {
             );
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
