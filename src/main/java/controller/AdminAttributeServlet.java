@@ -30,6 +30,9 @@ public class AdminAttributeServlet extends HttpServlet {
             if (action.equals("color")) {
                 colorDao.delete(id);
                 targetTab = "color";
+            } else if (action.equals("size")) {
+                sizeDao.delete(id);
+                targetTab = "size";
             }
             resp.sendRedirect("admin-attribute?tab=" + targetTab);
             return;
@@ -50,6 +53,9 @@ public class AdminAttributeServlet extends HttpServlet {
         if ("color".equals(type)) {
             colorDao.save(new Color(id, req.getParameter("name"), req.getParameter("code")));
             targetTab = "color";
+        } else if ("size".equals(type)) {
+            sizeDao.save(new Size(id, req.getParameter("name")));
+            targetTab = "size";
         }
         resp.sendRedirect("admin-attribute?tab=" + targetTab);
     }

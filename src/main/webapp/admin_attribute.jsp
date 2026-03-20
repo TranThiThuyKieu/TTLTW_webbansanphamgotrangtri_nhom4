@@ -113,6 +113,23 @@
         </form>
     </div>
 </div>
+<div class="modal" id="sizeModal">
+    <div class="modal-box">
+        <h3>Thông tin kích thước</h3>
+        <form action="admin-attribute" method="post">
+            <input type="hidden" name="type" value="size">
+            <input type="hidden" name="id" id="sizeId">
+
+            <label>Kích thước:</label>
+            <input type="text" name="name" id="sizeName" required>
+
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button type="submit" class="btn-add">Lưu lại</button>
+                <button type="button" class="btn-add" style="background:#6c757d" onclick="document.getElementById('sizeModal').style.display='none'">Hủy</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 </body>
 <script src="${pageContext.request.contextPath}/js/admin_attribute.js"></script>
