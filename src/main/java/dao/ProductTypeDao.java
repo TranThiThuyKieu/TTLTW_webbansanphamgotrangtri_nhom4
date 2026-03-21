@@ -11,7 +11,23 @@ public class ProductTypeDao {
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
-
+    public List<ProductType> getAll() {
+        List<ProductType> list = new ArrayList<>();
+        String sql = "SELECT * FROM product_types";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductType t = new ProductType();
+                t.setId(rs.getInt("id"));
+                t.setProductTypeName(rs.getString("product_type_name"));
+                list.add(t);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     public boolean deleteProductType(int id) {
         String sql = "DELETE FROM product_types WHERE id = ?";
         try {

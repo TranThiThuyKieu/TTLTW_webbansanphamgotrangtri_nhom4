@@ -41,6 +41,16 @@
                     </option>
                 </c:forEach>
             </select>
+            <select name="typeId">
+                <option value="">-- Tất cả loại sản phẩm --</option>
+
+                <c:forEach var="t" items="${listType}">
+                    <option value="${t.id}"
+                        ${selectedType == t.id ? 'selected' : ''}>
+                            ${t.productTypeName}
+                    </option>
+                </c:forEach>
+            </select>
             <button type="submit"><i class="fas fa-search"></i></button>
         </form>
 
