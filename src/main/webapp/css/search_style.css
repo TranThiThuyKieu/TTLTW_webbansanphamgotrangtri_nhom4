@@ -649,3 +649,10 @@ margin-top: 28px;
 .product-card a:hover h2 {
     color: #8b5e3c;
 }
+.search-bar select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 180px;
+    background: #fff;
+}
