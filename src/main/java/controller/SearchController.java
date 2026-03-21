@@ -1,9 +1,11 @@
 package controller;
 
+import dao.CategoryDao;
 import dao.ProductDao;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import model.Category;
 import model.Product;
 
 import java.io.IOException;
@@ -20,10 +22,17 @@ public class SearchController extends HttpServlet {
         if (txtSearch == null) {
             txtSearch = "";
         }
+        String categoryIdStr = request.getParameter("categoryId");
+        String categoryId = (categoryIdStr == null || categoryIdStr.isEmpty())
+                ? "" : categoryIdStr;
         ProductDao dao = new ProductDao();
-        List<Product> list = dao.searchProducts(txtSearch,null,null);
+        CategoryDao cDao = new CategoryDao();
+        List<Category> listCategory = cDao.getAllCategory();
+        List<Product> list = dao.searchProducts(txtSearch,null, categoryId);
+        request.setAttribute("listCC", listCategory);
         request.setAttribute("listP", list);
         request.setAttribute("txtS", txtSearch);
+        request.setAttribute("selectedCategory", categoryId);
         request.getRequestDispatcher("search.jsp").forward(request, response);
     }
 

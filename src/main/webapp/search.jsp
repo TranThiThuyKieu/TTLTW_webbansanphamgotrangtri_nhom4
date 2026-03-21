@@ -31,6 +31,16 @@
             <input type="text" name="txtSearch"
                    value="${txtS}"
                    placeholder="Nhập tên sản phẩm...">
+            <select name="categoryId">
+                <option value="">-- Tất cả danh mục --</option>
+
+                <c:forEach var="c" items="${listCC}">
+                    <option value="${c.id}"
+                        ${selectedCategory == c.id ? 'selected' : ''}>
+                            ${c.categoryName.toUpperCase()}
+                    </option>
+                </c:forEach>
+            </select>
             <button type="submit"><i class="fas fa-search"></i></button>
         </form>
 
@@ -81,7 +91,6 @@
     </c:choose>
 
 </section>
-<jsp:include page="danh_muc_loc.jsp"></jsp:include>
 <jsp:include page="footer.jsp"></jsp:include>
 
 </body>
