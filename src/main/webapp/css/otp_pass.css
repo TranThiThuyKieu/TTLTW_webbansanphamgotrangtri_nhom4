@@ -95,3 +95,20 @@ a:hover {
     color: var(--primary-clr);
     text-decoration: underline;
 }
+.resend {
+    margin-bottom: 15px;
+}
+
+.resend-btn {
+    background: none;
+    border: none;
+    color: var(--primary-clr);
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 5px;
+}
+
+.resend-btn:hover {
+    color: var(--secondary-clr);
+}

@@ -27,6 +27,15 @@
         <input type="text" name="otp" placeholder="Nhập mã OTP" required>
 
         <button type="submit">Tiếp tục</button>
+        <div class="resend">
+            <button type="submit"
+                    formaction="${pageContext.request.contextPath}/ResendOtpServlet"
+                    formnovalidate
+                    class="resend-btn">
+                Gửi lại mã
+            </button>
+        </div>
+
 
         <a href="login_forgot_password.jsp">Quay lại</a>
     </form>
