@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!colorSel.value || !sizeSel.value) {
 
-                alert('Vui lòng chọn Màu và Size cho biến thể #' + (index + 1));
+                alert('Vui lòng chọn Màu và Size cho biến thể' + (index + 1));
                 hasError = true;
                 return;
 

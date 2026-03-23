@@ -26,7 +26,7 @@ public class AdminDeleteProductServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("admin-products");
+        response.sendRedirect(request.getContextPath() + "/products");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

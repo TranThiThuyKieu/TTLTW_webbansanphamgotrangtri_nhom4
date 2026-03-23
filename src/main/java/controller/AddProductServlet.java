@@ -58,8 +58,18 @@ public class AddProductServlet extends HttpServlet {
                 p.setPrice(Double.parseDouble(price));
             }
 
-            p.setCategoryId(Integer.parseInt(request.getParameter("categoryId")));
-            p.setProductTypeId(Integer.parseInt(request.getParameter("typeId")));
+            String cat = request.getParameter("categoryId");
+            if (cat != null && !cat.isEmpty()) {
+                p.setCategoryId(Integer.parseInt(cat));
+            } else {
+                p.setCategoryId(0);
+            }
+            String type = request.getParameter("typeId");
+            if (type != null && !type.isEmpty()) {
+                p.setProductTypeId(Integer.parseInt(type));
+            } else {
+                p.setProductTypeId(0);
+            }
             p.setSourceId(Integer.parseInt(request.getParameter("sourceId")));
 
             String mfgDate = request.getParameter("mfgDate");
@@ -85,26 +95,18 @@ public class AddProductServlet extends HttpServlet {
 
             if(skus != null){
                 for(int i = 0; i < skus.length; i++){
-
                     ProductVariants v = new ProductVariants();
-
                     v.setSku(skus[i]);
-
                     v.setColor_id(Integer.parseInt(colors[i]));
                     v.setSize_id(Integer.parseInt(sizes[i]));
-
                     if(prices[i] != null && !prices[i].isEmpty()){
                         v.setVariant_price(new BigDecimal(prices[i]));
                     }
-
-                    if(stocks[i] != null && !stocks[i].isEmpty()){
-                        v.setInventory_quantity(Integer.parseInt(stocks[i]));
-                    }
+                    v.setInventory_quantity(0);
 
                     listVariant.add(v);
                 }
             }
-
             if(listVariant.isEmpty()){
                 request.setAttribute("message","Phải có ít nhất 1 biến thể!");
                 loadData(request,response);

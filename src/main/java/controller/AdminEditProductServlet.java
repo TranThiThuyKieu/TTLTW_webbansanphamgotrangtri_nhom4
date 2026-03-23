@@ -52,10 +52,20 @@ public class AdminEditProductServlet extends HttpServlet {
         p.setId(productId);
         p.setNameProduct(req.getParameter("productName"));
         p.setPrice(Double.parseDouble(req.getParameter("price")));
-        p.setCategoryId(Integer.parseInt(req.getParameter("categoryId")));
         p.setSourceId(Integer.parseInt(req.getParameter("sourceId")));
-        p.setProductTypeId(Integer.parseInt(req.getParameter("productTypeId")));
         p.setMfgDate(Date.valueOf(req.getParameter("mfgDate")));
+        String cat = req.getParameter("categoryId");
+        if (cat != null && !cat.isEmpty()) {
+            p.setCategoryId(Integer.parseInt(cat));
+        } else {
+            p.setCategoryId(0);
+        }
+        String type = req.getParameter("productTypeId");
+        if (type != null && !type.isEmpty()) {
+            p.setProductTypeId(Integer.parseInt(type));
+        } else {
+            p.setProductTypeId(0);
+        }
 
         Information info = new Information();
         info.setId(infoId);
@@ -81,9 +91,12 @@ public class AdminEditProductServlet extends HttpServlet {
         String[] price = req.getParameterValues("variantPrice[]");
 
         List<ProductVariants> variants = new ArrayList<>();
-
+        String[] ids = req.getParameterValues("variantId[]");
         for (int i = 0; i < skus.length; i++) {
             ProductVariants v = new ProductVariants();
+            if (ids != null && ids[i] != null && !ids[i].isEmpty()) {
+                v.setId(Integer.parseInt(ids[i]));
+            }
             v.setProduct_id(productId);
             v.setSku(skus[i]);
             v.setColor_id(Integer.parseInt(colors[i]));

@@ -229,9 +229,7 @@
 
                                     </a>
 
-                                    <a href="#"
-                                       onclick="confirmDelete(${p.id}); return false;"
-                                       title="Xóa">
+                                    <a href="admin/delete-product?id=${p.id}" onclick="return confirm('Xóa?')">
 
                                         <i class="fa-solid fa-trash-can delete-icon"></i>
 
