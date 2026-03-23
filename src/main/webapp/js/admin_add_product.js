@@ -29,19 +29,7 @@ function selectImagesWithCKFinder(targetInputId, targetPreviewId) {
 }
 
 
-function addVariant() {
 
-    const container = document.getElementById("variant-container");
-
-    const template = document.getElementById("variant-template").innerHTML;
-
-    const wrapper = document.createElement("div");
-
-    wrapper.innerHTML = template;
-
-    container.appendChild(wrapper.firstElementChild);
-
-}
 function validateVariants() {
     const items = document.querySelectorAll('.variant-item');
     const seen = new Set();

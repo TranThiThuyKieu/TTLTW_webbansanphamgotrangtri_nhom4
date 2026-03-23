@@ -92,11 +92,9 @@ body {
 }
 
 .search-input {
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
+    padding: 8px 0px;
     border-radius: 4px;
     width: 100%;
-    box-sizing: border-box;
     font-size: 0.95rem;
 }
 
@@ -449,3 +447,23 @@ table td, table th {
     text-decoration:none;
     cursor:pointer;
 }
+
+.search-input input,
+.filter-select,
+.export-product-btn,
+.add-new-product-btn {
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0 12px;
+
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    background-color: #fff;
+    margin: 0;
+}
+
