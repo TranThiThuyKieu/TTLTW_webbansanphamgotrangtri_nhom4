@@ -5,7 +5,10 @@ public class Address {
     private int userId;
     private String province;
     private String district;
-    private String commune;
+    private String ward;
+    private int province_id;
+    private int district_id;
+    private String ward_code;
     private String detail;
     private String name;
     private String phone;
@@ -17,8 +20,9 @@ public class Address {
 
     public String getFullAddress() {
         if (detail == null || detail.isEmpty()) return "Chưa cập nhật";
-        return detail + ", " + commune + ", " + district + ", " + province;
+        return detail + ", " + ward + ", " + district + ", " + province;
     }
+
     public void setFullAddress(String fullAddress) {
         this.fullAddress = fullAddress;
     }
@@ -56,12 +60,12 @@ public class Address {
         this.district = district;
     }
 
-    public String getCommune() {
-        return commune;
+    public String getWard() {
+        return ward;
     }
 
-    public void setCommune(String commune) {
-        this.commune = commune;
+    public void setWard(String ward) {
+        this.ward = ward;
     }
 
     public String getDetail() {
@@ -94,5 +98,29 @@ public class Address {
 
     public void setIsDefault(int isDefault) {
         this.isDefault = isDefault;
+    }
+
+    public int getProvince_id() {
+        return province_id;
+    }
+
+    public void setProvince_id(int province_id) {
+        this.province_id = province_id;
+    }
+
+    public int getDistrict_id() {
+        return district_id;
+    }
+
+    public void setDistrict_id(int district_id) {
+        this.district_id = district_id;
+    }
+
+    public String getWard_code() {
+        return ward_code;
+    }
+
+    public void setWard_code(String ward_code) {
+        this.ward_code = ward_code;
     }
 }

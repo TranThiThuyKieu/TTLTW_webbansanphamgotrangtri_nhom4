@@ -133,9 +133,9 @@ public class UserDao {
                         addr.setName(rs.getString("addr_name"));
                         addr.setPhone(rs.getString("addr_phone"));
                         addr.setDetail(rs.getString("addr_detail"));
-                        addr.setCommune(rs.getString("addr_commune"));
-                        addr.setDistrict(rs.getString("addr_district"));
-                        addr.setProvince(rs.getString("addr_province"));
+                        addr.setWard_code(rs.getString("ward_code"));
+                        addr.setDistrict(rs.getString("district"));
+                        addr.setProvince(rs.getString("province"));
                         u.setAddress(addr);
                     }
                     return u;
