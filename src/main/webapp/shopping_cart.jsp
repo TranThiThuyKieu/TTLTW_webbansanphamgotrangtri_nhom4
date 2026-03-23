@@ -130,11 +130,6 @@
     </span>
             </div>
 
-            <div class="summary-line-new">
-                <span>Phí vận chuyển</span>
-                <span id="shipping-fee">0 VND</span>
-            </div>
-
 
             <div class="summary-line-new total-new">
                 <span>Tổng cộng</span>
@@ -151,93 +146,11 @@
     </span>
             </div>
 
-            <a href="javascript:void(0)" class="checkout-btn-new" onclick="openCheckoutModal()">
+            <a href="CheckoutServlet" class="checkout-btn-new" >
                 Thanh toán
             </a>
 
         </div>
-    </div>
-</div>
-</div>
-<div id="checkoutModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeCheckoutModal()">×</span>
-        <h2>Thông tin thanh toán</h2>
-
-        <form id="checkoutForm" action="CheckoutServlet" method="post">
-
-            <div class="form-group">
-                <label>Họ và tên người nhận:</label>
-                <input type="text" name="fullName" required value="${LOGGED_USER.username}">
-            </div>
-
-            <div class="form-group">
-                <label>Số điện thoại:</label>
-                <input type="tel" name="phone" required value="${LOGGED_USER.phone}">
-            </div>
-
-            <div class="form-group">
-                <label>Địa chỉ nhận hàng: </label>
-                <select name="address_id" id="addressSelect" required>
-                    <c:forEach var="a" items="${addresses}">
-                        <option value="${a.id}">
-                                ${a.detail}, ${a.ward}, ${a.district}, ${a.province}
-                                ${a.isDefault == 1 ? ' (Mặc định)' : ''}
-                            - ${a.name} (${a.phone})
-                        </option>
-                    </c:forEach>
-                </select>
-                <c:if test="${empty addresses}">
-                    <p style="color:#e74c3c; margin-top:8px; font-size:0.95em;">
-                        Bạn chưa có địa chỉ nào. Vui lòng thêm địa chỉ trong trang cá nhân trước khi đặt hàng.
-                    </p>
-                </c:if>
-            </div>
-
-            <div class="form-group">
-                <label>Phương thức thanh toán:</label>
-                <div class="payment-options">
-                    <label>
-                        <input type="radio" name="paymentMethod" value="COD" checked onclick="toggleCardList(false)">
-                        Thanh toán khi nhận hàng (COD)
-                    </label>
-                    <br>
-                    <label><input type="radio" name="paymentMethod" value="BANK"> Thẻ ngân hàng / Chuyển khoản
-                        (BANK)</label>
-                </div>
-            </div>
-
-            <div id="bankSelection"
-                 style="display:none; background:#f4f4f4; padding:12px; border-radius:8px; margin:10px 0;">
-                <c:choose>
-                    <c:when test="${not empty listPayments}">
-                        <c:forEach var="p" items="${listPayments}">
-                            <div style="margin-bottom:8px;">
-                                <input type="radio" name="cardId" value="${p.id}" id="card-${p.id}" required>
-                                <label for="card-${p.id}">${p.type} -
-                                    ****${p.cardNumber.substring(p.cardNumber.length()-4)}</label>
-                            </div>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <p style="color:#e74c3c; font-size:13px;">
-                            Bạn chưa liên kết thẻ. Vui lòng chọn COD hoặc thêm thẻ trong trang cá nhân.
-                        </p>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-
-            <div class="form-group">
-                <label>Ghi chú đơn hàng (tùy chọn):</label>
-                <textarea name="note" placeholder="Ghi chú cho shipper..." style="width:100%; height:80px;"></textarea>
-            </div>
-
-            <div class="total-confirm">
-                <strong>Tổng cộng: </strong> <span id="modalTotal">0 VND</span>
-            </div>
-
-            <button type="submit" class="submit-btn" id="submitOrderBtn">Xác nhận đặt hàng</button>
-        </form>
     </div>
 </div>
 <jsp:include page="footer.jsp"/>

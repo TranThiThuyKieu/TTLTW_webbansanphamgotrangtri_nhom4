@@ -19,6 +19,11 @@ import java.util.Map;
 public class CheckoutServlet extends HttpServlet {
 
     OrderDao orderDao = new OrderDao();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.sendRedirect("checkout.jsp");
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
