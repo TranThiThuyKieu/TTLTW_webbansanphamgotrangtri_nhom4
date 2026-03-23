@@ -92,11 +92,9 @@ body {
 }
 
 .search-input {
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
+    padding: 8px 0px;
     border-radius: 4px;
     width: 100%;
-    box-sizing: border-box;
     font-size: 0.95rem;
 }
 
@@ -449,3 +447,24 @@ table td, table th {
     text-decoration:none;
     cursor:pointer;
 }
+
+/* Gom tất cả vào một quy tắc chung để đồng bộ */
+.search-input input,
+.filter-select,
+.export-product-btn,
+.add-new-product-btn {
+    height: 40px;            /* 1. Đặt chiều cao cố định */
+    box-sizing: border-box;  /* 2. Đảm bảo border không làm tăng chiều cao */
+    padding: 0 12px;         /* 3. Chỉ để padding trái phải */
+
+    display: inline-flex;    /* 4. Dùng flex để căn giữa nội dung bên trong */
+    align-items: center;
+    vertical-align: middle;  /* 5. Giúp các ô thẳng hàng khi nằm cạnh nhau */
+
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    background-color: #fff;
+    margin: 0;
+}
+
