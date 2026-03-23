@@ -27,27 +27,41 @@ public class AddressServlet extends HttpServlet {
         int userId = user.getId();
         String action = request.getParameter("action");
         AddressDao dao = new AddressDao();
-        if (action.equals("add")) {
+        if ("add".equals(action)) {
             Address a = new Address();
             a.setUserId(userId);
-            a.setPhone(request.getParameter("phone"));
-            a.setDetail(request.getParameter("detail"));
-            a.setCommune(request.getParameter("commune"));
-            a.setDistrict(request.getParameter("district"));
-            a.setProvince(request.getParameter("province"));
-            a.setIsDefault(0);
-            dao.insert(a);
-        }
-        if (action.equals("update")) {
-            Address a = new Address();
-            a.setId(Integer.parseInt(request.getParameter("id")));
-            a.setUserId(userId);
+
             a.setName(request.getParameter("name"));
             a.setPhone(request.getParameter("phone"));
             a.setDetail(request.getParameter("detail"));
-            a.setCommune(request.getParameter("commune"));
-            a.setDistrict(request.getParameter("district"));
+
+            a.setProvince_id(Integer.parseInt( request.getParameter("province_id")));
+            a.setDistrict_id(Integer.parseInt( request.getParameter("district_id")));
+            a.setWard_code(request.getParameter("ward_code"));
             a.setProvince(request.getParameter("province"));
+            a.setDistrict(request.getParameter("district"));
+            a.setWard(request.getParameter("ward"));
+
+            a.setIsDefault(0);
+
+            dao.insert(a);
+        }
+        if ("update".equals(action)) {
+            Address a = new Address();
+            a.setId(Integer.parseInt(request.getParameter("id")));
+            a.setUserId(userId);
+
+            a.setName(request.getParameter("name"));
+            a.setPhone(request.getParameter("phone"));
+            a.setDetail(request.getParameter("detail"));
+
+            a.setProvince_id(Integer.parseInt( request.getParameter("province_id")));
+            a.setDistrict_id(Integer.parseInt( request.getParameter("district_id")));
+            a.setWard_code(request.getParameter("ward_code"));
+            a.setProvince(request.getParameter("province"));
+            a.setDistrict(request.getParameter("district"));
+            a.setWard(request.getParameter("ward"));
+
             dao.update(a);
         }
         if (action.equals("delete")) {

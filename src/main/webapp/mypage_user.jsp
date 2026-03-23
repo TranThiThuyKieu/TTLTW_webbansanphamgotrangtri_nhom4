@@ -331,9 +331,9 @@
                                             '${a.name}',
                                             '${a.phone}',
                                             '${a.detail}',
-                                            '${a.commune}',
-                                            '${a.district}',
-                                            '${a.province}'
+                                            '${a.ward_code}',
+                                            ${a.district_id},
+                                            ${a.province_id}
                                             )">
                                 Thay đổi
                             </button>
@@ -674,25 +674,26 @@
             </div>
 
             <div class="form-group">
-                <label>Địa chỉ chi tiết</label>
-                <input name="detail" id="addr-detail" placeholder="Số nhà, tên đường" required>
-            </div>
-
-
-            <div class="form-group">
-                <label>Phường / Xã</label>
-                <input name="commune" id="addr-commune" placeholder="Nhập tên Phường / Xã" required>
+                <label>Tỉnh / Thành phố</label>
+                <select name="province_id" id="province_id"></select>
+                <input type="hidden" name="province" id="province_name">
             </div>
 
             <div class="form-group">
                 <label>Quận / Huyện</label>
-                <input name="district" id="addr-district" placeholder="Nhập tên Quận / Huyện " required>
+                <select name="district_id" id="district_id"></select>
+                <input type="hidden" name="district" id="district_name">
             </div>
 
+            <div class="form-group">
+                <label>Phường / Xã</label>
+                <select name="ward_code" id="ward_code"></select>
+                <input type="hidden" name="ward" id="ward_name">
+            </div>
 
             <div class="form-group">
-                <label>Tỉnh / Thành phố</label>
-                <input name="province" id="addr-province" placeholder="Nhập tên Tỉnh / Thành phố" required>
+                <label>Địa chỉ chi tiết</label>
+                <input name="detail" id="addr-detail" placeholder="Số nhà, tên đường" required>
             </div>
 
             <div class="modal-actions">

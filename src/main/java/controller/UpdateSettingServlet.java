@@ -81,15 +81,15 @@ public class UpdateSettingServlet extends HttpServlet {
         }
 
         String detail = req.getParameter("detail");
-        String commune = req.getParameter("commune");
+        String ward_code = req.getParameter("ward_code");
         String district = req.getParameter("district");
         String province = req.getParameter("province");
 
-        if (detail != null || commune != null || district != null || province != null) {
+        if (detail != null || ward_code != null || district != null || province != null) {
             Address address = new Address();
             address.setUserId(sessionUser.getId());
             address.setDetail(detail);
-            address.setCommune(commune);
+            address.setWard_code(ward_code);
             address.setDistrict(district);
             address.setProvince(province);
 

@@ -39,6 +39,6 @@ public class UpdateProductTypeServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        response.sendRedirect("manage-product-types");
+        response.sendRedirect("AdminProductTypeServlet");
     }
 }

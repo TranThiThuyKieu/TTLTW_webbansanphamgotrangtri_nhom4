@@ -9,7 +9,9 @@
     --success-color: #52c41a;
     --order-total-color: #007bff;
 }
-
+body{
+    font-family: sans-serif;
+}
 .dashboard-container {
     display: flex;
     max-width: 1200px;
@@ -1338,4 +1340,11 @@ button{
         flex: none;
         padding: 10px 20px;
     }
+}
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
 }

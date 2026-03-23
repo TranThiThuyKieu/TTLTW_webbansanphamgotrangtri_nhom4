@@ -24,11 +24,14 @@ public class AddressDao {
                 address.setName(rs.getString("name"));
                 address.setPhone(rs.getString("phone"));
                 address.setDetail(rs.getString("detail"));
-                address.setCommune(rs.getString("commune"));
+                address.setWard_code(rs.getString("ward_code"));
+                address.setDistrict_id(rs.getInt("district_id"));
+                address.setProvince_id(rs.getInt("province_id"));
+                address.setWard(rs.getString("ward"));
                 address.setDistrict(rs.getString("district"));
                 address.setProvince(rs.getString("province"));
                 address.setIsDefault(rs.getInt("isDefault"));
-                String full = address.getDetail() + ", " + address.getCommune() + ", " +
+                String full = address.getDetail() + ", " + address.getWard() + ", " +
                         address.getDistrict() + ", " + address.getProvince();
                 address.setFullAddress(full);
                 list.add(address);
@@ -55,7 +58,7 @@ public class AddressDao {
                 a.setName(rs.getString("name"));
                 a.setPhone(rs.getString("phone"));
                 a.setDetail(rs.getString("detail"));
-                a.setCommune(rs.getString("commune"));
+                a.setWard_code(rs.getString("ward_code"));
                 a.setDistrict(rs.getString("district"));
                 a.setProvince(rs.getString("province"));
                 a.setIsDefault(rs.getInt("isDefault"));
@@ -74,14 +77,14 @@ public class AddressDao {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 String updateSql = """
-        UPDATE addresses SET name=?, phone=?, detail=?, commune=?, district=?, province=?
+        UPDATE addresses SET name=?, phone=?, detail=?, ward_code=?, district=?, province=?
                 WHERE user_id=? AND isDefault=1 """;
 
                 try (PreparedStatement up = con.prepareStatement(updateSql)) {
                     up.setString(1, a.getName());
                     up.setString(2, a.getPhone());
                     up.setString(3, a.getDetail());
-                    up.setString(4, a.getCommune());
+                    up.setString(4, a.getWard_code());
                     up.setString(5, a.getDistrict());
                     up.setString(6, a.getProvince());
                     up.setInt(7, a.getUserId());
@@ -91,7 +94,7 @@ public class AddressDao {
                 String insertSql = """
                 INSERT INTO addresses
                 (user_id, name, phone, detail,
-                 commune, district, province, isDefault)
+                 ward_code, district, province, isDefault)
                 VALUES (?, ?, ?, ?, ?, ?, ?, 1)
             """;
                 try (PreparedStatement ins = con.prepareStatement(insertSql)) {
@@ -99,7 +102,7 @@ public class AddressDao {
                     ins.setString(2, a.getName());
                     ins.setString(3, a.getPhone());
                     ins.setString(4, a.getDetail());
-                    ins.setString(5, a.getCommune());
+                    ins.setString(5, a.getWard_code());
                     ins.setString(6, a.getDistrict());
                     ins.setString(7, a.getProvince());
                     ins.executeUpdate();
@@ -112,8 +115,8 @@ public class AddressDao {
     public void insert(Address a) {
         String sql = """
             INSERT INTO addresses
-            (user_id, name, phone, detail, commune, district, province, isDefault)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            (user_id, name, phone, detail, ward_code, ward, district_id, district, province_id, province, isDefault)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """;
         try (Connection con = DBContext.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -121,10 +124,13 @@ public class AddressDao {
              ps.setString(2, a.getName());
              ps.setString(3, a.getPhone());
              ps.setString(4, a.getDetail());
-             ps.setString(5, a.getCommune());
-             ps.setString(6, a.getDistrict());
-             ps.setString(7, a.getProvince());
-             ps.setInt(8, a.getIsDefault());
+             ps.setString(5, a.getWard_code());
+             ps.setString(6, a.getWard());
+             ps.setInt(7, a.getDistrict_id());
+             ps.setString(8, a.getDistrict());
+             ps.setInt(9, a.getProvince_id());
+             ps.setString(10, a.getProvince());
+             ps.setInt(11, a.getIsDefault());
              ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,7 +139,7 @@ public class AddressDao {
     public void update(Address a) {
         String sql = """
             UPDATE addresses
-            SET name=?, phone=?, detail=?, commune=?, district=?, province=?
+            SET name=?, phone=?, detail=?, ward_code=?, ward=?, district_id=?, district=?, province_id=?, province=?
             WHERE id=? AND user_id=?
         """;
 
@@ -143,11 +149,14 @@ public class AddressDao {
              ps.setString(1, a.getName());
              ps.setString(2, a.getPhone());
              ps.setString(3, a.getDetail());
-             ps.setString(4, a.getCommune());
-             ps.setString(5, a.getDistrict());
-             ps.setString(6, a.getProvince());
-             ps.setInt(7, a.getId());
-             ps.setInt(8, a.getUserId());
+             ps.setString(4, a.getWard_code());
+             ps.setString(5, a.getWard());
+             ps.setInt(6, a.getDistrict_id());
+             ps.setString(7, a.getDistrict());
+             ps.setInt(8, a.getProvince_id());
+             ps.setString(9, a.getProvince());
+             ps.setInt(10, a.getId());
+             ps.setInt(11, a.getUserId());
              ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

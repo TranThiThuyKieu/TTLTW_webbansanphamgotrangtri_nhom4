@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -103,44 +102,44 @@
 
         <div class="cart-summary-container">
 
-    <div class="voucher-input">
-        <span class="input-title">Nhập Mã Khuyến Mãi</span>
-        <input type="text" placeholder="Voucher hoặc gift code" >
-        <button class="apply-btn">Áp dụng</button>
-    </div>
+            <div class="voucher-input">
+                <span class="input-title">Nhập Mã Khuyến Mãi</span>
+                <input type="text" placeholder="Voucher hoặc gift code">
+                <button class="apply-btn">Áp dụng</button>
+            </div>
 
 
-    <c:set var="total" value="0"/>
-    <c:forEach var="item" items="${cartItems}">
-        <c:set var="total" value="${total + item.totalPrice}"/>
-    </c:forEach>
+            <c:set var="total" value="0"/>
+            <c:forEach var="item" items="${cartItems}">
+                <c:set var="total" value="${total + item.totalPrice}"/>
+            </c:forEach>
 
-    <div class="summary-title">Thông tin đơn hàng</div>
+            <div class="summary-title">Thông tin đơn hàng</div>
 
-    <div class="summary-line-new">
-        <span>Tạm tính</span>
-        <span id="sub-total">
+            <div class="summary-line-new">
+                <span>Tạm tính</span>
+                <span id="sub-total">
         <fmt:formatNumber value="${total}" pattern="#,###"/> VND
     </span>
-    </div>
+            </div>
 
-    <div class="summary-line-new">
-        <span>Thuế GTGT (8%)</span>
-        <span id="tax-amount">
+            <div class="summary-line-new">
+                <span>Thuế GTGT (8%)</span>
+                <span id="tax-amount">
         <fmt:formatNumber value="${total * 0.08}" pattern="#,###"/> VND
     </span>
-    </div>
+            </div>
 
-    <div class="summary-line-new">
-        <span>Phí vận chuyển</span>
-        <span id="shipping-fee">0 VND</span>
-    </div>
+            <div class="summary-line-new">
+                <span>Phí vận chuyển</span>
+                <span id="shipping-fee">0 VND</span>
+            </div>
 
 
-    <div class="summary-line-new total-new">
-        <span>Tổng cộng</span>
-        <span id="cart-total"
-              style="color: #e54d42; font-weight: bold; font-size: 1.2em;">
+            <div class="summary-line-new total-new">
+                <span>Tổng cộng</span>
+                <span id="cart-total"
+                      style="color: #e54d42; font-weight: bold; font-size: 1.2em;">
         <c:choose>
             <c:when test="${not empty CART and total > 0}">
                 <fmt:formatNumber value="${total}" pattern="#,###"/> VND
@@ -150,14 +149,15 @@
             </c:otherwise>
         </c:choose>
     </span>
-    </div>
+            </div>
 
-    <a href="javascript:void(0)" class="checkout-btn-new" onclick="openCheckoutModal()">
-        Thanh toán
-    </a>
+            <a href="javascript:void(0)" class="checkout-btn-new" onclick="openCheckoutModal()">
+                Thanh toán
+            </a>
 
         </div>
     </div>
+</div>
 </div>
 <div id="checkoutModal" class="modal" style="display: none;">
     <div class="modal-content">
@@ -181,7 +181,7 @@
                 <select name="address_id" id="addressSelect" required>
                     <c:forEach var="a" items="${addresses}">
                         <option value="${a.id}">
-                                ${a.detail}, ${a.commune}, ${a.district}, ${a.province}
+                                ${a.detail}, ${a.ward}, ${a.district}, ${a.province}
                                 ${a.isDefault == 1 ? ' (Mặc định)' : ''}
                             - ${a.name} (${a.phone})
                         </option>
@@ -202,17 +202,20 @@
                         Thanh toán khi nhận hàng (COD)
                     </label>
                     <br>
-                    <label><input type="radio" name="paymentMethod" value="BANK"> Thẻ ngân hàng / Chuyển khoản (BANK)</label>
+                    <label><input type="radio" name="paymentMethod" value="BANK"> Thẻ ngân hàng / Chuyển khoản
+                        (BANK)</label>
                 </div>
             </div>
 
-            <div id="bankSelection" style="display:none; background:#f4f4f4; padding:12px; border-radius:8px; margin:10px 0;">
+            <div id="bankSelection"
+                 style="display:none; background:#f4f4f4; padding:12px; border-radius:8px; margin:10px 0;">
                 <c:choose>
                     <c:when test="${not empty listPayments}">
                         <c:forEach var="p" items="${listPayments}">
                             <div style="margin-bottom:8px;">
                                 <input type="radio" name="cardId" value="${p.id}" id="card-${p.id}" required>
-                                <label for="card-${p.id}">${p.type} - ****${p.cardNumber.substring(p.cardNumber.length()-4)}</label>
+                                <label for="card-${p.id}">${p.type} -
+                                    ****${p.cardNumber.substring(p.cardNumber.length()-4)}</label>
                             </div>
                         </c:forEach>
                     </c:when>
