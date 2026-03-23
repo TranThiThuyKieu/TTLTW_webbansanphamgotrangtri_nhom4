@@ -1,11 +1,3 @@
-function getShippingFee(subTotal) {
-    if (subTotal < 100000) return 0;
-    if (subTotal < 1000000) return 50000;
-    if (subTotal < 3000000) return 100000;
-    if (subTotal < 5000000) return 200000;
-    if (subTotal < 10000000) return 500000;
-    return 1000000;
-}
 function updateTotal() {
 
     let subTotal = 0;
@@ -30,17 +22,13 @@ function updateTotal() {
     });
 
     const taxAmount = subTotal * taxRate;
-    const shippingFee = getShippingFee(subTotal);
-    const finalTotal = subTotal > 0 ? subTotal + taxAmount + shippingFee : 0;
+    const finalTotal = subTotal > 0 ? subTotal + taxAmount : 0;
 
     document.getElementById('sub-total').innerText =
         subTotal.toLocaleString('vi-VN') + " VND";
 
     document.getElementById('tax-amount').innerText =
         taxAmount.toLocaleString('vi-VN') + " VND";
-
-    document.getElementById('shipping-fee').innerText =
-        shippingFee.toLocaleString('vi-VN') + " VND";
 
     document.getElementById('cart-total').innerText =
         finalTotal.toLocaleString('vi-VN') + " VND";
