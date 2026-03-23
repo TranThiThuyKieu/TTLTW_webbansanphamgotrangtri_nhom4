@@ -504,8 +504,11 @@ public class ProductDao {
                 throw new SQLException("Không cập nhật được sản phẩm chính (id=" + p.getId() + ")");
             }
 
-            conn.prepareStatement("DELETE FROM product_images WHERE product_id = ?")
-                    .executeUpdate();
+            PreparedStatement psDelImg = conn.prepareStatement(
+                    "DELETE FROM product_images WHERE product_id = ?" );
+            psDelImg.setInt(1, p.getId());
+            psDelImg.executeUpdate();
+
 
             Integer primaryImageId = null;
             if (imagePaths != null && !imagePaths.isEmpty()) {
@@ -846,9 +849,10 @@ public class ProductDao {
 
             conn.setAutoCommit(false);
 
-            conn.prepareStatement(
-                            "DELETE FROM product_variants WHERE product_id=?")
-                    .executeUpdate();
+            PreparedStatement ps = conn.prepareStatement(
+                    "DELETE FROM product_variants WHERE product_id=?");
+            ps.setInt(1, productId);
+            ps.executeUpdate();
 
             PreparedStatement ps1 = conn.prepareStatement(
                     "DELETE FROM product_images WHERE product_id=?");

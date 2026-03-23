@@ -112,7 +112,7 @@
                                 <c:forEach var="v" items="${product.variants}" varStatus="vStatus">
                                     <div class="card variant-item">
                                         <input type="hidden" name="variantId[]" value="${v.id}">
-                                        <h2 class="card-title">Biến thể #${vStatus.count}</h2>
+                                        <h2 class="card-title">Biến thể ${vStatus.count}</h2>
                                         <span class="remove-variant" onclick="removeVariant(this)">
                                             <i class="fas fa-trash"></i>
                                         </span>
@@ -142,9 +142,8 @@
                                                 <input type="number" name="variantPrice[]" required value="${v.variant_price}">
                                             </div>
                                             <div class="form-group">
-                                                <label>Kho:</label>
-                                                <input type="number" name="variantStock[]" required value="${v.inventory_quantity}">
-                                            </div>
+<%--                                                <label>Kho:</label>--%>
+                                                <input type="hidden" name="variantStock[]" value="${v.inventory_quantity}">                                            </div>
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -174,7 +173,7 @@
         newVariant.className = 'card variant-item';
         newVariant.innerHTML = `
         <input type="hidden" name="variantId[]" value="0">
-            <h2 class="card-title">Biến thể #${count}</h2>
+            <h2 class="card-title">Biến thể     ${count}</h2>
             <span class="remove-variant" onclick="removeVariant(this)">
                 <i class="fas fa-trash"></i>
             </span>
@@ -207,7 +206,7 @@
                 </div>
                 <div class="form-group">
                     <label>Số lượng kho:</label>
-                    <input type="number" name="variantStock[]" required placeholder="0">
+<input type="hidden" name="variantStock[]" value="0">
                 </div>
             </div>
         `;

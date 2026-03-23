@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user_admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_profile_style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_add_products.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_edit_product.css">
 </head>
 <body>
 <div class="admin-container">
@@ -165,11 +166,6 @@
                                                 <input type="number" name="variantPrice[]">
                                             </div>
 
-                                            <div class="form-group">
-                                                <label>Số lượng kho:</label>
-                                                <input type="number" name="variantStock[]" required>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -227,11 +223,6 @@
                 <div class="form-group">
                     <label>Giá biến thể (VND):</label>
                     <input type="number" name="variantPrice[]" required placeholder="0.00">
-                </div>
-
-                <div class="form-group">
-                    <label>Số lượng kho:</label>
-                    <input type="number" name="variantStock[]" required placeholder="0">
                 </div>
             </div>
         `;
