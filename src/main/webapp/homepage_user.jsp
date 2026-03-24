@@ -29,6 +29,66 @@
         <h2>Nơi gỗ kể câu chuyện của không gian.</h2>
         <p>Từng đường vân, sắc màu và cảm hứng từ thiên nhiên được chúng tôi tỉ mỉ chọn lọc và chăm chút, mang đến cảm giác ấm áp, tinh tế và gần gũi – tạo nên không gian hài hòa, chan hòa với thiên nhiên.</p>
     </div>
+
+</div>
+
+<div class="fs-container">
+    <div class="fs-header">
+        <h2 class="fs-title">FLASH <SALE></SALE></h2>
+
+        <div class="fs-timer">
+            <span>02</span> : <span>45</span> : <span>10</span>
+        </div>
+    </div>
+
+    <div class="products">
+        <div class="product-card fs-item">
+            <div class="fs-badge">-20%</div>
+            <a href="#" class="product-link">
+                <img src="https://www.google.com/imgres?q=hinh%20sp%20go&imgurl=https%3A%2F%2Fpng.pngtree.com%2Fthumb_back%2Ffh260%2Fbackground%2F20230814%2Fpngtree-wood-grain-texture-wooden-flooring-design-with-wooden-floor-textures-image_13051712.jpg&imgrefurl=https%3A%2F%2Fvi.pngtree.com%2Ffree-backgrounds-photos%2Fg%25E1%25BB%2597&docid=v7Y09az3PJUaIM&tbnid=u44GgfsJKSFuJM&vet=12ahUKEwjAi4HoiriTAxWjWHADHeQQBKAQnPAOegQIHBAB..i&w=640&h=427&hcb=2&ved=2ahUKEwjAi4HoiriTAxWjWHADHeQQBKAQnPAOegQIHBAB" alt="sp">
+                <h2>Kệ Gỗ Thông 3 Tầng</h2>
+            </a>
+            <div class="rating">
+                <i class="ri-star-s-fill"></i>
+                <span>(4.5)</span>
+            </div>
+            <div class="price">
+                <span class="fs-old">500.000 VNĐ</span> <br>
+                <span class="fs-new">400.000 VNĐ</span>
+            </div>
+            <div class="fs-stock">
+                <div class="stock-bar"><div class="stock-fill" style="width: 70%;"></div></div>
+                <p>Đã bán 15</p>
+            </div>
+            <div class="action-buttons">
+                <a href="#" class="buy-now" >MUA NGAY</a>
+            </div>
+        </div>
+
+        <div class="product-card fs-item">
+            <div class="fs-badge">-100.000vndd</div>
+            <a href="#" class="product-link">
+                <img src="https://www.lazada.vn/products/mo-hinh-go-sai-gon-xua-thu-nho-diy-tiem-sap-kho-ma-sp-sg01-i274484700.html?srsltid=AfmBOooDWWiy0hFjELNdMCyZ28MvjnjTKzrq0cO-y_2hqgSonJxAkc4i" alt="sp">
+                <h2>Bàn Trà Gỗ Sồi</h2>
+            </a>
+            <div class="rating">
+                <i class="ri-star-s-fill"></i>
+                <span>(5.0)</span>
+            </div>
+            <div class="price">
+                <span class="fs-old">1.000.000 VNĐ</span> <br>
+                <span class="fs-new">900.000 VNĐ</span>
+            </div>
+            <div class="fs-stock">
+                <div class="stock-bar"><div class="stock-fill" style="width: 20%;"></div></div>
+                <p>Đã bán 2 </p>
+            </div>
+            <div class="action-buttons">
+                <a href="#" class="buy-now" >MUA NGAY</a>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="products">
         <c:forEach items="${top3Products}" var="p">
             <div class="product-card">
@@ -50,6 +110,9 @@
             </div>
         </c:forEach>
     </div>
+
+
+
     <section class="intro-section">
         <div class="intro-content">
             <div class="intro-text">
@@ -65,7 +128,37 @@
         </div>
     </section>
 
+<div class="v-section">
+    <h2 class="v-title">ƯU ĐÃI ĐẶC BIỆT</h2>
+    <div class="v-grid">
+        <div class="v-card">
+            <div class="v-left"><i class="fas fa-ticket-alt"></i></div>
+            <div class="v-right">
+                <p class="v-label">Giảm trực tiếp</p>
+                <h3>50.000 VNĐ</h3>
+                <p class="v-min">Đơn từ 500.000 VNĐ</p>
+                <div class="v-footer">
+                    <span class="v-code">WOOD50</span>
+                    <button class="v-btn">LƯU</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="v-card">
+            <div class="v-left"><i class="fas fa-percent"></i></div>
+            <div class="v-right">
+                <p class="v-label">Chiết khấu</p>
+                <h3>GIẢM 10% TỔNG</h3>
+                <p class="v-min">Đơn từ 2.000.000 VNĐ</p>
+                <div class="v-footer">
+                    <span class="v-code">DECOR10</span>
+                    <button class="v-btn">LƯU</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <section class="san-pham-moi">
     <h2 class="title">SẢN PHẨM BÁN CHẠY</h2>
