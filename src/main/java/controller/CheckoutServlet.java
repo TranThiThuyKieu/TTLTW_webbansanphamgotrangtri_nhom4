@@ -1,5 +1,6 @@
 package controller;
 
+import dao.AddressDao;
 import dao.OrderDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Address;
 import model.CartItem;
 import model.User;
 
@@ -22,7 +24,57 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("checkout.jsp");
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("LOGGED_USER");
+
+        if (user == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        String[] selectedIds = request.getParameterValues("selectedItems");
+
+        Map<Integer, CartItem> fullCart =
+                (Map<Integer, CartItem>) session.getAttribute("CART");
+
+        if (fullCart == null || selectedIds == null) {
+            response.sendRedirect("CartServlet?action=view");
+            return;
+        }
+
+        List<CartItem> selectedCart = new ArrayList<>();
+
+        for (String idStr : selectedIds) {
+            int variantId = Integer.parseInt(idStr);
+
+            CartItem item = fullCart.get(variantId);
+            if (item != null) {
+                selectedCart.add(item);
+            }
+        }
+
+        if (selectedCart.isEmpty()) {
+            response.sendRedirect("CartServlet?action=view");
+            return;
+        }
+
+        double total = 0;
+        for (CartItem item : selectedCart) {
+            total += item.getVariant().getVariant_price().doubleValue()
+                    * item.getQuantity();
+        }
+
+        AddressDao addressDao = new AddressDao();
+
+        List<Address> addresses = addressDao.getAddressesByUserId(user.getId());
+
+        request.setAttribute("addresses", addresses);
+
+        request.setAttribute("selectedCartItems", selectedCart);
+        request.setAttribute("total", total);
+
+        request.getRequestDispatcher("checkout.jsp").forward(request, response);
     }
 
     @Override

@@ -31,12 +31,27 @@
             <section class="billing-details">
                 <h2 class="section-title">Chi tiết thanh toán</h2>
                 <div class="address-selector">
-                    <label for="old-address">Chọn địa chỉ khác:</label>
+                    <label for="old-address">Chọn địa chỉ :</label>
                     <div class="selector-row">
-                        <select id="old-address">
-                            <option>Nguyễn Minh Hậu - Trường đại học Nông Lâm</option>
+                        <select id="old-address" name="address_id">
+                            <c:if test="${empty addresses}">
+                                <option disabled selected>Chưa có địa chỉ</option>
+                            </c:if>
+                            <c:forEach var="addr" items="${addresses}" varStatus="status">
+                                <option value="${addr.id}"
+                                        data-name="${addr.name}"
+                                        data-phone="${addr.phone}"
+                                        data-detail="${addr.detail}"
+                                        data-province="${addr.province}"
+                                        data-district="${addr.district}"
+                                        data-ward="${addr.ward}"
+                                        data-district-id="${addr.district_id}"
+                                        data-ward-code="${addr.ward_code}">
+                                        ${addr.name} - ${addr.fullAddress}
+                                </option>
+                            </c:forEach>
                         </select>
-                        <button class="btn-add-address">THÊM ĐỊA CHỈ MỚI</button>
+                        <button class="btn-add-address" onclick="openAddAddressModal()">THÊM ĐỊA CHỈ</button>
                     </div>
                 </div>
 
@@ -110,87 +125,21 @@
 
                 <div class="product-scroll-area">
                     <table class="summary-table">
+                        <c:forEach var="item" items="${selectedCartItems}">
                         <tr class="product-row">
-                            <td>
-                                <span class="product-title">Bàn ăn bằng gỗ đẹp cho gia đình</span>
-                                <span class="product-quantity"> &times; 2</span>
-                                <br>
-                                <small>Màu nâu, 2200x450x500</small>
-                            </td>
-                            <td class="text-right">50.000 đ</td>
+                                <div data-variant-id="${item.variant.id}">
+                                    <td>
+                                        <span class="product-title">${item.product.nameProduct}</span>
+                                        <span class="product-quantity"> &times; ${item.quantity}</span>
+                                        <br>
+                                        <small>${item.variant.color.colorName} , ${item.variant.size.size_name}</small>
+                                    </td>
+                                    <td class="text-right">
+                                        <fmt:formatNumber value="${item.variant.variant_price}" type="number" groupingUsed="true"/> đ
+                                    </td>
+                                </div>
                         </tr>
-                        <tr class="product-row">
-                            <td>
-                                <span class="product-title">Bàn ăn hiện đại cho cặp đôi gỗ MDF</span>
-                                <span class="product-quantity">&times; 1</span>
-                                <br>
-                                <small>Màu đen, 1200x250x300</small>
-                            </td>
-                            <td class="text-right">15.000 đ</td>
-                        </tr>
-                        <tr class="product-row">
-                            <td>
-                                <span class="product-title">Bàn ăn hiện đại cho cặp đôi gỗ MDF</span>
-                                <span class="product-quantity">&times; 1</span>
-                                <br>
-                                <small>Màu đen, 1200x250x300</small>
-                            </td>
-                            <td class="text-right">15.000 đ</td>
-                        </tr>
-                        <tr class="product-row">
-                            <td>
-                                <span class="product-title">Bàn ăn hiện đại cho cặp đôi gỗ MDF</span>
-                                <span class="product-quantity">&times; 1</span>
-                                <br>
-                                <small>Màu đen, 1200x250x300</small>
-                            </td>
-                            <td class="text-right">15.000 đ</td>
-                        </tr>
-                        <tr class="product-row">
-                            <td>
-                                <span class="product-title">Bàn ăn hiện đại cho cặp đôi gỗ MDF</span>
-                                <span class="product-quantity">&times; 1</span>
-                                <br>
-                                <small>Màu đen, 1200x250x300</small>
-                            </td>
-                            <td class="text-right">15.000 đ</td>
-                        </tr>
-                        <tr class="product-row">
-                            <td>
-                                <span class="product-title">Bàn ăn hiện đại cho cặp đôi gỗ MDF</span>
-                                <span class="product-quantity">&times; 1</span>
-                                <br>
-                                <small>Màu đen, 1200x250x300</small>
-                            </td>
-                            <td class="text-right">15.000 đ</td>
-                        </tr>
-                        <tr class="product-row">
-                            <td>
-                                <span class="product-title">Bàn ăn hiện đại cho cặp đôi gỗ MDF</span>
-                                <span class="product-quantity">&times; 1</span>
-                                <br>
-                                <small>Màu đen, 1200x250x300</small>
-                            </td>
-                            <td class="text-right">15.000 đ</td>
-                        </tr>
-                        <tr class="product-row">
-                            <td>
-                                <span class="product-title">Bàn ăn hiện đại cho cặp đôi gỗ MDF</span>
-                                <span class="product-quantity">&times; 1</span>
-                                <br>
-                                <small>Màu đen, 1200x250x300</small>
-                            </td>
-                            <td class="text-right">15.000 đ</td>
-                        </tr>
-                        <tr class="product-row">
-                            <td>
-                                <span class="product-title">Bàn ăn hiện đại cho cặp đôi gỗ MDF</span>
-                                <span class="product-quantity">&times; 1</span>
-                                <br>
-                                <small>Màu đen, 1200x250x300</small>
-                            </td>
-                            <td class="text-right">15.000 đ</td>
-                        </tr>
+                        </c:forEach>
                     </table>
                 </div>
 
@@ -198,11 +147,13 @@
                     <table class="summary-table">
                         <tr class="calc-row divider">
                             <td>Tạm tính</td>
-                            <td class="text-right">65.000 đ</td>
+                            <td class="text-right">
+                                <fmt:formatNumber value="${total}" type="number" groupingUsed="true"/> đ
+                            </td>
                         </tr>
                         <tr class="calc-row">
                             <td>Phí vận chuyển</td>
-                            <td class="text-right">25.000 đ</td>
+                            <td id="shipping-fee" class="text-right">0.000 đ</td>
                         </tr>
                         <tr class="calc-row promotion">
                             <td>Giảm giá</td>
@@ -214,7 +165,7 @@
                         </tr>
                         <tr class="total-row">
                             <td>Tổng cộng</td>
-                            <td class="text-right">90.000 đ</td>
+                            <td class="text-right total-row-value" data-subtotal="${total}">${total} đ</td>
                         </tr>
                     </table>
                 </div>
@@ -222,9 +173,59 @@
         </aside>
     </div>
 </main>
+<div id="addressModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3 id="modalTitle">
+            <i class="fas fa-plus-circle"></i> Thêm địa chỉ
+        </h3>
+
+        <form action="AddressServlet" method="post" class="modal-form">
+            <input type="hidden" name="id" id="addr-id">
+            <input type="hidden" name="action" id="addr-action" value="add">
+
+            <div class="form-group">
+                <label>Họ tên</label>
+                <input name="name" id="addr-name" placeholder="Nhập tên người nhận" required>
+            </div>
+
+            <div class="form-group">
+                <label>Số điện thoại</label>
+                <input name="phone" id="addr-phone" placeholder="Nhập số điện thoại" required>
+            </div>
+
+            <div class="form-group">
+                <label>Tỉnh / Thành phố</label>
+                <select name="province_id" id="province_id"></select>
+                <input type="hidden" name="province" id="province_name">
+            </div>
+
+            <div class="form-group">
+                <label>Quận / Huyện</label>
+                <select name="district_id" id="district_id"></select>
+                <input type="hidden" name="district" id="district_name">
+            </div>
+
+            <div class="form-group">
+                <label>Phường / Xã</label>
+                <select name="ward_code" id="ward_code"></select>
+                <input type="hidden" name="ward" id="ward_name">
+            </div>
+
+            <div class="form-group">
+                <label>Địa chỉ chi tiết</label>
+                <input name="detail" id="addr-detail" placeholder="Số nhà, tên đường" required>
+            </div>
+
+            <div class="modal-actions">
+                <button type="submit" class="save-btn">Xác nhận</button>
+                <button type="button" class="cancel-btn" onclick="closeAddressModal()">Hủy bỏ</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <jsp:include page="footer.jsp"/>
-<script src="${pageContext.request.contextPath}/js/shopping_cart.js"></script>
+<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
 
 </body>
 </html>
