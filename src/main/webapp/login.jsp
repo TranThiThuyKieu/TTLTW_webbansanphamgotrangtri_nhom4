@@ -41,11 +41,7 @@
             <h1>Đăng ký</h1>
 
             <div class="social-container">
-                <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile
-                &redirect_uri=http://localhost:8080/webBanSanPhamGoTrangTri_war_exploded/google-login
-                &response_type=code
-                &client_id=1089942878583-pq5ui5eubco8s2lav650ln4gn19gogfe.apps.googleusercontent.com
-                &approval_prompt=force" class="social">
+                <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/backend_war_exploded/GoogleLoginServlet&response_type=code&client_id=1089942878583-pq5ui5eubco8s2lav650ln4gn19gogfe.apps.googleusercontent.com&approval_prompt=force" class="social">
                     <i class="fab fa-google-plus-g"></i>
                 </a>
             </div>
@@ -79,7 +75,14 @@
     <div class="form-container sign-in">
 
         <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
-
+            <div class="social-divider">
+                <span>Đăng nhập bằng mạng xã hội khác</span>
+            </div>
+            <div class="social-container">
+                <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/backend_war_exploded/GoogleLoginServlet&response_type=code&client_id=1089942878583-pq5ui5eubco8s2lav650ln4gn19gogfe.apps.googleusercontent.com&approval_prompt=force" class="social">
+                    <i class="fab fa-google-plus-g"></i>
+                </a>
+            </div>
             <h1>Đăng nhập</h1>
 
             <span>hoặc sử dụng tài khoản của bạn</span>
