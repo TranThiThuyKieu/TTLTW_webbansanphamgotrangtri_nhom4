@@ -19,7 +19,6 @@
         <main class="content">
             <div class="product-management-container">
                 <h2 class="page-title">Hệ Thống Quản Lý Kho</h2>
-
                 <div class="tab-menu">
                     <button class="tab-btn active" onclick="openTab(event, 'import-tab')">Phiếu Nhập</button>
                     <button class="tab-btn" onclick="openTab(event, 'export-tab')">Phiếu Xuất</button>
@@ -42,8 +41,11 @@
                                 <thead>
                                 <tr>
                                     <th>Mã Phiếu</th>
+                                    <th>Nhà cung cấp</th>
                                     <th>Người Lập</th>
                                     <th>Ngày Nhập</th>
+                                    <th>Tổng giá trị</th>
+
                                     <th class="text-center">Thao Tác</th>
                                 </tr>
                                 </thead>
@@ -51,7 +53,9 @@
                                 <tr>
                                     <td><strong>PNK-2026001</strong></td>
                                     <td>Nguyễn Văn A</td>
+                                    <td>Nguyễn Văn A</td>
                                     <td>23/03/2026</td>
+                                    <td>224326</td>
                                     <td class="text-center">
                                         <button class="btn-action view"><i class="fas fa-eye"></i></button>
                                     </td>
