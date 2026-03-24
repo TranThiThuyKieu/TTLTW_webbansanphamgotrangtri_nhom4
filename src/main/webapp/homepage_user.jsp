@@ -37,7 +37,7 @@
         <h2 class="fs-title">FLASH <SALE></SALE></h2>
 
         <div class="fs-timer">
-            <span>02</span> : <span>45</span> : <span>10</span>
+           Đang diễn ra <span>02</span> : <span>45</span> : <span>10</span>
         </div>
     </div>
 
@@ -102,6 +102,9 @@
                 </div>
                 <div class="price">
                     <fmt:formatNumber value="${p.price}" type="number" groupingUsed="true"/> VNĐ
+                </div>
+                <div class="fs-stock">
+                    <p>Đã bán 2 </p>
                 </div>
                 <div class="action-buttons">
                     <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
@@ -176,6 +179,9 @@
                 </div>
                 <div class="price">
                     <fmt:formatNumber value="${p.price}" type="number" groupingUsed="true"/> VNĐ
+                </div>
+                <div class="fs-stock">
+                    <p>Đã bán 2 </p>
                 </div>
                 <div class="action-buttons">
                     <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>

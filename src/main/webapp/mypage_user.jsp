@@ -591,11 +591,11 @@
 <div id="tin-nhan" class="tab-content">
     <h2 style="color: #333; border-bottom: 2px solid #27ae60; padding-bottom: 10px;">Sản phẩm cần đánh giá</h2>
     <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Danh sách sản phẩm từ đơn hàng đã giao và thanh toán xong</p>
-    
+
     <%
         java.util.Map<String, model.OrderDetail> reviewProducts = new java.util.LinkedHashMap<>();
         List<Order> allOrders = (List<Order>) request.getAttribute("allOrders");
-        
+
         if (allOrders != null) {
             for (Order order : allOrders) {
                 if ("Đã giao".equals(order.getStatus()) && "Đã thanh toán".equals(order.getPaymentStatus())) {
@@ -612,7 +612,7 @@
             }
         }
     %>
-    
+
     <% if (reviewProducts.isEmpty()) { %>
         <div style="text-align: center; padding: 40px 20px; background: #f9f9f9; border-radius: 8px;">
             <i class="fas fa-check-circle" style="font-size: 48px; color: #27ae60; margin-bottom: 20px; display: block;"></i>

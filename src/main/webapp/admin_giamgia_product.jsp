@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png"  href="../img/logo.png" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/homepage_admin.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_products.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_import_product.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_giamgia_product.css">
 </head>
@@ -93,10 +94,10 @@
                             <table class="paper-table">
                                 <thead>
                                 <tr>
-                                    <th>Mã CODE</th>
+                                    <th>ID</th>
                                     <th>Tên chương trình</th>
-                                    <th>Thời gian kết thúc</th>
-                                    <th>Thời gian bắt đầu</th>
+                                    <th>Ngày áp dụng</th>
+                                    <th>Khung giờ</th>
                                     <th>Trạng thái</th>
                                     <th>Hoạt động</th>
                                     <th class="text-center">Thao Tác</th>
@@ -105,13 +106,13 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        816482649
+                                        8
                                     </td>
                                     <td>
                                         giam gia tet
                                     </td>
-                                    <td>20:00 23/8/2025</td>
-                                    <td>20:00 24/8/2026</td>
+                                    <td>23/8/2025</td>
+                                    <td>20:00 - 12h36</td>
                                     <td><span class="status-badge pending">Sắp diễn ra</span></td>
                                     <td class="col-status">
                                         <label class="switch">
