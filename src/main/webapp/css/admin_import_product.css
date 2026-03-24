@@ -58,9 +58,12 @@
 
 .paper-table th {
     text-align: left;
-    padding: 10px 5px;
     border-bottom: 1px solid #333;
-    font-size: 13px;
+    color: #7f8c8d;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    padding: 15px 8px;
+    border-bottom: 1px solid #f1f1f1;
 }
 .paper-table td { padding: 15px 5px;
     border-bottom: 1px solid #f0f0f0; }
@@ -271,14 +274,6 @@
     background-color: #8b572a;
 }
 
-.paper-table th {
-    text-align: left;
-    color: #7f8c8d;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    padding: 15px 10px;
-    border-bottom: 1px solid #f1f1f1;
-}
 
 .paper-table td {
     padding: 15px 10px;
