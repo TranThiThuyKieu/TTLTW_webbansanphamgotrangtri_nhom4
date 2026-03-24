@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-@WebServlet("/VoucherController")
+@WebServlet(name = "VoucherController ", value = "/VoucherController")
 public class VoucherController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -58,5 +58,10 @@ public class VoucherController extends HttpServlet {
             e.printStackTrace();
             response.sendRedirect("admin_giamgia_product.jsp?msg=error");
         }
+    }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.sendRedirect("admin_create_voucher.jsp");
     }
 }

@@ -4,7 +4,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>HOME DECOR - TẠO FLASH SALE</title>
+    <title>HOME DECOR - TẠO CHUONG TRINH GIAM GIA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/homepage_admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_create_voucher.css">
@@ -18,7 +18,7 @@
         <%@ include file="admin_sidebar.jsp" %>
         <main class="content">
             <div class="product-management-container">
-                <h2 class="page-title">Thiết Lập Chương Trình Flash Sale</h2>
+                <h2 class="page-title">Tạo Chương trình giảm giá</h2>
 
                 <form action="FlashSaleController" method="POST">
                     <div class="form-container">
@@ -30,22 +30,19 @@
                                     <input type="text" name="campaignName" placeholder="Ví dụ: Flash Sale ngày 4/4" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Khung giờ <span class="required">*</span></label>
-                                    <select name="timeSlot" required>
-                                        <option value="09:00">09:00 - 12:00</option>
-                                        <option value="12:00">12:00 - 15:00</option>
-                                        <option value="20:00">20:00 - 23:59</option>
-                                    </select>
+                                    <label>Ghi chú</label>
+                                    <input type="text" name="note" placeholder="Thông tin thêm...">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label>Ngày diễn ra <span class="required">*</span></label>
-                                    <input type="date" name="flashDate" required>
+                                    <label>Ngày bắt đầu</label>
+                                    <input type="datetime-local" name="startDate" required>
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Ghi chú</label>
-                                    <input type="text" name="note" placeholder="Thông tin thêm...">
+                                    <label>Ngày kết thúc</label>
+                                    <input type="datetime-local" name="endDate" required>
                                 </div>
                             </div>
                         </div>
@@ -53,13 +50,11 @@
                         <div class="form-section">
                             <div class="section-header-flex">
                                 <h3>Sản phẩm tham gia</h3>
-
                                 <div class="bulk-update-tool">
-                                    <span class="tool-label"><i class="fas fa-magic"></i> Thiết lập nhanh cho tất cả:</span>
+                                    <span class="tool-label">Thiết lập nhanh:</span>
                                     <input type="number" id="bulk-percent" placeholder="% Giảm" oninput="applyBulk('percent')">
                                     <input type="number" id="bulk-direct" placeholder="Giảm trực tiếp" oninput="applyBulk('direct')">
                                     <input type="number" id="bulk-stock" placeholder="Số lượng" oninput="applyBulk('stock')">
-                                    <button type="button" class="btn-tool-apply" onclick="applyBulk('all')">Áp dụng</button>
                                 </div>
                             </div>
 
@@ -74,7 +69,12 @@
                                             <div class="form-group" style="flex: 1.5;">
                                                 <label>Mã SKU:</label>
                                                 <select name="sku[]" class="sku-select" onchange="updatePrice(this)">
-                                                    <option value="0" data-price="0">-- Chọn sản phẩm --</option>
+                                                    <option value="0" data-price="0" data-stock="0">-- Chọn sản phẩm --</option>
+                                                    <c:forEach var="v" items="${listVariants}">
+                                                        <option value="${v.id}" data-price="${v.variant_price}" data-stock="${v.inventory_quantity}">
+                                                                ${v.sku}
+                                                        </option>
+                                                    </c:forEach>
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -97,7 +97,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Số lượng Sale:</label>
-                                                <input type="number" name="saleStock[]" class="item-stock" value="10">
+                                                <input type="number" name="saleStock[]" class="item-stock" value="0">
                                             </div>
                                         </div>
                                     </div>
