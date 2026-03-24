@@ -27,6 +27,9 @@
                 <a href="${pageContext.request.contextPath}/admin-orders">Đơn hàng</a>
             </li>
             <li class="${activePage == '' ? 'active' : ''}">
+                <a href="${pageContext.request.contextPath}/admin_giamgia_product.jsp">Quản lý voucher</a>
+            </li>
+            <li class="${activePage == '' ? 'active' : ''}">
                 <a href="${pageContext.request.contextPath}/admin/customers"> Khách hàng</a>
             </li>
             <li class="${activePage == '' ? 'active' : ''}">

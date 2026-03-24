@@ -1,0 +1,103 @@
+:root {
+    --primary-color: #8B5E3C;
+    --text-nâu: #5D4037;
+    --bg-bulk: #fff8f0;
+}
+.section-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 12px;
+}
+
+.bulk-update-tool {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-bulk);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #ffe0b2;
+}
+
+.tool-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e67e22;
+    margin-right: 5px;
+}
+
+.bulk-update-tool input {
+    width: 90px !important;
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+    border: 1px solid #ddd !important;
+}
+
+.btn-tool-apply {
+    background: #e67e22;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.product-variant-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
+
+.product-variant-card:hover {
+    border-color: var(--primary-color);
+}
+
+.variant-header {
+    background: #fdfaf8;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+}
+
+.variant-body {
+    padding: 15px;
+}
+
+.original-price, .final-price-display {
+    border: 1px solid transparent;
+    cursor: default;
+}
+
+.final-price-display {
+    border-bottom: 1px dashed #ffcdd2 !important;
+}
+
+.btn-add-variant {
+    background: none;
+    border: 1px dashed var(--primary-color);
+    width: 100%;
+    padding: 10px;
+    color: var(--primary-color);
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.btn-add-variant:hover {
+    background: #fff8f5;
+}
+
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
