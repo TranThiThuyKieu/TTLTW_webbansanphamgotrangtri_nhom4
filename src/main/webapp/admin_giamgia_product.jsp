@@ -32,7 +32,7 @@
                                 <input type="text" placeholder="Tìm mã voucher, tên chương trình...">
                                 <i class="fas fa-search"></i>
                             </div>
-                            <a href="admin_create_voucher.jsp" class="btn-add-ticket">
+                            <a href="VoucherController" class="btn-add-ticket">
                                 <i class="fas fa-ticket-alt"></i> Tạo Voucher Mới
                             </a>
                         </div>
@@ -57,8 +57,8 @@
                                     <td><span class="code-label">DECO</span></td>
                                     <td>san pham ton</td>
                                     <td>ưu đãi dặc quền</td>
-                                    <td>30/04/2026</td>
-                                    <td>30/04/2026</td>
+                                    <td>23/8/2025 20:00</td>
+                                    <td>23/8/2025 20:00</td>
 
                                     <td><span class="status-badge success">Đang chạy</span></td>
                                     <td class="col-status">
@@ -85,8 +85,8 @@
                                 <input type="text" placeholder="Tìm sản phẩm flash sale...">
                                 <i class="fas fa-search"></i>
                             </div>
-                            <a href="admin_create_flashsale.jsp" class="btn-add-ticket btn-flash-color">
-                                <i class="fas fa-bolt"></i> Thiết Lập Flash Sale
+                            <a href="FlashSaleController" class="btn-add-ticket btn-flash-color">
+                                <i class="fas fa-bolt"></i> Tạo chương trình giảm giá
                             </a>
                         </div>
 
@@ -96,8 +96,8 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên chương trình</th>
-                                    <th>Ngày áp dụng</th>
-                                    <th>Khung giờ</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>nagfy kết thúc</th>
                                     <th>Trạng thái</th>
                                     <th>Hoạt động</th>
                                     <th class="text-center">Thao Tác</th>
@@ -111,8 +111,8 @@
                                     <td>
                                         giam gia tet
                                     </td>
-                                    <td>23/8/2025</td>
-                                    <td>20:00 - 12h36</td>
+                                    <td>23/8/2025 20:00</td>
+                                    <td> 23/8/2025 20:00</td>
                                     <td><span class="status-badge pending">Sắp diễn ra</span></td>
                                     <td class="col-status">
                                         <label class="switch">
