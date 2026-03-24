@@ -146,10 +146,9 @@
     </span>
             </div>
 
-            <a href="CheckoutServlet" class="checkout-btn-new" >
+            <a href="#" class="checkout-btn-new" onclick="handleCheckout(event)">
                 Thanh toán
             </a>
-
         </div>
     </div>
 </div>

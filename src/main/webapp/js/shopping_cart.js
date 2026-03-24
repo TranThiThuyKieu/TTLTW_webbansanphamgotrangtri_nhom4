@@ -84,90 +84,36 @@ function changeQty(btn, delta) {
             updateTotal();
         });
 }
-function openCheckoutModal() {
+function handleCheckout(event) {
 
-    const totalText =
-        document.getElementById('cart-total').innerText.trim();
+    event.preventDefault();
 
     const selectedCheckboxes =
         document.querySelectorAll('.cart-check:checked');
 
-    if (selectedCheckboxes.length === 0 || totalText === "0 VND") {
-
+    if (selectedCheckboxes.length === 0) {
         alert("Vui lòng tích chọn ít nhất một sản phẩm để thanh toán!");
-
         return;
     }
 
-    const form = document.getElementById('checkoutForm');
-
-    const oldHiddenInputs =
-        form.querySelectorAll('input[name="selectedItems"]');
-
-    oldHiddenInputs.forEach(input => input.remove());
+    const selectedIds = [];
 
     selectedCheckboxes.forEach(cb => {
-
-        const hiddenInput = document.createElement('input');
-
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'selectedItems';
-        hiddenInput.value = cb.value;
-
-        form.appendChild(hiddenInput);
+        selectedIds.push(cb.value);
     });
 
-    document.getElementById('modalTotal').innerText = totalText;
+    const query = selectedIds
+        .map(id => "selectedItems=" + id)
+        .join("&");
 
-    document.getElementById('checkoutModal').style.display = 'flex';
+    window.location.href = "CheckoutServlet?" + query;
 }
-
 
 function closeCheckoutModal() {
 
     document.getElementById('checkoutModal').style.display = 'none';
 }
 
-function toggleBankSelection() {
-
-    const selectedMethod =
-        document.querySelector('input[name="paymentMethod"]:checked')?.value;
-
-    const bankSection = document.getElementById('bankSelection');
-
-    const cardRadios =
-        document.querySelectorAll('input[name="cardId"]');
-
-    if (selectedMethod === 'BANK') {
-
-        bankSection.style.display = 'block';
-
-        cardRadios.forEach(r => r.required = true);
-
-    } else {
-
-        bankSection.style.display = 'none';
-
-        cardRadios.forEach(r => r.required = false);
-    }
-}
-
-window.onload = function () {
-
-    updateTotal();
-
-    document
-        .querySelectorAll('input[name="paymentMethod"]')
-        .forEach(radio => {
-
-            radio.addEventListener(
-                'change',
-                toggleBankSelection
-            );
-        });
-
-    toggleBankSelection();
-};
 window.onclick = function(event) {
 
     const modal = document.getElementById('checkoutModal');

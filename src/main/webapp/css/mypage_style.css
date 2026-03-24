@@ -869,7 +869,7 @@ button{
     gap: 8px;
 }
 
-.modal-form .form-group {
+.modal-form .form-group:not(#addressModal .form-group) {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
