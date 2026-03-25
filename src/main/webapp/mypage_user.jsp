@@ -392,7 +392,13 @@
 
 <div id="don-hang" class="tab-content ${activeTab == 'don-hang' ? 'active' : ''}">
     <h2 style="margin-bottom: 20px; color: #333;">Đơn hàng của tôi</h2>
-    <a href="#" class="tab-link menu-link" data-tab="tin-nhan">Đánh giá sản phẩm </a>
+    <div class="menu-item">
+        <a href="${pageContext.request.contextPath}/ReviewServlet?action=list" class="menu-link">
+            <i class="fas fa-star" style="color: #f1c40f;"></i>
+            <span>Đánh giá sản phẩm</span>
+            <small style="display:block; color: #888; font-size: 0.8em;">Viết đánh giá & Lịch sử</small>
+        </a>
+    </div>
     <div class="order-dashboard-summary" style="display: flex; gap: 20px; margin-bottom: 30px;">
         <div class="summary-item" style="background: #e3f2fd; padding: 20px; border-radius: 10px; flex: 1; text-align: center;">
             <span class="num" style="display: block; font-size: 1.5em; font-weight: bold; color: #1976d2;">${countOrder}</span>
@@ -587,64 +593,6 @@
 <div id="thong-bao" class="tab-content">
     <h2>Thông báo</h2>
     <p>Không có thông báo mới.</p>
-</div>
-<div id="tin-nhan" class="tab-content">
-    <h2 style="color: #333; border-bottom: 2px solid #27ae60; padding-bottom: 10px;">Sản phẩm cần đánh giá</h2>
-    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Danh sách sản phẩm từ đơn hàng đã giao và thanh toán xong</p>
-
-    <%
-        java.util.Map<String, model.OrderDetail> reviewProducts = new java.util.LinkedHashMap<>();
-        List<Order> allOrders = (List<Order>) request.getAttribute("allOrders");
-
-        if (allOrders != null) {
-            for (Order order : allOrders) {
-                if ("Đã giao".equals(order.getStatus()) && "Đã thanh toán".equals(order.getPaymentStatus())) {
-                    List<OrderDetail> details = order.getDetails();
-                    if (details != null) {
-                        for (OrderDetail detail : details) {
-                            String key = detail.getProductVariantId() + "_" + order.getId();
-                            if (!reviewProducts.containsKey(key)) {
-                                reviewProducts.put(key, detail);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    %>
-
-    <% if (reviewProducts.isEmpty()) { %>
-        <div style="text-align: center; padding: 40px 20px; background: #f9f9f9; border-radius: 8px;">
-            <i class="fas fa-check-circle" style="font-size: 48px; color: #27ae60; margin-bottom: 20px; display: block;"></i>
-            <p style="font-size: 1.1em; color: #666;">Bạn đã đánh giá hết tất cả sản phẩm!</p>
-        </div>
-    <% } else { %>
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;">
-            <%
-                for (String key : reviewProducts.keySet()) {
-                    OrderDetail detail = reviewProducts.get(key);
-                    String[] parts = key.split("_");
-                    int orderId = Integer.parseInt(parts[parts.length - 1]);
-            %>
-                <div style="background: white; border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                    <div style="margin-bottom: 10px;">
-                        <strong style="color: #8B5E3C; font-size: 1.05em;"><%= detail.getProductName() %></strong>
-                    </div>
-                    <div style="color: #666; font-size: 0.9em; margin-bottom: 8px;">
-                        <p style="margin: 5px 0;"><strong>Đơn hàng:</strong> #<%= orderId %></p>
-                        <p style="margin: 5px 0;"><strong>Số lượng:</strong> <%= detail.getQuantity() %> cái</p>
-                        <p style="margin: 5px 0;"><strong>Giá:</strong> <fmt:formatNumber value="<%= detail.getTotal() / detail.getQuantity() %>" pattern="#,###"/> VND</p>
-                    </div>
-                    <a href="${pageContext.request.contextPath}/ProductDetailServlet?id=<%= detail.getProductId() %>&review=true&orderId=<%= orderId %>">
-    <span style="display: inline-block; background: #8B5E3C; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-weight: bold; width: 100%; text-align: center;">
-         Viết đánh giá
-    </span>
-                    </a>
-
-                </div>
-            <% } %>
-        </div>
-    <% } %>
 </div>
 
 </main>

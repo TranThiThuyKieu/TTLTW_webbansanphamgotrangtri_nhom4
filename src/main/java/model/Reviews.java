@@ -18,9 +18,15 @@ public class Reviews {
     }
     private String productName;
     private String productImg;
+    private int orderId;
 
     public Reviews() {}
-
+    public int getOrderId() {
+        return orderId;
+    }
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
     public int getId() {
         return id;
     }

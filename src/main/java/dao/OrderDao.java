@@ -96,36 +96,6 @@ public class OrderDao {
         }
         return list;
     }
-    public List<OrderDetail> getDetailsByOrderId(int orderId) {
-        List<OrderDetail> details = new ArrayList<>();
-        String sql = """
-        SELECT od.*, p.name_product, p.primary_image_id, pv.product_id
-        FROM order_details od 
-        JOIN product_variants pv ON od.product_variant_id = pv.id 
-        JOIN products p ON pv.product_id = p.id 
-        WHERE od.order_id = ?
-    """;
-        try (Connection con = DBContext.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, orderId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                OrderDetail d = new OrderDetail();
-                d.setId(rs.getInt("id"));
-                d.setOrderId(rs.getInt("order_id"));
-                d.setProductVariantId(rs.getInt("product_variant_id"));
-                d.setProductId(rs.getInt("product_id"));
-                d.setProductName(rs.getString("name_product"));
-                d.setProductImg(rs.getString("primary_image_id"));
-                d.setQuantity(rs.getInt("quantity"));
-                d.setTotal(rs.getDouble("total"));
-                details.add(d);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return details;
-    }
     public boolean updateOrderStatus(int orderId, String status, String paymentStatus) {
         String sql = "UPDATE orders SET status = ?, payment_status = ? WHERE id = ?";
         try (Connection conn = DBContext.getConnection();
@@ -139,32 +109,7 @@ public class OrderDao {
         }
         return false;
     }
-    public List<Order> getOrdersByUserId(int userId) {
-        List<Order> list = new ArrayList<>();
-        String sql = "SELECT id, user_id, fullName, phone, status, payment_status, " +
-                "totalOrder, subTotal, taxAmount, shippingFee, createAt " +
-                "FROM orders WHERE user_id = ? ORDER BY createAt DESC";
 
-        try (Connection conn = DBContext.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Order o = new Order();
-                o.setId(rs.getInt("id"));
-                o.setFullName(rs.getString("fullName"));
-                o.setStatus(rs.getString("status"));
-                o.setPaymentStatus(rs.getString("payment_status"));
-                o.setCreateAt(rs.getTimestamp("createAt"));
-                o.setSubTotal(rs.getDouble("subTotal"));
-                o.setTaxAmount(rs.getDouble("taxAmount"));
-                o.setShippingFee(rs.getDouble("shippingFee"));
-                o.setTotalOrder(rs.getDouble("totalOrder"));
-                list.add(o);
-            }
-        } catch (Exception e) { e.printStackTrace(); }
-        return list;
-    }
     public int checkout(int userId,
                         String fullName,
                         String phone,
@@ -294,5 +239,70 @@ public class OrderDao {
             return BigDecimal.valueOf(100_000);
 
         return BigDecimal.valueOf(200_000);
+    }
+
+    public List<OrderDetail> getDetailsByOrderId(int orderId) {
+        List<OrderDetail> details = new ArrayList<>();
+        String sql = """ 
+    SELECT od.*, p.name_product, pv.product_id,i.urlImage 
+    FROM order_details od 
+    JOIN product_variants pv ON od.product_variant_id = pv.id 
+    JOIN products p ON pv.product_id = p.id 
+    LEFT JOIN images i ON p.primary_image_id = i.id 
+    WHERE od.order_id = ? """;
+        try (Connection con = DBContext.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                OrderDetail d = new OrderDetail();
+                d.setId(rs.getInt("id"));
+                d.setOrderId(rs.getInt("order_id"));
+                d.setProductVariantId(rs.getInt("product_variant_id"));
+                d.setProductId(rs.getInt("product_id"));
+                d.setProductName(rs.getString("name_product"));
+                d.setProductImg(rs.getString("urlImage"));
+                d.setQuantity(rs.getInt("quantity"));
+                d.setTotal(rs.getDouble("total"));
+                details.add(d);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return details;
+    }
+    public List<Order> getOrdersByUserId(int userId) {
+        List<Order> list = new ArrayList<>();
+        String sql = "SELECT id, user_id, fullName, phone, status, payment_status, " +
+                "totalOrder, subTotal, taxAmount, shippingFee, createAt, update_at " +
+                "FROM orders WHERE user_id = ? ORDER BY update_at DESC";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Order o = new Order();
+                    o.setId(rs.getInt("id"));
+                    o.setUserId(rs.getInt("user_id"));
+                    o.setFullName(rs.getString("fullName"));
+                    o.setStatus(rs.getString("status"));
+                    o.setPaymentStatus(rs.getString("payment_status"));
+                    if ("Đã giao".equals(rs.getString("status"))) {
+                        o.setCreateAt(rs.getTimestamp("update_at"));
+                    } else {
+                        o.setCreateAt(rs.getTimestamp("createAt"));
+                    }
+                    o.setSubTotal(rs.getDouble("subTotal"));
+                    o.setTaxAmount(rs.getDouble("taxAmount"));
+                    o.setShippingFee(rs.getDouble("shippingFee"));
+                    o.setTotalOrder(rs.getDouble("totalOrder"));
+                    o.setDetails(getDetailsByOrderId(o.getId()));
+                    list.add(o);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
