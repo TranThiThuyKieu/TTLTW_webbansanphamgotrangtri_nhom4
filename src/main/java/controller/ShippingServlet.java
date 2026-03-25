@@ -1,8 +1,10 @@
 package controller;
 
+import dao.ContactSettingsDao;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import model.ContactSettings;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -15,6 +17,8 @@ public class ShippingServlet extends HttpServlet {
     private static final int SHOP_ID = 6340764;
 
     private static final int TIMEOUT = 5000;
+
+    private final ContactSettingsDao settingsDao = new ContactSettingsDao();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,9 +36,15 @@ public class ShippingServlet extends HttpServlet {
             }
 
             int toDistrictId = Integer.parseInt(districtStr);
+            ContactSettings settings = settingsDao.getSettings();
 
-            int fromDistrictId = 1442;
-            String fromWardCode = "20308";
+            int fromDistrictId = settings.getDistrict_id();
+            String fromWardCode = settings.getWard_code();
+
+            if (fromDistrictId == 0 || fromWardCode == null) {
+                response.getWriter().print("{\"code\":500,\"message\":\"Shop address not configured\"}");
+                return;
+            }
 
             System.out.println("Calculate shipping: " + toDistrictId + " - " + wardCode);
 

@@ -78,3 +78,21 @@
     font-weight:bold;
     color:#555;
 }
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.form-group label {
+    width: 120px;
+    font-weight: bold;
+    color: var(--text-color2);
+}

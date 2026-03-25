@@ -79,7 +79,7 @@
                     <div class="contact-details">
                         <p><strong>Số điện thoại:</strong> <%= settings.getPhone() != null ? settings.getPhone() : "Chưa cập nhật" %></p>
                         <p><strong>Email:</strong> <%= settings.getEmail() != null ? settings.getEmail() : "Chưa cập nhật" %></p>
-                        <p><strong>Địa chỉ:</strong> <%= settings.getAddress() != null ? settings.getAddress() : "Chưa cập nhật" %></p>
+                        <p><strong>Địa chỉ:</strong> <%= settings.getFullAddress() != null ? settings.getFullAddress() : "Chưa cập nhật" %></p>
                     </div>
 
                     <div class="social">
