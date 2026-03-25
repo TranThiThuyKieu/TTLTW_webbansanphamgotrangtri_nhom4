@@ -1,0 +1,236 @@
+.review-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+}
+
+.review-header h2 {
+    color: #4a3321;
+    font-size: 24px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.review-tabs {
+    display: flex;
+    border-bottom: 2px solid #f1f1f1;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    background: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover {
+    color: #8B5E3C;
+}
+
+.tab-btn.active {
+    color: #8B5E3C;
+    border-bottom-color: #8B5E3C;
+}
+.review-item, .history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+.review-item:hover, .history-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.product-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.product-title {
+    font-size: 18px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.order-code {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.review-comment {
+    color: #555;
+    font-style: italic;
+    background: #f9f9f9;
+    padding: 10px 15px;
+    border-left: 3px solid #8B5E3C;
+    border-radius: 4px;
+    margin: 15px 0;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-view {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 1px 1px;
+    background-color: transparent;
+    color: #8B5E3C;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-view:hover {
+    color: #7B3F00 !important;
+    transform: translateY(-1px);
+}
+.btn-view i {
+    font-size: 14px;
+}
+.btn-review {
+    background: #8B5E3C;
+    color: #fff;
+}
+
+.btn-review:hover {
+    background: #6d4a30;
+    transform: translateY(-2px);
+}
+.stars {
+    color: #ffc107;
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+.history-time {
+    font-size: 12px;
+    color: #bbb;
+}
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+}
+
+.modal-content {
+    background: #fff;
+    width: 95%;
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 30px;
+    border-radius: 16px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.close-btn:hover { color: #333; }
+
+.form-group { margin-bottom: 20px; }
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #8B5E3C;
+    box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.1);
+}
+.alert-success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.history-item .product-info {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.history-item .product-details {
+    flex: 1;
+}
+
+.history-time {
+    color: #bbb;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.review-comment {
+    margin: 10px 0;
+    color: #555;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.5;
+}

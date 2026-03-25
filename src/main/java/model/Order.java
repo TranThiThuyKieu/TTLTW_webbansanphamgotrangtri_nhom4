@@ -18,6 +18,7 @@ public class Order {
     private double subTotal;
     private double taxAmount;
     private double shippingFee;
+    private Date updateAt;
 
 
     public Order() {}
@@ -124,5 +125,13 @@ public class Order {
         this.shippingFee = shippingFee;
     }
 
-
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
+    }
+    public Date getDeliveryDate() {
+        return (this.updateAt != null) ? this.updateAt : this.createAt;
+    }
 }
