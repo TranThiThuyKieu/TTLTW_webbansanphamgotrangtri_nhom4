@@ -12,7 +12,7 @@
                 Email: ${contactSettings.email}
             </p>
             <p>
-                Địa chỉ: ${contactSettings.address}
+                Địa chỉ: ${contactSettings.detail} ${contactSettings.ward}, ${contactSettings.district}, ${contactSettings.province}
             </p>
             <div class="social-icons">
                 <c:if test="${not empty contactSettings.facebookUrl}">

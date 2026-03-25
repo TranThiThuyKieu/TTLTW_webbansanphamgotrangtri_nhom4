@@ -24,7 +24,13 @@ public class UpdateContactSettingsServlet extends HttpServlet {
             ContactSettings settings = new ContactSettings();
             settings.setPhone(req.getParameter("phone"));
             settings.setEmail(req.getParameter("email"));
-            settings.setAddress(req.getParameter("address"));
+            settings.setDetail(req.getParameter("detail"));
+            settings.setProvince_id(Integer.parseInt(req.getParameter("province_id")));
+            settings.setProvince(req.getParameter("province"));
+            settings.setDistrict_id(Integer.parseInt(req.getParameter("district_id")));
+            settings.setDistrict(req.getParameter("district"));
+            settings.setWard_code(req.getParameter("ward_code"));
+            settings.setWard(req.getParameter("ward"));
             settings.setFacebookUrl(req.getParameter("facebook_url"));
             settings.setInstagramUrl(req.getParameter("instagram_url"));
             settings.setTwitterUrl(req.getParameter("twitter_url"));

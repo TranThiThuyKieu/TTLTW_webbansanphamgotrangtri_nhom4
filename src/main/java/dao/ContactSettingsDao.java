@@ -11,17 +11,23 @@ public class ContactSettingsDao {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(
                     "UPDATE contact_settings SET " +
-                            "phone = ?, email = ?, address = ?, " +
-                            "facebook_url = ?, instagram_url = ?, twitter_url = ?, google_url = ? " +
+                            "phone = ?, email = ?, detail = ?, ward_code = ?, ward = ?, district_id = ?, district = ?, province_id = ?, " +
+                            " province = ?, facebook_url = ?, instagram_url = ?, twitter_url = ?, google_url = ? " +
                             "WHERE id = 1"
             );
             ps.setString(1, settings.getPhone());
             ps.setString(2, settings.getEmail());
-            ps.setString(3, settings.getAddress());
-            ps.setString(4, settings.getFacebookUrl());
-            ps.setString(5, settings.getInstagramUrl());
-            ps.setString(6, settings.getTwitterUrl());
-            ps.setString(7, settings.getGoogleUrl());
+            ps.setString(3, settings.getDetail());
+            ps.setString(4, settings.getWard_code());
+            ps.setString(5, settings.getWard());
+            ps.setInt(6, settings.getDistrict_id());
+            ps.setString(7, settings.getDistrict());
+            ps.setInt(8, settings.getProvince_id());
+            ps.setString(9, settings.getProvince());
+            ps.setString(10, settings.getFacebookUrl());
+            ps.setString(11, settings.getInstagramUrl());
+            ps.setString(12, settings.getTwitterUrl());
+            ps.setString(13, settings.getGoogleUrl());
             int rows = ps.executeUpdate();
             return rows > 0;
         } catch (Exception e) {
@@ -49,7 +55,13 @@ public class ContactSettingsDao {
                 settings.setId(rs.getInt("id"));
                 settings.setPhone(rs.getString("phone"));
                 settings.setEmail(rs.getString("email"));
-                settings.setAddress(rs.getString("address"));
+                settings.setDetail(rs.getString("detail"));
+                settings.setProvince_id(rs.getInt("province_id"));
+                settings.setDistrict_id(rs.getInt("district_id"));
+                settings.setWard_code(rs.getString("ward_code"));
+                settings.setWard(rs.getString("ward"));
+                settings.setDistrict(rs.getString("district"));
+                settings.setProvince(rs.getString("province"));
                 settings.setFacebookUrl(rs.getString("facebook_url"));
                 settings.setInstagramUrl(rs.getString("instagram_url"));
                 settings.setTwitterUrl(rs.getString("twitter_url"));
