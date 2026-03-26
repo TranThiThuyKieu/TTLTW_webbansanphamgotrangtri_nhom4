@@ -23,14 +23,14 @@
             <div class="product-management-container">
                 <h2 class="page-title">Hệ Thống Quản Lý Khuyến Mãi</h2>
                 <div class="tab-menu">
-                    <button class="tab-btn active" onclick="openTab(event, 'voucher-tab')">Mã Giảm Giá (Voucher)</button>
-                    <button class="tab-btn" onclick="openTab(event, 'flashsale-tab')">Chương Trình Flash Sale</button>
+                    <a href="VoucherAdminServlet" class="tab-btn ${activeTab=='voucher'?'active':''}">Mã Giảm Giá (Voucher)</a>
+                    <a href="FlashSaleAdminServlet" class="tab-btn ${activeTab=='flashsale'?'active':''}">Chương Trình Flash Sale</a>
                 </div>
                 <div class="main-card">
                     <div id="voucher-tab" class="tab-content active">
                         <div class="table-controls">
                             <div class="search-box">
-                                <input type="text" placeholder="Tìm mã voucher, tên chương trình...">
+                                <input type="text" id="voucherSearch" placeholder="Tìm mã voucher, tên chương trình...">
                                 <i class="fas fa-search"></i>
                             </div>
                             <a href="VoucherController" class="btn-add-ticket">
@@ -87,7 +87,7 @@
                                     </td>
                                     <td class="text-center">
                                         <button class="btn-action edit" onclick="editVoucher(${v.id})"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action delete" onclick="deleteVoucher(${v.id}"><i class="fas fa-trash"></i></button>
+                                        <button class="btn-action delete" onclick="deleteVoucher(${v.id})"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                                 </c:forEach>
@@ -99,7 +99,7 @@
                     <div id="flashsale-tab" class="tab-content">
                         <div class="table-controls">
                             <div class="search-box">
-                                <input type="text" placeholder="Tìm sản phẩm flash sale...">
+                                <input type="text" id="flashSaleSearch" placeholder="Tìm sản phẩm flash sale...">
                                 <i class="fas fa-search"></i>
                             </div>
                             <a href="FlashSaleController" class="btn-add-ticket btn-flash-color">
@@ -121,28 +121,40 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <c:forEach items="${listFlashSale}" var="fs">
                                 <tr>
                                     <td>
-                                        8
+                                            ${fs.id}
                                     </td>
                                     <td>
-                                        giam gia tet
+                                            ${fs.flashSaleName}
                                     </td>
-                                    <td>23/8/2025 20:00</td>
-                                    <td> 23/8/2025 20:00</td>
-                                    <td><span class="status-badge pending">Sắp diễn ra</span></td>
+                                    <td>${fs.startDate.toString().replace("T", " ")}</td>
+                                    <td> ${fs.endDate.toString().replace("T", " ")}</td>
+                                    <td>  <c:choose>
+                                        <c:when test="${fs.status == 1}">
+                                            <span class="status-badge success">Đang diễn ra</span>
+                                        </c:when>
+                                        <c:when test="${fs.status == 0}">
+                                            <span class="status-badge pending">Sắp diễn ra</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="status-badge danger">Đã kết thúc</span>
+                                        </c:otherwise>
+                                    </c:choose></td>
                                     <td class="col-status">
                                         <label class="switch">
-                                            <input type="checkbox" checked="">
+                                            <input type="checkbox" ${fs.status == 1 ? 'checked' : ''} onchange="toggleFlashSaleStatus(${fs.id}, this)">
                                             <span class="slider round"></span>
                                         </label>
 
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn-action edit"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action delete"><i class="fas fa-trash"></i></button>
+                                        <button class="btn-action edit" onclick="editFlashSale(${fs.id})"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action delete" onclick="deleteFlashSale(${fs.id})"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>

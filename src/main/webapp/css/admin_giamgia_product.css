@@ -13,6 +13,9 @@
 .btn-flash-color:hover {
     background-color: #f39c12 !important;
 }
+.tab-menu a {
+    text-decoration: none;
+}
 
 .product-info-cell {
     display: flex;
