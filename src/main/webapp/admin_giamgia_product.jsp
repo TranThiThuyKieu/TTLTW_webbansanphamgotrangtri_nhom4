@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,27 +54,43 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <c:forEach items="${listVoucher}" var="v">
                                 <tr>
-                                    <td><span class="code-label">DECO</span></td>
-                                    <td>san pham ton</td>
-                                    <td>ưu đãi dặc quền</td>
-                                    <td>23/8/2025 20:00</td>
-                                    <td>23/8/2025 20:00</td>
-
-                                    <td><span class="status-badge success">Đang chạy</span></td>
+                                    <td><span class="code-label">${v.voucherCode}</span></td>
+                                    <td>${v.voucherName}</td>
+                                    <td><c:choose>
+                                        <c:when test="${v.promoType == 'PERCENT'}">
+                                            Giảm ${v.promoValue}%
+                                        </c:when>
+                                        <c:otherwise>
+                                            Giảm <fmt:formatNumber value="${v.promoValue}" pattern="#,###"/>đ
+                                        </c:otherwise>
+                                    </c:choose>
+                                    </td>
+                                    <td>${v.startDate.toString().replace("T", " ")}</td>
+                                    <td>${v.endDate.toString().replace("T", " ")}</td>
+                                    <td><c:choose>
+                                        <c:when test="${v.status == 1}">
+                                            <span class="status-badge success">Đang hoạt động</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="status-badge danger">Tạm dừng</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    </td>
                                     <td class="col-status">
                                         <label class="switch">
-                                            <input type="checkbox" checked="">
+                                            <input type="checkbox" ${v.status == 1 ? 'checked' : ''}
+                                                   onchange="toggleStatus(${v.id}, this)">
                                             <span class="slider round"></span>
-
                                         </label>
-
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn-action edit"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action delete"><i class="fas fa-trash"></i></button>
+                                        <button class="btn-action edit" onclick="editVoucher(${v.id})"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action delete" onclick="deleteVoucher(${v.id}"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -138,5 +155,4 @@
 
 </body>
 <script src="${pageContext.request.contextPath}/js/admin_giamgia.js"></script>
-
 </html>
