@@ -58,7 +58,7 @@ public class OrderDao {
         List<Order> list = new ArrayList<>();
         String sql = """
         SELECT o.*, 
-               CONCAT(a.detail, ', ', a.commune, ', ', a.district, ', ', a.province) AS full_address
+               CONCAT(a.detail, ', ', a.ward, ', ', a.district, ', ', a.province) AS full_address
         FROM orders o
         LEFT JOIN addresses a ON o.address_id = a.id
         ORDER BY o.createAt DESC
@@ -78,7 +78,7 @@ public class OrderDao {
                 order.setShippingFee(rs.getDouble("shippingFee"));
                 String addr = rs.getString("full_address");
                 if (addr == null || addr.trim().isEmpty() || addr.equals(", , , ")) {
-                    order.setAddress(rs.getString("address"));
+                    order.setAddress(rs.getString("full_address"));
                 } else {
                     order.setAddress(addr);
                 }

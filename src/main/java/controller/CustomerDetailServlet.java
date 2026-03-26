@@ -34,10 +34,6 @@ public class CustomerDetailServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/admin_customer_detail.jsp");
             rd.forward(request, response);
 
-        } else {
-
-            response.sendRedirect("customers");
-
         }
     }
 }
