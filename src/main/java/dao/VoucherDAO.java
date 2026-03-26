@@ -3,6 +3,7 @@ package dao;
 import model.Voucher;
 import dao.DBContext;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VoucherDAO {
@@ -47,5 +48,29 @@ public class VoucherDAO {
             e.printStackTrace();
         }
         return false;
+    }
+    public List<Voucher> getAllVouchers() {
+        List<Voucher> list = new ArrayList<>();
+        String sql = "SELECT * FROM vouchers ORDER BY created_at DESC";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Voucher v = new Voucher();
+                v.setId(rs.getInt("id"));
+                v.setVoucherCode(rs.getString("voucher_code"));
+                v.setVoucherName(rs.getString("voucher_name"));
+                v.setPromoType(rs.getString("promo_type"));
+                v.setPromoValue(rs.getDouble("promo_value"));
+                v.setStartDate(rs.getTimestamp("start_date").toLocalDateTime());
+                v.setEndDate(rs.getTimestamp("end_date").toLocalDateTime());
+                v.setStatus(rs.getInt("status"));
+                v.setRewardStyle(rs.getString("reward_style"));
+                list.add(v);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
