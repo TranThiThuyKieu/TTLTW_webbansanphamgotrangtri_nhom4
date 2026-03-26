@@ -33,7 +33,7 @@
                 <a href="${pageContext.request.contextPath}/admin/customers"> Khách hàng</a>
             </li>
             <li class="${activePage == '' ? 'active' : ''}">
-                <a href="${pageContext.request.contextPath}/admin_review.jsp"> Quản lý đánh giá</a>
+                <a href="${pageContext.request.contextPath}/AdminReviewServlet"> Quản lý đánh giá</a>
             </li>
             <li class="${activePage == '' ? 'active' : ''}">
                 <a href="${pageContext.request.contextPath}/admin-management"> Quản trị viên</a>

@@ -20,7 +20,8 @@ import java.io.IOException;
         "/admin-edit-product",
         "/admin-management",
         "/AdminUpdateRoleServlet",
-        "/AdminOverviewOrderServlet"
+        "/AdminOverviewOrderServlet",
+        "/AdminReviewServlet"
 
 })
 public class AdminSecurityFilter implements Filter {
