@@ -1,7 +1,11 @@
 package dao;
 
 import dao.DBContext;
+import model.FlashSale;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FlashSaleDAO {
 
@@ -56,5 +60,24 @@ public class FlashSaleDAO {
             e.printStackTrace();
             return false;
         }
+    }
+    public List<FlashSale> getAllFlashSales() {
+        List<FlashSale> list = new ArrayList<>();
+        String sql = "SELECT * FROM flashsale ORDER BY start_date DESC";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                FlashSale fs = new FlashSale();
+                fs.setId(rs.getInt("id"));
+                fs.setStartDate(rs.getTimestamp("start_date").toLocalDateTime());
+                fs.setEndDate(rs.getTimestamp("end_date").toLocalDateTime());
+                fs.setStatus(rs.getString("status"));
+                list.add(fs);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

@@ -1,10 +1,26 @@
-function openTab(evt, tabName) {
-    const tabContents = document.getElementsByClassName("tab-content");
-    for (let i = 0; i < tabContents.length; i++) tabContents[i].classList.remove("active");
+document.addEventListener('DOMContentLoaded', function() {
+    const voucherSearch = document.getElementById('voucherSearch');
+    if(voucherSearch){
+        voucherSearch.addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#voucher-tab tbody tr');
+            rows.forEach(row => {
+                const code = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                row.style.display = (code.includes(filter) || name.includes(filter)) ? '' : 'none';
+            });
+        });
+    }
 
-    const tabBtns = document.getElementsByClassName("tab-btn");
-    for (let i = 0; i < tabBtns.length; i++) tabBtns[i].classList.remove("active");
-
-    document.getElementById(tabName).classList.add("active");
-    evt.currentTarget.classList.add("active");
-}
+    const flashSaleSearch = document.getElementById('flashSaleSearch');
+    if(flashSaleSearch){
+        flashSaleSearch.addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#flashsale-tab tbody tr');
+            rows.forEach(row => {
+                const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                row.style.display = name.includes(filter) ? '' : 'none';
+            });
+        });
+    }
+});
