@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.time.LocalDateTime" %>
+<%@ page import="model.Reviews" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -32,20 +33,25 @@
                 <div class="filters">
                     <input type="text" placeholder="Tìm kiếm..." class="search-input" id="searchInput" value="${keyword}">
 
-                    <select name="rating" class="filter-select" id="rateFilter">
+                    <select name="rating" class="filter-select" id="ratingFilter">
                         <option value="">-- Xếp hạng --</option>
+                        <option value="5" ${selectedRate == '5' ? 'selected' : ''}>5 Sao</option>
+                        <option value="4" ${selectedRate == '4' ? 'selected' : ''}>4 Sao</option>
+                        <option value="3" ${selectedRate == '3' ? 'selected' : ''}>3 Sao</option>
+                        <option value="2" ${selectedRate == '2' ? 'selected' : ''}>2 Sao</option>
+                        <option value="1" ${selectedRate == '1' ? 'selected' : ''}>1 Sao</option>
                     </select>
 
                     <select name="type" class="filter-select" id="typeFilter">
                         <option value="">-- Loại --</option>
-                        <option value="no-reply">Chưa trả lời</option>
-                        <option value="replied">Đã trả lời</option>
+                        <option value="no-reply" ${selectedType == 'no-reply' ? 'selected' : ''}>Chưa trả lời</option>
+                        <option value="replied" ${selectedType == 'replied' ? 'selected' : ''}>Đã trả lời</option>
                     </select>
                 </div>
 
                 <div class="summary-info">
-                    <div class="total-reviews">Tổng:  đánh giá</div>
-                    <div class="avg-rating">TB: <i class="fas fa-star text-warning"></i> /5</div>
+                    <div class="total-reviews">Tổng: ${totalReviews} đánh giá</div>
+                    <div class="avg-rating">TB: <i class="fas fa-star text-warning"></i> ${avgRating}/5</div>
                 </div>
             </div>
 
@@ -63,31 +69,55 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <c:forEach var="r" items="${feedbackList}">
+                    <c:set var="isReplied" value="${r.replied}"/>
+                    <c:set var="statusClass"
+                           value="${isReplied ? 'status-replied' : 'status-pending'}"/>
+                    <c:set var="statusText"
+                           value="${isReplied ? 'Đã trả lời' : 'Chưa trả lời'}"/>
 
                         <tr class="highlight-row">
                             <td>
+                                <fmt:formatDate value="${r.createAt}" pattern="HH:mm"/>
+                                <br>
+                                <fmt:formatDate value="${r.createAt}" pattern="dd/MM/yyyy"/>
                             </td>
 
-                            <td> Bàn gỗ</td>
+                            <td> ${r.productName}</td>
 
                             <td>
-                                Tên khach hàng
+                                <c:choose>
+                                    <c:when test="${r.user != null}">
+                                        ${r.user.username}
+                                    </c:when>
+                                    <c:otherwise>
+                                        *Khách hàng ẩn*
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
 
                             <td class="rating-stars">
-                               5 sao
+                                <c:forEach begin="1" end="${r.rating}" var="star">
+                                    <i class="fas fa-star text-warning"></i>
+                                </c:forEach>
+                                <c:forEach begin="${r.rating + 1}" end="5" var="star">
+                                    <i class="fas fa-star"></i>
+                                </c:forEach>
                             </td>
-                            <td>Xịnnnnn</td>
-                            <td><span class="status-badge status-replied">Đã trả lời</span></td>
+                            <td>${r.comment}</td>
+                            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
                             <td>
-                                <button class="btn-sm btn-info reply-btn">
-                                    <i class="fas fa-reply"></i> Trả lời
+                                <button class="btn-sm btn-info reply-btn"
+                                        onclick="openReplyModal(${r.id}, ${r.user.id}, '${r.user.username}', '${r.productName}', ${r.rating},
+                                                '<fmt:formatDate value="${r.createAt}" pattern="dd/MM/yyyy HH:mm"/>')">
+                                        ${isReplied ? '<i class="fa-solid fa-eye"></i> Xem' : '<i class="fas fa-reply"></i> Trả lời'}
                                 </button>
-                                <button class="btn-icon delete-btn">
+                                <button class="btn-icon delete-btn" onclick="deleteFeedback(${r.id})">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
                         </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -97,6 +127,42 @@
             </div>
         </main>
 
+    </div>
+</div>
+<div id="replyModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Phản Hồi Đánh Giá</h3>
+            <span class="close-btn" onclick="closeReplyModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="review-details">
+                <p><strong>Khách hàng:</strong> <span id="modalCustomerName"></span></p>
+                <p><strong>Sản phẩm:</strong> <span id="modalProductName"></span></p>
+                <p><strong>Đánh giá:</strong> <span id="modalRatingStars"></span></p>
+                <p class="review-date-meta">Ngày: <span id="modalReviewDate"></span></p>
+            </div>
+
+            <hr>
+
+            <h4>Lịch Sử Phản Hồi</h4>
+            <div class="chat-history" id="modalReplyHistory">
+                <div class="history-item customer-review">
+                    <p class="history-meta"><strong>Khách hàng</strong> - 22/11/2023</p>
+                    <p class="history-text">Sản phẩm tươi ngon, đóng gói cẩn thận. Giao hàng hơi lâu.</p>
+                </div>
+                <div class="history-item admin-reply">
+                    <p class="history-meta"><strong>Bạn</strong> - 23/11/2023</p>
+                    <p class="history-text">Cảm ơn bạn đã phản hồi! CleanMeat sẽ cải thiện dịch vụ giao hàng.</p>
+                </div>
+            </div>
+
+            <div class="reply-input-area">
+                <label for="replyInput" class="visually-hidden">Phản hồi</label>
+                <textarea id="replyInput" placeholder="Nhập phản hồi của bạn..."></textarea>
+                <button id="sendReplyButton" class="btn-info"><i class="fas fa-paper-plane"></i> Gửi Phản Hồi</button>
+            </div>
+        </div>
     </div>
 </div>
 <script src="${pageContext.request.contextPath}/js/admin_review.js"></script>

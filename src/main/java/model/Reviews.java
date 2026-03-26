@@ -19,6 +19,10 @@ public class Reviews {
     private String productName;
     private String productImg;
     private int orderId;
+    private int response_id;
+    private boolean isReplied;
+    private String userName;
+    private User user;
 
     public Reviews() {}
     public int getOrderId() {
@@ -75,5 +79,35 @@ public class Reviews {
     }
     public void setProductImg(String productImg) {
         this.productImg = productImg;
+    }
+    public int getRespone_id() {
+        return response_id;
+    }
+    public void setRespone_id(int respone_id) {
+        this.response_id = respone_id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isReplied() {
+        return isReplied;
+    }
+
+    public void setReplied(boolean replied) {
+        isReplied = replied;
     }
 }

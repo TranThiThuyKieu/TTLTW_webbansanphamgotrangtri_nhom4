@@ -108,8 +108,8 @@ a {
 }
 
 .review-table thead {
-    background-color: #343A40;
-    color: #fff;
+    background-color: white;
+    color: var(--secondary-text-color);
 }
 
 .review-table th, .review-table td {
