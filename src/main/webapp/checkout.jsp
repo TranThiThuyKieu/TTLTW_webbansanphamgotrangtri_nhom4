@@ -70,24 +70,24 @@
                     </div>
                     </div>
                     <div class="input-group">
-                        <label>Địa chỉ</label>
+                        <label>Địa chỉ chi tiết</label>
                         <div class="info-wrapper">
                             <input type="text" value="Trường Đại học Nông Lâm" placeholder="Địa chỉ cụ thể" readonly>
                         </div>
                     </div>
-                    <div class="address-group">
+                    <div class="input-group">
                         <label>Tỉnh/Thành phố</label>
                         <div class="info-wrapper">
                             <input type="text" value="Thành phố Hồ Chí Minh" placeholder="Tỉnh/Thành phố" readonly>
                         </div>
                     </div>
-                    <div class="address-group">
+                    <div class="input-group">
                         <label>Quận/Huyện</label>
                         <div class="info-wrapper">
                             <input type="text" value="Quận Thủ Đức" placeholder="Quận/Huyện" readonly>
                         </div>
                     </div>
-                    <div class="address-group">
+                    <div class="input-group">
                         <label>Phường/Xã</label>
                         <div class="info-wrapper">
                             <input type="text" value="Phường Bình Thọ" placeholder="Phường/Xã" readonly>

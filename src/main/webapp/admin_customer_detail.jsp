@@ -17,7 +17,7 @@
     <div class="main-wrapper">
         <%@ include file="admin_sidebar.jsp" %>
         <main class="content-area">
-            <a href="customers" class="back-btn"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
+            <a href="admin/customers" class="back-btn"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
 
             <div class="detail-card">
                 <h2 class="customer-title">
@@ -127,7 +127,7 @@
                                 </c:if>
 
                                 <div class="address-text">
-                                        ${a.detail}, ${a.commune}, ${a.district}, ${a.province}
+                                        ${a.detail}, ${a.ward}, ${a.district}, ${a.province}
                                 </div>
 
                             </div>

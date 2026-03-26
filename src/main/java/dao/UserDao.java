@@ -102,7 +102,7 @@ public class UserDao {
     public User getById(int id) {
         String sql = """
         SELECT u.*, i.urlImage, a.id AS addr_id, a.name AS addr_name, a.phone AS addr_phone, 
-               a.detail AS addr_detail, a.commune AS addr_commune, a.district AS addr_district, a.province AS addr_province
+               a.detail AS addr_detail, a.ward AS addr_ward, a.district AS addr_district, a.province AS addr_province
         FROM users u
         LEFT JOIN images i ON u.avatar_id = i.id
         LEFT JOIN addresses a ON a.user_id = u.id AND a.isDefault = 1
@@ -133,9 +133,9 @@ public class UserDao {
                         addr.setName(rs.getString("addr_name"));
                         addr.setPhone(rs.getString("addr_phone"));
                         addr.setDetail(rs.getString("addr_detail"));
-                        addr.setWard_code(rs.getString("ward_code"));
-                        addr.setDistrict(rs.getString("district"));
-                        addr.setProvince(rs.getString("province"));
+                        addr.setWard(rs.getString("addr_ward"));
+                        addr.setDistrict(rs.getString("addr_district"));
+                        addr.setProvince(rs.getString("addr_province"));
                         u.setAddress(addr);
                     }
                     return u;
