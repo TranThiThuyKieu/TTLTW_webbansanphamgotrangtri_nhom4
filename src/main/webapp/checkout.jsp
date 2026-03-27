@@ -182,6 +182,7 @@
         <form action="AddressServlet" method="post" class="modal-form">
             <input type="hidden" name="id" id="addr-id">
             <input type="hidden" name="action" id="addr-action" value="add">
+            <input type="hidden" name="redirectUrl" value="CheckoutServlet">
 
             <div class="form-group">
                 <label>Họ tên</label>

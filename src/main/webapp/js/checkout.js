@@ -3,6 +3,26 @@ const TOKEN = "ce465184-2605-11f1-b015-2eae3cf2dbdd";
 let provincesCache = null;
 let districtsCache = {};
 let wardsCache = {};
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector(".modal-form");
+
+    if (form) {
+        form.addEventListener("submit", function () {
+            const provinceSelect = document.getElementById("province_id");
+            const districtSelect = document.getElementById("district_id");
+            const wardSelect = document.getElementById("ward_code");
+
+            document.getElementById("province_name").value =
+                provinceSelect.options[provinceSelect.selectedIndex]?.text || "";
+
+            document.getElementById("district_name").value =
+                districtSelect.options[districtSelect.selectedIndex]?.text || "";
+
+            document.getElementById("ward_name").value =
+                wardSelect.options[wardSelect.selectedIndex]?.text || "";
+        });
+    }
+});
 async function loadProvinces(selectedId = null) {
     const provinceSelect = document.getElementById("province_id");
 

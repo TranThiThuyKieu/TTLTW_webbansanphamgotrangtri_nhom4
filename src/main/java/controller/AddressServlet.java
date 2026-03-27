@@ -72,7 +72,7 @@ public class AddressServlet extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             dao.setDefault(id, userId);
         }
-
-        response.sendRedirect("MyPageServlet?tab=dia-chi");
+        String redirectUrl = request.getParameter("redirectUrl");
+        response.sendRedirect(redirectUrl);
     }
 }

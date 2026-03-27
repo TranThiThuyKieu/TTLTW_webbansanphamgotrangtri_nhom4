@@ -89,19 +89,27 @@ public class CartServlet extends HttpServlet {
             int productId = Integer.parseInt(request.getParameter("productId"));
             int variantId = Integer.parseInt(request.getParameter("variantId"));
             int quantity = Integer.parseInt(request.getParameter("quantity"));
+
             if (cart.containsKey(variantId)) {
                 CartItem item = cart.get(variantId);
-                int oldQty = item.getQuantity();
-                item.setQuantity(oldQty + quantity);
+                item.setQuantity(item.getQuantity() + quantity);
             } else {
                 Product product = dao.getProductById(productId);
                 ProductVariants variant = dao.getVariantById(variantId);
+
                 CartItem item = new CartItem();
                 item.setProduct(product);
                 item.setVariant(variant);
                 item.setQuantity(quantity);
+
                 cart.put(variantId, item);
             }
+
+            session.setAttribute("CART", cart);
+            session.setAttribute("ADD_CART_SUCCESS", "Đã thêm sản phẩm vào giỏ hàng!");
+
+            response.sendRedirect("ProductDetailServlet?id=" + productId);
+            return;
         } else if (action.equals("update")) {
             int variantId = Integer.parseInt(request.getParameter("variantId"));
             int quantity = Integer.parseInt(request.getParameter("quantity"));
@@ -115,9 +123,22 @@ public class CartServlet extends HttpServlet {
                 cart.remove(variantId);
             }
         }
+        else if (action.equals("prepareCheckout")) {
+
+            String[] selectedItems = request.getParameterValues("selectedItems");
+
+            if (selectedItems != null && selectedItems.length > 0) {
+
+                session.setAttribute("SELECTED_ITEMS", selectedItems);
+
+                response.sendRedirect("CheckoutServlet");
+                return;
+            } else {
+                response.sendRedirect("CartServlet?action=view");
+                return;
+            }
+        }
         session.setAttribute("CART", cart);
-        session.setAttribute("ADD_CART_SUCCESS", "Đã thêm sản phẩm vào giỏ hàng!");
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        response.sendRedirect("ProductDetailServlet?id=" + productId);
+
     }
 }

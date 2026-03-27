@@ -318,6 +318,7 @@
 
                             <form action="AddressServlet" method="post" style="display:inline;">
                                 <input type="hidden" name="id" value="${a.id}">
+                                <input type="hidden" name="redirectUrl" value="MyPageServlet?tab=dia-chi">
                                 <button class="set-default-btn"
                                         name="action" value="default"
                                         <c:if test="${a.isDefault == 1}">disabled</c:if>>
@@ -341,6 +342,7 @@
 
                             <form action="AddressServlet" method="post" style="display:inline;">
                                 <input type="hidden" name="id" value="${a.id}">
+                                <input type="hidden" name="redirectUrl" value="MyPageServlet?tab=dia-chi">
                                 <button class="delete-btn"
                                         name="action" value="delete"
                                         onclick="return confirm('Xóa địa chỉ này?')">
@@ -610,6 +612,7 @@
         <form action="AddressServlet" method="post" class="modal-form">
             <input type="hidden" name="id" id="addr-id">
             <input type="hidden" name="action" id="addr-action" value="add">
+            <input type="hidden" name="redirectUrl" value="MyPageServlet?tab=dia-chi">
 
             <div class="form-group">
                 <label>Họ tên</label>

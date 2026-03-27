@@ -85,28 +85,35 @@ function changeQty(btn, delta) {
         });
 }
 function handleCheckout(event) {
-
     event.preventDefault();
 
-    const selectedCheckboxes =
-        document.querySelectorAll('.cart-check:checked');
+    const selectedCheckboxes = document.querySelectorAll('.cart-check:checked');
 
     if (selectedCheckboxes.length === 0) {
-        alert("Vui lòng tích chọn ít nhất một sản phẩm để thanh toán!");
+        alert("Vui lòng chọn sản phẩm!");
         return;
     }
 
-    const selectedIds = [];
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "CartServlet";
+
+    const actionInput = document.createElement("input");
+    actionInput.type = "hidden";
+    actionInput.name = "action";
+    actionInput.value = "prepareCheckout";
+    form.appendChild(actionInput);
 
     selectedCheckboxes.forEach(cb => {
-        selectedIds.push(cb.value);
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "selectedItems";
+        input.value = cb.value;
+        form.appendChild(input);
     });
 
-    const query = selectedIds
-        .map(id => "selectedItems=" + id)
-        .join("&");
-
-    window.location.href = "CheckoutServlet?" + query;
+    document.body.appendChild(form);
+    form.submit();
 }
 
 function closeCheckoutModal() {

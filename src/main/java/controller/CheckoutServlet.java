@@ -33,7 +33,7 @@ public class CheckoutServlet extends HttpServlet {
             return;
         }
 
-        String[] selectedIds = request.getParameterValues("selectedItems");
+        String[] selectedIds = (String[]) session.getAttribute("SELECTED_ITEMS");
 
         Map<Integer, CartItem> fullCart =
                 (Map<Integer, CartItem>) session.getAttribute("CART");
@@ -47,7 +47,6 @@ public class CheckoutServlet extends HttpServlet {
 
         for (String idStr : selectedIds) {
             int variantId = Integer.parseInt(idStr);
-
             CartItem item = fullCart.get(variantId);
             if (item != null) {
                 selectedCart.add(item);
@@ -66,11 +65,9 @@ public class CheckoutServlet extends HttpServlet {
         }
 
         AddressDao addressDao = new AddressDao();
-
         List<Address> addresses = addressDao.getAddressesByUserId(user.getId());
 
         request.setAttribute("addresses", addresses);
-
         request.setAttribute("selectedCartItems", selectedCart);
         request.setAttribute("total", total);
 
@@ -91,8 +88,11 @@ public class CheckoutServlet extends HttpServlet {
             return;
         }
 
-        Map<Integer, CartItem> fullCart = (Map<Integer, CartItem>) session.getAttribute("CART");
-        String[] selectedIds = request.getParameterValues("selectedItems");
+        Map<Integer, CartItem> fullCart =
+                (Map<Integer, CartItem>) session.getAttribute("CART");
+
+        String[] selectedIds =
+                (String[]) session.getAttribute("SELECTED_ITEMS");
 
         if (fullCart == null || selectedIds == null) {
             response.sendRedirect("CartServlet?action=view");
@@ -103,14 +103,13 @@ public class CheckoutServlet extends HttpServlet {
 
         for (String idStr : selectedIds) {
             int variantId = Integer.parseInt(idStr);
-
             CartItem item = fullCart.get(variantId);
             if (item != null) {
                 cart.add(item);
             }
         }
 
-        if (cart.size() == 0) {
+        if (cart.isEmpty()) {
             response.sendRedirect("CartServlet?action=view");
             return;
         }
@@ -145,10 +144,12 @@ public class CheckoutServlet extends HttpServlet {
 
             session.setAttribute("CART", fullCart);
 
+            session.removeAttribute("SELECTED_ITEMS");
+
             response.sendRedirect("MyPageServlet?tab=don-hang&success=1&orderId=" + orderId);
 
         } catch (Exception e) {
-
+            e.printStackTrace();
             response.sendRedirect("CartServlet?action=view&error=1");
         }
     }
