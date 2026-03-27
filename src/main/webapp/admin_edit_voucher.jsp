@@ -4,7 +4,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>HOME DECOR - CREATE VOUCHER</title>
+    <title>HOME DECOR - EDIT VOUCHER</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/homepage_admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_create_voucher.css">
@@ -19,23 +19,24 @@
             <div class="product-management-container">
                 <h2 class="page-title">Tạo Mới Voucher</h2>
                 <form action="VoucherController" method="POST">
-                    <input type="hidden" name="action" value="create">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="id" value="${voucher.id}">
                     <div class="form-container">
                         <div class="form-section">
                             <h3>Thông tin hiển thị</h3>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Mã Voucher <span class="required">*</span></label>
-                                    <input type="text" name="voucherCode" style="text-transform: uppercase" placeholder="Ví dụ: DECOR2026" required>
+                                    <input type="text" name="voucherCode" value="${voucher.voucherCode}" style="text-transform: uppercase" placeholder="Ví dụ: DECOR2026" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Tên Voucher <span class="required">*</span></label>
-                                    <input type="text" name="voucherName" placeholder="Ví dụ: Voucher Tân Gia 500k" required>
+                                    <input type="text" name="voucherName" value="${voucher.voucherName}" placeholder="Ví dụ: Voucher Tân Gia 500k" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Ghi chú</label>
-                                <input type="text" name="description" placeholder="Ví dụ: Voucher tri ân khách hàng">
+                                <input type="text" name="description" value="${voucher.description}" placeholder="Ví dụ: Voucher tri ân khách hàng">
                             </div>
                         </div>
 
@@ -46,20 +47,20 @@
                                     <div class="sub-input">
                                         <label>Loại khuyến mãi</label>
                                         <select name="promoType">
-                                            <option value="PERCENT">Giảm giá theo %</option>
-                                            <option value="AMOUNT">Giảm giá tiền mặt</option>
+                                            <option value="PERCENT" ${voucher.promoType=='PERCENT'?'selected':''}>%</option>
+                                            <option value="AMOUNT" ${voucher.promoType=='AMOUNT'?'selected':''}>Tiền</option>
                                         </select>
                                     </div>
                                     <div class="sub-row promo-margin">
                                         <div class="sub-input">
                                             <label id="promoValueLabel">Mức giảm <span class="required">*</span></label>
                                             <div class="input-relative">
-                                                <input type="number" name="promoValue" min="1" placeholder="Nhập số tiền/%" required>
+                                                <input type="number" name="promoValue" value="${voucher.promoValue}" min="1" placeholder="Nhập số tiền/%" required>
                                             </div>
                                         </div>
                                         <div class="sub-input">
                                             <label>Giá trị đơn tối thiểu <span class="required">*</span></label>
-                                            <input type="number" name="minOrderValue" value="0" min="0" placeholder="Ví dụ: 500000">
+                                            <input type="number" name="minOrderValue" value="${voucher.minOrderValue}" min="0" placeholder="Ví dụ: 500000">
                                         </div>
                                     </div>
                                 </div>
@@ -94,11 +95,11 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Tổng số lượng phát hành <span class="required">*</span></label>
-                                    <input type="number" name="totalRelease" min="1" required>
+                                    <input type="number" name="totalRelease" value="${voucher.totalRelease}" min="1" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Số lượng tối đa / 1 Khách hàng</label>
-                                    <input type="number" name="maxPerUser" value="1" min="1">
+                                    <input type="number" name="maxPerUser" value="${voucher.maxPerUser}" value="1" min="1">
                                 </div>
                             </div>
                         </div>
@@ -108,11 +109,11 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Ngày bắt đầu</label>
-                                    <input type="datetime-local" name="startDate" required>
+                                    <input type="datetime-local" name="startDate" value="${voucher.startDate.toString().substring(0,16)}">
                                 </div>
                                 <div class="form-group">
                                     <label>Ngày kết thúc</label>
-                                    <input type="datetime-local" name="endDate" required>
+                                    <input type="datetime-local" name="endDate" value="${voucher.endDate.toString().substring(0,16)}">
                                 </div>
                             </div>
                         </div>

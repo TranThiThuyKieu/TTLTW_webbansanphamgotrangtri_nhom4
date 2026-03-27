@@ -16,6 +16,17 @@ public class VoucherController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        String action = request.getParameter("action");
+        if ("toggleStatus".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            int status = Integer.parseInt(request.getParameter("status"));
+
+            VoucherDAO dao = new VoucherDAO();
+            dao.updateStatus(id, status);
+
+            response.getWriter().write("OK");
+            return;
+        }
         try {
             String code = request.getParameter("voucherCode");
             String name = request.getParameter("voucherName");
@@ -48,11 +59,22 @@ public class VoucherController extends HttpServlet {
                 }
             }
             VoucherDAO dao = new VoucherDAO();
-            if (dao.insertVoucher(v)) {
-                response.sendRedirect("admin_giamgia_product.jsp?msg=ok");
-            } else {
-                response.sendRedirect("admin_giamgia_product.jsp?msg=fail");
+            if ("update".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                v.setId(id);
+
+                dao.updateVoucher(v);
+                response.sendRedirect("VoucherAdminServlet");
             }
+            else {
+                dao.insertVoucher(v);
+                response.sendRedirect("VoucherAdminServlet");
+            }
+//            if (dao.insertVoucher(v)) {
+//                response.sendRedirect("admin_giamgia_product.jsp?msg=ok");
+//            } else {
+//                response.sendRedirect("admin_giamgia_product.jsp?msg=fail");
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,6 +84,18 @@ public class VoucherController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("admin_create_voucher.jsp");
+        String action = request.getParameter("action");
+
+        if ("edit".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            VoucherDAO dao = new VoucherDAO();
+            Voucher v = dao.getVoucherById(id);
+
+            request.setAttribute("voucher", v);
+            request.getRequestDispatcher("admin_edit_voucher.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("admin_create_voucher.jsp");
+        }
     }
 }

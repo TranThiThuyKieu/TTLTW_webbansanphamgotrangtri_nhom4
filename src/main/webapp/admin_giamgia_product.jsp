@@ -69,13 +69,18 @@
                                     </td>
                                     <td>${v.startDate.toString().replace("T", " ")}</td>
                                     <td>${v.endDate.toString().replace("T", " ")}</td>
-                                    <td><c:choose>
-                                        <c:when test="${v.status == 1}">
-                                            <span class="status-badge success">Đang hoạt động</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="status-badge danger">Tạm dừng</span>
-                                        </c:otherwise>
+                                    <td>
+                                        <c:set var="now" value="<%= java.time.LocalDateTime.now() %>" />
+                                        <c:choose>
+                                            <c:when test="${v.startDate > now}">
+                                                <span class="status-badge pending">Sắp diễn ra</span>
+                                            </c:when>
+                                            <c:when test="${v.startDate <= now and v.endDate >= now}">
+                                                <span class="status-badge success">Đang hoạt động</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="status-badge danger">Đã kết thúc</span>
+                                            </c:otherwise>
                                     </c:choose>
                                     </td>
                                     <td class="col-status">
@@ -86,7 +91,9 @@
                                         </label>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn-action edit" onclick="editVoucher(${v.id})"><i class="fas fa-edit"></i></button>
+                                        <a href="VoucherController?action=edit&id=${v.id}" class="btn-action edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
                                         <button class="btn-action delete" onclick="deleteVoucher(${v.id})"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -131,7 +138,8 @@
                                     </td>
                                     <td>${fs.startDate.toString().replace("T", " ")}</td>
                                     <td> ${fs.endDate.toString().replace("T", " ")}</td>
-                                    <td>  <c:choose>
+                                    <td>
+                                        <c:choose>
                                         <c:when test="${fs.status == 1}">
                                             <span class="status-badge success">Đang diễn ra</span>
                                         </c:when>
