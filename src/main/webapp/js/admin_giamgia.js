@@ -43,3 +43,20 @@ function toggleStatus(id, checkbox) {
             alert("Lỗi cập nhật trạng thái!");
         });
 }
+function toggleFlashSaleStatus(id, checkbox) {
+    const status = checkbox.checked ? 1 : 0;
+
+    fetch('FlashSaleController', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'action=toggleStatus&id=' + id + '&status=' + status
+    })
+        .then(res => res.text())
+        .then(data => {
+            console.log("FlashSale updated:", data);
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Lỗi cập nhật trạng thái FlashSale!");
+        });
+}

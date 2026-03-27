@@ -1,7 +1,10 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class FlashSale {
     int id;
@@ -9,10 +12,11 @@ public class FlashSale {
     String note;
     LocalDateTime startDate;
     LocalDateTime endDate;
-    String status;
+    int status;
     LocalDateTime createdDate;
+    List<FlashSaleDetail> details;
 
-    public FlashSale(int id,String campaignName,  String note, LocalDateTime endDate, LocalDateTime startDate, LocalDateTime createdDate, String status) {
+    public FlashSale(int id,String campaignName,  String note, LocalDateTime endDate, LocalDateTime startDate, LocalDateTime createdDate, int status) {
         this.campaignName = campaignName;
         this.id = id;
         this.note = note;
@@ -20,6 +24,7 @@ public class FlashSale {
         this.startDate = startDate;
         this.createdDate = createdDate;
         this.status = status;
+        details= new ArrayList<>();
     }
 
     public FlashSale() {
@@ -73,11 +78,28 @@ public class FlashSale {
         this.createdDate = createdDate;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
+    }
+
+    public List<FlashSaleDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<FlashSaleDetail> details) {
+        this.details = details;
+    }
+    public String getStartDateString() {
+        if (startDate == null) return "";
+        return startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+    }
+
+    public String getEndDateString() {
+        if (endDate == null) return "";
+        return endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
     }
 }
