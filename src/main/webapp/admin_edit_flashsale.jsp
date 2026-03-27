@@ -4,7 +4,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>HOME DECOR - TẠO CHUONG TRINH GIAM GIA</title>
+    <title>HOME DECOR - CHỈNH SỬA CHUONG TRINH GIAM GIA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/homepage_admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_create_voucher.css">
@@ -21,29 +21,30 @@
                 <h2 class="page-title">Tạo Chương trình giảm giá</h2>
 
                 <form action="FlashSaleController" method="POST">
-                    <input type="hidden" name="action" value="create">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="id" value="${flashSale.id}">
                     <div class="form-container">
                         <div class="form-section">
                             <h3>Thông tin chiến dịch</h3>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Tên chương trình <span class="required">*</span></label>
-                                    <input type="text" name="campaignName" placeholder="Ví dụ: Flash Sale ngày 4/4" required>
+                                    <input type="text" name="campaignName" placeholder="Ví dụ: Flash Sale ngày 4/4" value="<c:out value='${flashSale != null ? flashSale.campaignName : ""}'/>" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Ghi chú</label>
-                                    <input type="text" name="note" placeholder="Thông tin thêm...">
+                                    <input type="text" name="note" placeholder="Thông tin thêm..." value="<c:out value='${flashSale != null ? flashSale.note : ""}'/>">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Ngày bắt đầu</label>
-                                    <input type="datetime-local" name="startDate" required>
+                                    <input type="datetime-local" name="startDate" value="<c:out value='${flashSale != null ? flashSale.startDateString : ""}'/>" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Ngày kết thúc</label>
-                                    <input type="datetime-local" name="endDate" required>
+                                    <input type="datetime-local" name="endDate"  value="<c:out value='${flashSale != null ? flashSale.endDateString : ""}'/>" required>
                                 </div>
                             </div>
                         </div>
@@ -60,9 +61,10 @@
                             </div>
 
                             <div id="flash-product-list">
+                                <c:forEach var="d" items="${flashSaleDetails}">
                                 <div class="product-variant-card">
                                     <div class="variant-header">
-                                        <span>Biến thể #1</span>
+                                        <span>Biến thể #${d.variantId}</span>
                                         <button type="button" class="btn-remove-card" onclick="removeCard(this)"><i class="fas fa-times"></i></button>
                                     </div>
                                     <div class="variant-body">
@@ -72,7 +74,8 @@
                                                 <select name="sku[]" class="sku-select" onchange="updatePrice(this)">
                                                     <option value="0" data-price="0" data-stock="0">-- Chọn sản phẩm --</option>
                                                     <c:forEach var="v" items="${listVariants}">
-                                                        <option value="${v.id}" data-price="${v.variant_price}" data-stock="${v.inventory_quantity}">
+                                                        <option value="${v.id}" data-price="${v.variant_price}" data-stock="${v.inventory_quantity}"
+                                                                <c:if test="${v.id == d.variantId}">selected</c:if>>
                                                                 ${v.sku}
                                                         </option>
                                                     </c:forEach>
@@ -80,29 +83,30 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Giá gốc (VND):</label>
-                                                <input type="text" class="original-price" value="0" readonly>
+                                                <input type="text" class="original-price" value="${d.originalPrice}" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label>Giá sau giảm (VND):</label>
-                                                <input type="text" class="final-price-display" value="0" readonly style="color: #e74c3c; font-weight: bold; background: #fff5f5;">
+                                                <input type="text" class="final-price-display" value="<c:out value='${d.flashPrice > 0 ? d.flashPrice : d.originalPrice * (100 - d.discountPercent)/100}'/>" readonly style="color: #e74c3c; font-weight: bold; background: #fff5f5;">
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group">
                                                 <label>Nhập % giảm:</label>
-                                                <input type="number" name="discountPercent[]" class="item-percent" placeholder="20" oninput="calculatePrice(this, 'percent')">
+                                                <input type="number" name="discountPercent[]" class="item-percent" value="${d.discountPercent}" oninput="calculatePrice(this, 'percent')">
                                             </div>
                                             <div class="form-group">
                                                 <label>Giá giảm trực tiếp (VND):</label>
-                                                <input type="number" name="flashPrice[]" class="item-price" placeholder="Nhập số tiền giảm..." oninput="calculatePrice(this, 'price')">
+                                                <input type="number" name="flashPrice[]" class="item-price" value="${d.flashPrice}" oninput="calculatePrice(this, 'price')">
                                             </div>
                                             <div class="form-group">
                                                 <label>Số lượng Sale:</label>
-                                                <input type="number" name="saleStock[]" class="item-stock" value="0">
+                                                <input type="number" name="saleStock[]" class="item-stock" value="${d.saleStock}">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                </c:forEach>
                             </div>
 
                             <div class="add-variant-trigger">

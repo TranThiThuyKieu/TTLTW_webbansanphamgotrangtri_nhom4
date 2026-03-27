@@ -2,6 +2,7 @@ package dao;
 
 import dao.DBContext;
 import model.FlashSale;
+import model.FlashSaleDetail;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -63,17 +64,100 @@ public class FlashSaleDAO {
     }
     public List<FlashSale> getAllFlashSales() {
         List<FlashSale> list = new ArrayList<>();
-        String sql = "SELECT * FROM flashsale ORDER BY start_date DESC";
+        String sql = "SELECT * FROM flashsales ORDER BY startDate DESC";
+
         try (Connection conn = new DBContext().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 FlashSale fs = new FlashSale();
                 fs.setId(rs.getInt("id"));
-                fs.setStartDate(rs.getTimestamp("start_date").toLocalDateTime());
-                fs.setEndDate(rs.getTimestamp("end_date").toLocalDateTime());
-                fs.setStatus(rs.getString("status"));
+                fs.setCampaignName(rs.getString("campaignName"));
+                fs.setNote(rs.getString("note"));
+                fs.setStartDate(rs.getTimestamp("startDate").toLocalDateTime());
+                fs.setEndDate(rs.getTimestamp("endDate").toLocalDateTime());
+                fs.setStatus(rs.getInt("status"));
                 list.add(fs);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public FlashSale getFlashSaleById(int id) {
+        FlashSale fs = null;
+        String sql = "SELECT * FROM flashsales WHERE id=?";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, id);
+             try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    fs = new FlashSale();
+                    fs.setId(rs.getInt("id"));
+                    fs.setCampaignName(rs.getString("campaignName"));
+                    fs.setNote(rs.getString("note"));
+                    fs.setStartDate(rs.getTimestamp("startDate").toLocalDateTime());
+                    fs.setEndDate(rs.getTimestamp("endDate").toLocalDateTime());
+                    fs.setStatus(rs.getInt("status"));
+                    fs.setDetails(getFlashSaleDetails(id));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fs;
+    }
+    public boolean updateFlashSale(int id, String name, String note, String start, String end) {
+        String sql = "UPDATE flashsales SET campaignName=?, note=?, startDate=?, endDate=? WHERE id=?";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setString(1, name);
+             ps.setString(2, note);
+             ps.setString(3, start);
+             ps.setString(4, end);
+             ps.setInt(5, id);
+             ps.executeUpdate();
+             return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public void updateStatus(int id, int status) {
+        String sql = "UPDATE flashsales SET status=? WHERE id=?";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, status);
+             ps.setInt(2, id);
+             ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public List<FlashSaleDetail> getFlashSaleDetails(int flashSaleId) {
+        List<FlashSaleDetail> list = new ArrayList<>();
+        String sql = "SELECT fsd.*, pv.sku, pv.variant_price, pv.inventory_quantity " +
+                "FROM FlashSaleDetails fsd " +
+                "JOIN product_variants pv ON fsd.product_variant_id = pv.id " +
+                "WHERE fsd.flashSaleId = ?";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, flashSaleId);
+             try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    FlashSaleDetail detail = new FlashSaleDetail();
+                    detail.setId(rs.getInt("id"));
+                    detail.setVariantId(rs.getInt("product_variant_id"));
+                    detail.setDiscountPercent(rs.getInt("discountPercent"));
+                    detail.setFlashPrice(rs.getDouble("flashPrice"));
+                    detail.setSaleStock(rs.getInt("saleStock"));
+                    detail.setSku(rs.getString("sku"));
+                    detail.setOriginalPrice(rs.getDouble("variant_price"));
+                    detail.setInventory(rs.getInt("inventory_quantity"));
+                    list.add(detail);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

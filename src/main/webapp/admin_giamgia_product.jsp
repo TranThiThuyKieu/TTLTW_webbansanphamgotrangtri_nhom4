@@ -27,7 +27,7 @@
                     <a href="FlashSaleAdminServlet" class="tab-btn ${activeTab=='flashsale'?'active':''}">Chương Trình Flash Sale</a>
                 </div>
                 <div class="main-card">
-                    <div id="voucher-tab" class="tab-content active">
+                    <div id="voucher-tab" class="tab-content ${activeTab=='voucher' ? 'active' : ''}">
                         <div class="table-controls">
                             <div class="search-box">
                                 <input type="text" id="voucherSearch" placeholder="Tìm mã voucher, tên chương trình...">
@@ -103,7 +103,7 @@
                         </div>
                     </div>
 
-                    <div id="flashsale-tab" class="tab-content">
+                    <div id="flashsale-tab" class="tab-content ${activeTab=='flashsale' ? 'active' : ''}">
                         <div class="table-controls">
                             <div class="search-box">
                                 <input type="text" id="flashSaleSearch" placeholder="Tìm sản phẩm flash sale...">
@@ -134,21 +134,22 @@
                                             ${fs.id}
                                     </td>
                                     <td>
-                                            ${fs.flashSaleName}
+                                            ${fs.campaignName}
                                     </td>
                                     <td>${fs.startDate.toString().replace("T", " ")}</td>
                                     <td> ${fs.endDate.toString().replace("T", " ")}</td>
                                     <td>
+                                        <c:set var="now" value="<%= java.time.LocalDateTime.now() %>" />
                                         <c:choose>
-                                        <c:when test="${fs.status == 1}">
-                                            <span class="status-badge success">Đang diễn ra</span>
-                                        </c:when>
-                                        <c:when test="${fs.status == 0}">
-                                            <span class="status-badge pending">Sắp diễn ra</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="status-badge danger">Đã kết thúc</span>
-                                        </c:otherwise>
+                                            <c:when test="${fs.startDate > now}">
+                                                <span class="status-badge pending">Sắp diễn ra</span>
+                                            </c:when>
+                                            <c:when test="${fs.startDate <= now && fs.endDate >= now}">
+                                                <span class="status-badge success">Đang diễn ra</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="status-badge danger">Đã kết thúc</span>
+                                            </c:otherwise>
                                     </c:choose></td>
                                     <td class="col-status">
                                         <label class="switch">
@@ -158,7 +159,9 @@
 
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn-action edit" onclick="editFlashSale(${fs.id})"><i class="fas fa-edit"></i></button>
+                                        <a href="FlashSaleController?action=edit&id=${fs.id}" class="btn-action edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
                                         <button class="btn-action delete" onclick="deleteFlashSale(${fs.id})"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
