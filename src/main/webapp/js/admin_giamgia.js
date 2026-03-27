@@ -92,3 +92,20 @@ function deleteFlashSale(id) {
             });
     }
 }
+function showVoucherDetail(id) {
+    let dataContainer = document.getElementById("data-voucher-" + id);
+    if (dataContainer) {
+        let data = dataContainer.innerHTML;
+        document.getElementById("voucherModalContainer").innerHTML = data;
+        document.getElementById("voucherModal").style.display = "block";
+    }
+}
+function closeVoucherModal() {
+    document.getElementById("voucherModal").style.display = "none";
+}
+window.onclick = function(event) {
+    let modal = document.getElementById("voucherModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

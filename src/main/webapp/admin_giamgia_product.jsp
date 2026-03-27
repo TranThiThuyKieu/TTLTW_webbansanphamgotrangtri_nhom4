@@ -91,10 +91,57 @@
                                         </label>
                                     </td>
                                     <td class="text-center">
+                                        <a href="javascript:void(0)" onclick="showVoucherDetail(${v.id})">
+                                            <i class="fas fa-eye" title="Xem chi tiết"></i>
+                                        </a>
                                         <a href="VoucherController?action=edit&id=${v.id}" class="btn-action edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button class="btn-action delete" onclick="deleteVoucher(${v.id})"><i class="fas fa-trash"></i></button>
+                                        <div id="data-voucher-${v.id}" class="voucher-detail-hidden" style="display:none;">
+                                            <h2> Chi tiết Voucher </h2>
+                                            <h3 class="order-detail-title">
+                                                Mã Code: ${v.voucherCode}
+                                            </h3>
+                                            <div class="order-info-row">
+                                                <div>
+                                                    <p><strong>Tên:</strong> ${v.voucherName}</p>
+                                                    <p><strong>Mô tả:</strong> ${v.description}</p>
+                                                    <p><strong>Loại:</strong> ${v.promoType}</p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p><strong>Bắt đầu:</strong> ${v.startDate.toString().replace("T"," ")}</p>
+                                                    <p><strong>Kết thúc:</strong> ${v.endDate.toString().replace("T"," ")}</p>
+                                                </div>
+                                            </div>
+                                            <div class="summary-horizontal-card">
+                                                <div class="summary-section">
+                                                    <span class="summary-title">Giá trị giảm</span>
+                                                    <span class="summary-amount">
+                                                        <c:choose>
+                                                            <c:when test="${v.promoType == 'PERCENT'}">${v.promoValue}%
+                                                            </c:when>
+                                                            <c:otherwise><fmt:formatNumber value="${v.promoValue}" pattern="#,###"/>đ
+                                                            </c:otherwise>
+                                                        </c:choose></span>
+                                                </div>
+                                                <div class="summary-divider-vertical"></div>
+                                                <div class="summary-section">
+                                                    <span class="summary-title">Đơn tối thiểu</span>
+                                                    <span class="summary-amount"><fmt:formatNumber value="${v.minOrderValue}" pattern="#,###"/>đ</span>
+                                                </div>
+                                                <div class="summary-divider-vertical"></div>
+                                                <div class="summary-section">
+                                                    <span class="summary-title">Số lượng phát hành</span>
+                                                    <span class="summary-amount">${v.totalRelease}</span>
+                                                </div>
+                                                <div class="summary-divider-vertical"></div>
+                                                <div class="summary-section">
+                                                    <span class="summary-title">Giới hạn/user</span>
+                                                    <span class="summary-amount">${v.maxPerUser}</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 </c:forEach>
@@ -175,7 +222,12 @@
         </main>
     </div>
 </div>
-
+<div id="voucherModal" class="modal">
+    <div class="modal-content">
+        <span onclick="closeVoucherModal()" class="modal-close">&times;</span>
+        <div id="voucherModalContainer"></div>
+    </div>
+</div>
 </body>
 <script src="${pageContext.request.contextPath}/js/admin_giamgia.js"></script>
 </html>

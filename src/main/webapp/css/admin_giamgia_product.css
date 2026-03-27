@@ -46,3 +46,28 @@
 .btn-action:hover {
     transform: scale(1.2);
 }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 8px;
+    position: relative;
+}
+
+.modal-close {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+}
