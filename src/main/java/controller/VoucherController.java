@@ -27,6 +27,17 @@ public class VoucherController extends HttpServlet {
             response.getWriter().write("OK");
             return;
         }
+        if("delete".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            VoucherDAO dao = new VoucherDAO();
+            boolean success = dao.deleteVoucher(id);
+            if(success) {
+                response.getWriter().write("OK");
+            } else {
+                response.getWriter().write("ERROR");
+            }
+            return;
+        }
         try {
             String code = request.getParameter("voucherCode");
             String name = request.getParameter("voucherName");
@@ -66,6 +77,7 @@ public class VoucherController extends HttpServlet {
                 dao.updateVoucher(v);
                 response.sendRedirect("VoucherAdminServlet");
             }
+
             else {
                 dao.insertVoucher(v);
                 response.sendRedirect("VoucherAdminServlet");

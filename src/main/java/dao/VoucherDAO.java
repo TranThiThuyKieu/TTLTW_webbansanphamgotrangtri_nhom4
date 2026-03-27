@@ -130,4 +130,25 @@ public class VoucherDAO {
             e.printStackTrace();
         }
     }
+    public boolean deleteVoucher(int id) {
+        String sqlDeleteRanks = "DELETE FROM voucher_applicable_ranks WHERE voucher_id=?";
+        String sqlDeleteVoucher = "DELETE FROM vouchers WHERE id=?";
+        try (Connection conn = new DBContext().getConnection()) {
+            try (PreparedStatement ps1 = conn.prepareStatement(sqlDeleteRanks)) {
+                ps1.setInt(1, id);
+                ps1.executeUpdate();
+            }
+            try (PreparedStatement ps2 = conn.prepareStatement(sqlDeleteVoucher)) {
+                ps2.setInt(1, id);
+                int affected = ps2.executeUpdate();
+                if (affected == 0) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

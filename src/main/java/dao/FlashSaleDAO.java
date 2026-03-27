@@ -164,4 +164,21 @@ public class FlashSaleDAO {
         }
         return list;
     }
+    public boolean deleteFlashSale(int id) {
+        String sqlDetails = "DELETE FROM flashsaledetails WHERE flashSaleId = ?";
+        String sqlFlashSale = "DELETE FROM flashsales WHERE id = ?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps1 = conn.prepareStatement(sqlDetails);
+             PreparedStatement ps2 = conn.prepareStatement(sqlFlashSale)) {
+             ps1.setInt(1, id);
+             ps1.executeUpdate();
+             ps2.setInt(1, id);
+             ps2.executeUpdate();
+             return true;
+        } catch (Exception e) {
+             e.printStackTrace();
+             return false;
+        }
+
+    }
 }
