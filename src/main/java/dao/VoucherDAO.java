@@ -73,4 +73,61 @@ public class VoucherDAO {
         }
         return list;
     }
+    public Voucher getVoucherById(int id) {
+        String sql = "SELECT * FROM vouchers WHERE id=?";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, id);
+             ResultSet rs = ps.executeQuery();
+             if (rs.next()) {
+                Voucher v = new Voucher();
+                v.setId(rs.getInt("id"));
+                v.setVoucherCode(rs.getString("voucher_code"));
+                v.setVoucherName(rs.getString("voucher_name"));
+                v.setDescription(rs.getString("description"));
+                v.setPromoType(rs.getString("promo_type"));
+                v.setPromoValue(rs.getDouble("promo_value"));
+                v.setMinOrderValue(rs.getDouble("min_order_value"));
+                v.setTotalRelease(rs.getInt("total_release"));
+                v.setMaxPerUser(rs.getInt("max_per_user"));
+                v.setStartDate(rs.getTimestamp("start_date").toLocalDateTime());
+                v.setEndDate(rs.getTimestamp("end_date").toLocalDateTime());
+                return v;
+             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public void updateVoucher(Voucher v) {
+        String sql = "UPDATE vouchers SET voucher_code=?, voucher_name=?, description=?, promo_type=?, promo_value=?, min_order_value=?, total_release=?, max_per_user=?, start_date=?, end_date=? WHERE id=?";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setString(1, v.getVoucherCode());
+             ps.setString(2, v.getVoucherName());
+             ps.setString(3, v.getDescription());
+             ps.setString(4, v.getPromoType());
+             ps.setDouble(5, v.getPromoValue());
+             ps.setDouble(6, v.getMinOrderValue());
+             ps.setInt(7, v.getTotalRelease());
+             ps.setInt(8, v.getMaxPerUser());
+             ps.setObject(9, v.getStartDate());
+             ps.setObject(10, v.getEndDate());
+             ps.setInt(11, v.getId());
+             ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateStatus(int id, int status) {
+        String sql = "UPDATE vouchers SET status=? WHERE id=?";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, status);
+             ps.setInt(2, id);
+             ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -24,3 +24,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+function toggleStatus(id, checkbox) {
+    const status = checkbox.checked ? 1 : 0;
+
+    fetch('VoucherController', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'action=toggleStatus&id=' + id + '&status=' + status
+    })
+        .then(res => res.text())
+        .then(data => {
+            console.log("Updated:", data);
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Lỗi cập nhật trạng thái!");
+        });
+}
