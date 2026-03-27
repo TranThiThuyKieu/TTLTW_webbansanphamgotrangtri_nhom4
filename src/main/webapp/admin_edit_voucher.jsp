@@ -4,7 +4,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>HOME DECOR - EDIT VOUCHER</title>
+    <title>HOME DECOR - CHỈNH SUỬA VOUCHER</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/homepage_admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_create_voucher.css">
@@ -17,7 +17,7 @@
         <%@ include file="admin_sidebar.jsp" %>
         <main class="content">
             <div class="product-management-container">
-                <h2 class="page-title">Tạo Mới Voucher</h2>
+                <h2 class="page-title">Chỉnh sửa Voucher</h2>
                 <form action="VoucherController" method="POST">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="id" value="${voucher.id}">

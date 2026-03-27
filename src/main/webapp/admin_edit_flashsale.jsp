@@ -18,7 +18,7 @@
         <%@ include file="admin_sidebar.jsp" %>
         <main class="content">
             <div class="product-management-container">
-                <h2 class="page-title">Tạo Chương trình giảm giá</h2>
+                <h2 class="page-title">Chỉnh sửa Chương trình giảm giá</h2>
 
                 <form action="FlashSaleController" method="POST">
                     <input type="hidden" name="action" value="update">

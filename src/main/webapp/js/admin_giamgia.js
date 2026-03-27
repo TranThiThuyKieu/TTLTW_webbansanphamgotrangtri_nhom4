@@ -60,3 +60,35 @@ function toggleFlashSaleStatus(id, checkbox) {
             alert("Lỗi cập nhật trạng thái FlashSale!");
         });
 }
+function deleteVoucher(id) {
+    if(confirm("Bạn có chắc muốn xóa voucher này?")) {
+        fetch(`VoucherController?action=delete&id=${id}`, {
+            method: 'POST'
+        })
+            .then(res => res.text())
+            .then(data => {
+                if(data === 'OK'){
+                    alert('Xóa voucher thành công!');
+                    location.reload();
+                } else {
+                    alert('Xóa voucher thất bại!');
+                }
+            });
+    }
+}
+function deleteFlashSale(id) {
+    if(confirm("Bạn có chắc muốn xóa chương trình Flash Sale này?")) {
+        fetch(`FlashSaleController?action=delete&id=${id}`, {
+            method: 'POST'
+        })
+            .then(res => res.text())
+            .then(data => {
+                if(data === 'OK'){
+                    alert('Xóa Flash Sale thành công!');
+                    location.reload();
+                } else {
+                    alert('Xóa Flash Sale thất bại!');
+                }
+            });
+    }
+}

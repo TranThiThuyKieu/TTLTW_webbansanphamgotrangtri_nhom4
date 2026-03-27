@@ -63,6 +63,16 @@ public class FlashSaleController extends HttpServlet {
             }
             return;
         }
+        if("delete".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            boolean success = dao.deleteFlashSale(id);
+            if(success) {
+                response.getWriter().write("OK");
+            } else {
+                response.getWriter().write("ERROR");
+            }
+            return;
+        }
         String campaignName = request.getParameter("campaignName");
         String note = request.getParameter("note");
         String start = request.getParameter("startDate");
