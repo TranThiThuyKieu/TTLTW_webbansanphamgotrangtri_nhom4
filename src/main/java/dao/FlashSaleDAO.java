@@ -72,12 +72,14 @@ public class FlashSaleDAO {
 
             while (rs.next()) {
                 FlashSale fs = new FlashSale();
-                fs.setId(rs.getInt("id"));
+                int id = rs.getInt("id"); 
+                fs.setId(id);
                 fs.setCampaignName(rs.getString("campaignName"));
                 fs.setNote(rs.getString("note"));
                 fs.setStartDate(rs.getTimestamp("startDate").toLocalDateTime());
                 fs.setEndDate(rs.getTimestamp("endDate").toLocalDateTime());
                 fs.setStatus(rs.getInt("status"));
+                fs.setDetails(getFlashSaleDetails(id));
                 list.add(fs);
             }
 

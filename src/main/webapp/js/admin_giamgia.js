@@ -103,6 +103,17 @@ function showVoucherDetail(id) {
 function closeVoucherModal() {
     document.getElementById("voucherModal").style.display = "none";
 }
+function showPromotionDetail(id) {
+    let dataContainer = document.getElementById("data-flashsale-" + id);
+    if (dataContainer) {
+        let data = dataContainer.innerHTML;
+        document.getElementById("promotionModalContainer").innerHTML = data;
+        document.getElementById("promotionModal").style.display = "block";
+    }
+}
+function closePromotionModal() {
+    document.getElementById("promotionModal").style.display = "none";
+}
 window.onclick = function(event) {
     let modal = document.getElementById("voucherModal");
     if (event.target == modal) {

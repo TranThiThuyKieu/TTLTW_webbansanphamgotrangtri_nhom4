@@ -168,7 +168,7 @@
                                     <th>ID</th>
                                     <th>Tên chương trình</th>
                                     <th>Ngày bắt đầu</th>
-                                    <th>nagfy kết thúc</th>
+                                    <th>Ngày kết thúc</th>
                                     <th>Trạng thái</th>
                                     <th>Hoạt động</th>
                                     <th class="text-center">Thao Tác</th>
@@ -206,10 +206,55 @@
 
                                     </td>
                                     <td class="text-center">
+                                        <a href="javascript:void(0)" onclick="showPromotionDetail(${fs.id})">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
                                         <a href="FlashSaleController?action=edit&id=${fs.id}" class="btn-action edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button class="btn-action delete" onclick="deleteFlashSale(${fs.id})"><i class="fas fa-trash"></i></button>
+                                        <div id="data-flashsale-${fs.id}" class="voucher-detail-hidden" style="display:none;">
+                                            <h2>Chi tiết Flash Sale</h2>
+
+                                            <h3 class="order-detail-title">
+                                                    ${fs.campaignName}
+                                            </h3>
+
+                                            <div class="order-info-row">
+                                                <div>
+                                                    <p><strong>Ghi chú:</strong> ${fs.note}</p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p><strong>Bắt đầu:</strong> ${fs.startDate.toString().replace("T"," ")}</p>
+                                                    <p><strong>Kết thúc:</strong> ${fs.endDate.toString().replace("T"," ")}</p>
+                                                </div>
+                                            </div>
+
+                                            <h3>Danh sách sản phẩm</h3>
+
+                                            <table class="paper-table">
+                                                <thead>
+                                                <tr>
+                                                    <th>SKU</th>
+                                                    <th>Giá gốc</th>
+                                                    <th>Giảm (%)</th>
+                                                    <th>Giá Flash</th>
+                                                    <th>Kho bán</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach items="${fs.details}" var="d">
+                                                    <tr>
+                                                        <td>${d.sku}</td>
+                                                        <td><fmt:formatNumber value="${d.originalPrice}" pattern="#,###"/>đ</td>
+                                                        <td>${d.discountPercent}%</td>
+                                                        <td><fmt:formatNumber value="${d.flashPrice}" pattern="#,###"/>đ</td>
+                                                        <td>${d.saleStock}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </td>
                                 </tr>
                                 </c:forEach>
@@ -226,6 +271,12 @@
     <div class="modal-content">
         <span onclick="closeVoucherModal()" class="modal-close">&times;</span>
         <div id="voucherModalContainer"></div>
+    </div>
+</div>
+<div id="promotionModal" class="modal">
+    <div class="modal-content">
+        <span onclick="closePromotionModal()" class="modal-close">&times;</span>
+        <div id="promotionModalContainer"></div>
     </div>
 </div>
 </body>
