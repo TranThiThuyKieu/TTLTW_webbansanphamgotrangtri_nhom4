@@ -183,4 +183,89 @@ public class FlashSaleDAO {
         }
 
     }
+    public FlashSale getActiveFlashSale() {
+        String sql = "SELECT * FROM flashsales " +
+                "WHERE status = 1 AND startDate <= NOW() AND endDate >= NOW() " +
+                "ORDER BY startDate DESC LIMIT 1";
+
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                FlashSale fs = new FlashSale();
+                int id = rs.getInt("id");
+
+                fs.setId(id);
+                fs.setCampaignName(rs.getString("campaignName"));
+                fs.setNote(rs.getString("note"));
+                fs.setStartDate(rs.getTimestamp("startDate").toLocalDateTime());
+                fs.setEndDate(rs.getTimestamp("endDate").toLocalDateTime());
+                fs.setStatus(rs.getInt("status"));
+
+                fs.setDetails(getFlashSaleDetails(id));
+
+                return fs;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public List<FlashSaleDetail> getTop3BestSellingInFlashSale(int flashSaleId) {
+        List<FlashSaleDetail> list = new ArrayList<>();
+
+        String sql = "SELECT " +
+                "fsd.id, fsd.product_variant_id, fsd.discountPercent, pv.price_sale, fsd.saleStock, " +
+                "pv.sku, pv.variant_price, pv.inventory_quantity, " +
+                "p.id AS productId, p.name_product, p.price, img.urlImage, " +
+                "AVG(r.rate) AS avg_rate, " +
+                "COALESCE(SUM(CASE WHEN o.status = 'Đã giao' THEN od.quantity ELSE 0 END), 0) AS totalSold " +
+                "FROM FlashSaleDetails fsd " +
+                "JOIN product_variants pv ON fsd.product_variant_id = pv.id " +
+                "JOIN products p ON pv.product_id = p.id " +
+                "LEFT JOIN reviews r ON p.id = r.product_id " +
+                "LEFT JOIN images img ON p.primary_image_id = img.id " +
+                "LEFT JOIN order_details od ON od.product_variant_id = pv.id " +
+                "LEFT JOIN orders o ON o.id = od.order_id " +
+                "WHERE fsd.flashSaleId = ? " +
+                "GROUP BY fsd.id, p.id, pv.id, img.id " +
+                "ORDER BY totalSold DESC " +
+                "LIMIT 3";
+
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, flashSaleId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                FlashSaleDetail d = new FlashSaleDetail();
+
+                d.setId(rs.getInt("id"));
+                d.setVariantId(rs.getInt("product_variant_id"));
+                d.setDiscountPercent(rs.getInt("discountPercent"));
+                d.setFlashPrice(rs.getDouble("price_sale"));
+                d.setSaleStock(rs.getInt("saleStock"));
+
+                d.setSku(rs.getString("sku"));
+                d.setOriginalPrice(rs.getDouble("variant_price"));
+                d.setAverageRating(rs.getDouble("avg_rate"));
+                d.setInventory(rs.getInt("inventory_quantity"));
+
+                d.setProductId(rs.getInt("productId"));
+                d.setNameProduct(rs.getString("name_product"));
+                d.setImageUrl(rs.getString("urlImage"));
+                d.setSold(rs.getInt("totalSold"));
+
+                list.add(d);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }

@@ -2,13 +2,12 @@
 package controller;
 
 import dao.CategoryDao;
+import dao.FlashSaleDAO;
 import dao.ProductDao;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import model.Category;
-import model.Product;
-import model.User;
+import model.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,6 +31,19 @@ public class HomeServlet extends HttpServlet {
         List<Product> products = dao.getProductsByPage(1, 8);
 
         List<Product> top3Products = dao.getTop3FeaturedProducts();
+
+
+        FlashSaleDAO fsDao = new FlashSaleDAO();
+
+        FlashSale activeFlashSale = fsDao.getActiveFlashSale();
+
+        if (activeFlashSale != null) {
+            List<FlashSaleDetail> topFlashProducts =
+                    fsDao.getTop3BestSellingInFlashSale(activeFlashSale.getId());
+
+            request.setAttribute("flashSale", activeFlashSale);
+            request.setAttribute("topFlashProducts", topFlashProducts);
+        }
 
         request.setAttribute("products", products);
         request.setAttribute("bestSeller", bestSellers);

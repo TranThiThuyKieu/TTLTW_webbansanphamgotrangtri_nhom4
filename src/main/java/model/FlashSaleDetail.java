@@ -9,6 +9,11 @@ public class FlashSaleDetail {
     String sku;
     double originalPrice;
     int inventory;
+    int productId;
+    String nameProduct;
+    String imageUrl;
+    int sold;
+    private double averageRating;
 
     public FlashSaleDetail(int variantId, int id, int discountPercent, double flashPrice, int saleStock, String sku, double originalPrice, int inventory) {
         this.variantId = variantId;
@@ -86,5 +91,44 @@ public class FlashSaleDetail {
 
     public void setOriginalPrice(double originalPrice) {
         this.originalPrice = originalPrice;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public String getNameProduct() {
+        return nameProduct;
+    }
+
+    public void setNameProduct(String nameProduct) {
+        this.nameProduct = nameProduct;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
+    }
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 }

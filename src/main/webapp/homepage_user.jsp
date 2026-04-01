@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>HOME DECOR - TRANG CHỦ</title>
-    <link rel="icon" type="image/png"  href="img/logo.png" >
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header_user.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer_user.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/homepage_style.css">
@@ -21,115 +21,142 @@
 <div class="banner">
     <div class="banner-container">
         <div class="banner-slide active" id="slide-1"
-             style="background-image: url('https://i.pinimg.com/1200x/c1/9d/df/c19ddf496eadac9b51cfd9c56c719686.jpg');" >
+             style="background-image: url('https://i.pinimg.com/1200x/c1/9d/df/c19ddf496eadac9b51cfd9c56c719686.jpg');">
             <div class="overlay"></div>
         </div>
     </div>
     <div class="banner-slogan">
         <h2>Nơi gỗ kể câu chuyện của không gian.</h2>
-        <p>Từng đường vân, sắc màu và cảm hứng từ thiên nhiên được chúng tôi tỉ mỉ chọn lọc và chăm chút, mang đến cảm giác ấm áp, tinh tế và gần gũi – tạo nên không gian hài hòa, chan hòa với thiên nhiên.</p>
+        <p>Từng đường vân, sắc màu và cảm hứng từ thiên nhiên được chúng tôi tỉ mỉ chọn lọc và chăm chút, mang đến cảm
+            giác ấm áp, tinh tế và gần gũi – tạo nên không gian hài hòa, chan hòa với thiên nhiên.</p>
     </div>
 
 </div>
 
-<div class="fs-container">
-    <div class="fs-header">
-        <h2 class="fs-title">FLASH <SALE></SALE></h2>
+<section class="discount-programs">
+    <div class="container">
+        <h1 class="main-program-title">CHƯƠNG TRÌNH GIẢM GIÁ</h1>
+        <p class="main-program-desc">Khám phá các sự kiện ưu đãi hấp dẫn tại Home Decor.</p>
 
-        <div class="fs-timer">
-           Đang diễn ra <span>02</span> : <span>45</span> : <span>10</span>
+        <div class="fs-container">
+            <c:if test="${not empty flashSale}">
+
+                <div class="fs-header">
+                    <div class="name-flashsale">
+                        <h2>${flashSale.campaignName}</h2>
+                        <a href="FlashSaleDetailServlet?id=${flashSale.id}" class="fs-view-all">
+                            Xem tất cả <i class="ri-arrow-right-s-line"></i>
+                        </a>
+                    </div>
+
+                    <div class="fs-timer">
+                        Đang diễn ra <span>02</span> : <span>45</span> : <span>10</span>
+                    </div>
+                </div>
+
+                <div class="products">
+                    <c:forEach var="p" items="${topFlashProducts}">
+                        <div class="product-card fs-item">
+
+                            <div class="fs-badge">
+                                -${p.discountPercent}%
+                            </div>
+
+                            <a href="ProductDetailServlet?id=${p.id}" class="product-link">
+                                <img src="${p.imageUrl}" alt="${p.nameProduct}">
+                                <h2>${p.nameProduct}</h2>
+                            </a>
+                            <div class="rating">
+                                <i class="ri-star-s-fill"></i>
+                                <span>(${p.averageRating})</span>
+                            </div>
+
+                            <div class="price">
+                                <c:choose>
+                                    <c:when test="${p.originalPrice > p.flashPrice}">
+                                        <span class="price-old">
+                                            <del>
+                                                <fmt:formatNumber value="${p.originalPrice}" type="number"
+                                                                  groupingUsed="true"/> VNĐ
+                                            </del>
+                                        </span>
+                                        <br>
+                                        <span class="price-sale">
+                                            <fmt:formatNumber value="${p.flashPrice}" type="number"
+                                                              groupingUsed="true"/> VNĐ
+                                        </span>
+                                    </c:when>
+
+                                    <c:otherwise>
+                                        <span class="price-normal">
+                                            <fmt:formatNumber value="${p.originalPrice}" type="number"
+                                                              groupingUsed="true"/> VNĐ
+                                        </span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+
+                            <div class="fs-stock">
+                                <p>Đã bán: ${p.sold}</p>
+                            </div>
+                            <div class="action-buttons">
+                                <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
+                                <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
+                            </div>
+
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:if>
         </div>
     </div>
-
-    <div class="products">
-        <div class="product-card fs-item">
-            <div class="fs-badge">-20%</div>
-            <a href="#" class="product-link">
-                <img src="https://www.google.com/imgres?q=hinh%20sp%20go&imgurl=https%3A%2F%2Fpng.pngtree.com%2Fthumb_back%2Ffh260%2Fbackground%2F20230814%2Fpngtree-wood-grain-texture-wooden-flooring-design-with-wooden-floor-textures-image_13051712.jpg&imgrefurl=https%3A%2F%2Fvi.pngtree.com%2Ffree-backgrounds-photos%2Fg%25E1%25BB%2597&docid=v7Y09az3PJUaIM&tbnid=u44GgfsJKSFuJM&vet=12ahUKEwjAi4HoiriTAxWjWHADHeQQBKAQnPAOegQIHBAB..i&w=640&h=427&hcb=2&ved=2ahUKEwjAi4HoiriTAxWjWHADHeQQBKAQnPAOegQIHBAB" alt="sp">
-                <h2>Kệ Gỗ Thông 3 Tầng</h2>
+    <div class="main-action-wrapper">
+        <a href="#" class="btn-discover-events">
+            Xem tất cả chương trình giảm giá
+        </a>
+    </div>
+</section>
+<div class="products">
+    <c:forEach items="${top3Products}" var="p">
+        <div class="product-card">
+            <a href="ProductDetailServlet?id=${p.id}" class="product-link">
+                <img src="${p.imageUrl}" alt="${p.nameProduct}">
+                <h2>${p.nameProduct}</h2>
             </a>
             <div class="rating">
                 <i class="ri-star-s-fill"></i>
-                <span>(4.5)</span>
+                <span>(${p.averageRating})</span>
             </div>
             <div class="price">
-                <span class="fs-old">500.000 VNĐ</span> <br>
-                <span class="fs-new">400.000 VNĐ</span>
+                <fmt:formatNumber value="${p.price}" type="number" groupingUsed="true"/> VNĐ
             </div>
             <div class="fs-stock">
-                <div class="stock-bar"><div class="stock-fill" style="width: 70%;"></div></div>
-                <p>Đã bán 15</p>
-            </div>
-            <div class="action-buttons">
-                <a href="#" class="buy-now" >MUA NGAY</a>
-            </div>
-        </div>
-
-        <div class="product-card fs-item">
-            <div class="fs-badge">-100.000vndd</div>
-            <a href="#" class="product-link">
-                <img src="https://www.lazada.vn/products/mo-hinh-go-sai-gon-xua-thu-nho-diy-tiem-sap-kho-ma-sp-sg01-i274484700.html?srsltid=AfmBOooDWWiy0hFjELNdMCyZ28MvjnjTKzrq0cO-y_2hqgSonJxAkc4i" alt="sp">
-                <h2>Bàn Trà Gỗ Sồi</h2>
-            </a>
-            <div class="rating">
-                <i class="ri-star-s-fill"></i>
-                <span>(5.0)</span>
-            </div>
-            <div class="price">
-                <span class="fs-old">1.000.000 VNĐ</span> <br>
-                <span class="fs-new">900.000 VNĐ</span>
-            </div>
-            <div class="fs-stock">
-                <div class="stock-bar"><div class="stock-fill" style="width: 20%;"></div></div>
                 <p>Đã bán 2 </p>
             </div>
             <div class="action-buttons">
-                <a href="#" class="buy-now" >MUA NGAY</a>
+                <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
+                <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
             </div>
         </div>
-    </div>
+    </c:forEach>
 </div>
-    <div class="products">
-        <c:forEach items="${top3Products}" var="p">
-            <div class="product-card">
-                <a href="ProductDetailServlet?id=${p.id}" class="product-link">
-                    <img src="${p.imageUrl}" alt="${p.nameProduct}">
-                    <h2>${p.nameProduct}</h2>
-                </a>
-                <div class="rating">
-                    <i class="ri-star-s-fill"></i>
-                    <span>(${p.averageRating})</span>
-                </div>
-                <div class="price">
-                    <fmt:formatNumber value="${p.price}" type="number" groupingUsed="true"/> VNĐ
-                </div>
-                <div class="fs-stock">
-                    <p>Đã bán 2 </p>
-                </div>
-                <div class="action-buttons">
-                    <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
-                    <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
-                </div>
-            </div>
-        </c:forEach>
-    </div>
 
 
-
-    <section class="intro-section">
-        <div class="intro-content">
-            <div class="intro-text">
-                <h2>An tâm mua sắm với chính sách hỗ trợ toàn diện</h2>
-                <p>Chúng tôi luôn đặt lợi ích khách hàng lên hàng đầu. Tìm hiểu về Chính sách Bảo hành, Vận chuyển và Đổi trả để yên tâm lựa chọn sản phẩm ưng ý.</p>
-                <a class="menu" href="${pageContext.request.contextPath}/purchasing_policy_user.jsp">
-                    Tìm hiểu thêm
-                </a>
-            </div>
-            <div class="intro-image">
-                <img src="https://i.pinimg.com/1200x/f3/01/41/f3014120ee3158232a4285f3695663c1.jpg" alt="sp">
-            </div>
+<section class="intro-section">
+    <div class="intro-content">
+        <div class="intro-text">
+            <h2>An tâm mua sắm với chính sách hỗ trợ toàn diện</h2>
+            <p>Chúng tôi luôn đặt lợi ích khách hàng lên hàng đầu. Tìm hiểu về Chính sách Bảo hành, Vận chuyển và Đổi
+                trả để yên tâm lựa chọn sản phẩm ưng ý.</p>
+            <a class="menu" href="${pageContext.request.contextPath}/purchasing_policy_user.jsp">
+                Tìm hiểu thêm
+            </a>
         </div>
-    </section>
+        <div class="intro-image">
+            <img src="https://i.pinimg.com/1200x/f3/01/41/f3014120ee3158232a4285f3695663c1.jpg" alt="sp">
+        </div>
+    </div>
+</section>
 
 <div class="v-section">
     <h2 class="v-title">ƯU ĐÃI ĐẶC BIỆT</h2>
@@ -237,4 +264,4 @@
     var isLogin = ${not empty sessionScope.LOGGED_USER};
 </script>
 <script src="${pageContext.request.contextPath}/js/homepage.js"></script>
-    </html>
+</html>
