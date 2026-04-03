@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<form action="ProductFilterServlet" method="get">
+<form id = "filterForm" action="ProductFilterServlet" method="get">
     <input type="hidden" name="cid" value="${param.cid}">
     <input type="hidden" name="returnPage"
            value="${pageContext.request.servletPath}">
@@ -116,8 +116,44 @@
             </label>
 
         </div>
-
+        <div class="filter-group">
+            <h4>Nhà cung cấp</h4>
+            <select name="source" class="filter-select" style="width: 100%; padding: 8px; border-radius: 4px;">
+                <option value="">-- Chọn nhà cung cấp --</option>
+                <c:forEach items="${listSource}" var="s">
+                    <option value="${s.id}" ${param.source == s.id ? 'selected' : ''}>
+                            ${s.sourceName}
+                    </option>
+                </c:forEach>
+            </select>
+        </div>
+        <div class="filter-group">
+            <h4>Khoảng giá (VNĐ)</h4>
+            <div class="price-slider-wrapper">
+                <div class="price-input">
+                    <input type="number" name="minPrice" id="minPrice" min="0"
+                           value="${param.minPrice != null ? param.minPrice : 0}">
+                    <input type="number" name="maxPrice" id="maxPrice" min="0"
+                           value="${param.maxPrice != null ? param.maxPrice : 50000000}">
+                </div>
+            </div>
+        </div>
         <br><br>
         <button type="submit">LỌC SẢN PHẨM</button>
     </aside>
 </form>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("filterForm");
+        form.addEventListener("submit", function(e) {
+            let min = document.getElementById("minPrice").value;
+            let max = document.getElementById("maxPrice").value;
+            min = min ? parseInt(min) : null;
+            max = max ? parseInt(max) : null;
+            if (min !== null && max !== null && min > max) {
+                alert("Giá tối thiểu không được lớn hơn giá tối đa");
+                e.preventDefault();
+            }
+        });
+    });
+</script>

@@ -1100,7 +1100,7 @@ public class ProductDao {
         }
         return null;
     }
-    public List<Product> filterProductsWithColor(String[] types, String[] prices, String[] ratings, Integer categoryId, String colorId) {
+    public List<Product> filterProductsWithColor(String[] types, String[] prices, String[] ratings, Integer categoryId, String colorId,String sourceId,String minPrice, String maxPrice) {
         List<Product> list = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
                 "SELECT p.id, p.name_product, p.price, img.urlImage, IFNULL(AVG(r.rate),0) AS avg_rate " +
@@ -1113,6 +1113,15 @@ public class ProductDao {
         if (categoryId != null) sql.append(" AND p.category_id = ").append(categoryId);
         if (types != null && types.length > 0) sql.append(" AND p.product_type_id IN (").append(String.join(",", types)).append(")");
         if (colorId != null && !colorId.isEmpty()) sql.append(" AND pv.color_id = ").append(colorId);
+        if (sourceId != null && !sourceId.isEmpty()) {
+            sql.append(" AND p.source_id = ").append(sourceId);
+        }
+        if (minPrice != null && !minPrice.isEmpty()) {
+            sql.append(" AND p.price >= ").append(minPrice);
+        }
+        if (maxPrice != null && !maxPrice.isEmpty()) {
+            sql.append(" AND p.price <= ").append(maxPrice);
+        }
         if (prices != null && prices.length > 0) {
             List<String> conds = new ArrayList<>();
             for (String p : prices) {

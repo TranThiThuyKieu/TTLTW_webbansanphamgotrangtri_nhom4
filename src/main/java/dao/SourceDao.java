@@ -88,5 +88,19 @@ public class SourceDao {
         }
         return false;
     }
-
+    public List<Source> getAllSources() {
+        List<Source> list = new ArrayList<>();
+        String query = "SELECT * FROM sources";
+        try {
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Source(rs.getInt("id"), rs.getString("sourcename")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import dao.CategoryDao;
 import dao.ProductDao;
+import dao.SourceDao;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -30,7 +31,7 @@ public class CategoryController extends HttpServlet {
         ProductDao pD = new ProductDao();
         List<Product> listP = pD.getProductsByCategorySorted(categoryId, sort);
         CategoryDao cD = new CategoryDao();
-
+        SourceDao sDao = new SourceDao();
         List<ProductType> listT = pD.getAllProductTypes();
         List<model.ProductColor> listColor = pD.getAllColors();
         List<Category> listCC = cD.getAllCategory();
@@ -44,7 +45,7 @@ public class CategoryController extends HttpServlet {
                 break;
             }
         }
-
+        request.setAttribute("listSource", sDao.getAllSources());
         request.setAttribute("listP", listP);
         request.setAttribute("listType", listT);
         request.setAttribute("listColor", listColor);
