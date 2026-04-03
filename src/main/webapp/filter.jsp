@@ -1,7 +1,39 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<style>
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .btn-filter, .btn-clear {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .btn-filter {
+        background-color: #8B5E3C;
+        color: white;
+        border: none;
+    }
+    .btn-filter:hover {
+        background-color: #6f4a2f;
+    }
+    .btn-clear {
+        background-color: white;
+        color: #8B5E3C;
+        border: 2px solid #8B5E3C;
+    }
+    .btn-clear:hover {
+        background-color: #8B5E3C;
+        color: white;
+    }
+</style>
 <form id = "filterForm" action="ProductFilterServlet" method="get">
     <input type="hidden" name="cid" value="${param.cid}">
     <input type="hidden" name="returnPage"
@@ -139,7 +171,10 @@
             </div>
         </div>
         <br><br>
-        <button type="submit">LỌC SẢN PHẨM</button>
+        <div class="button-group">
+            <button type="submit" class="btn-filter">LỌC SẢN PHẨM</button>
+            <button type="button" onclick="clearFilter()" class="btn-clear">XÓA BỘ LỌC</button>
+        </div>
     </aside>
 </form>
 <script>
@@ -156,4 +191,12 @@
             }
         });
     });
+    function clearFilter() {
+        let url = window.location.pathname;
+        let cid = new URLSearchParams(window.location.search).get("cid");
+        if (cid) {
+            url += "?cid=" + cid;
+        }
+        window.location.href = url;
+    }
 </script>
