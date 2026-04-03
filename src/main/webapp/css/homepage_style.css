@@ -903,3 +903,29 @@ body {
     color: var(--primary-color);
     text-transform: uppercase;
 }
+.container-custom {
+    width: 90%;
+    margin: 0 auto;
+}
+.san-pham-moi-nhat {
+    padding: 60px 0;
+    background-color: #fff;
+}
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 30px;
+}
+.new-label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #27ae60;
+    color: white;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    z-index: 2;
+}

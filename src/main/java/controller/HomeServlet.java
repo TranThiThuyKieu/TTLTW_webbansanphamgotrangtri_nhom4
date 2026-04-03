@@ -27,6 +27,7 @@ public class HomeServlet extends HttpServlet {
         ProductDao dao = new ProductDao();
         dao.CategoryDao cDao = new CategoryDao();
         List<Category> listCC = cDao.getAllCategory();
+        List<Product> newArrivals = dao.getLatestProducts(4);
         List<Product> bestSellers = dao.getTop8BestSellers();
         List<Product> products = dao.getProductsByPage(1, 8);
 
@@ -44,7 +45,7 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("flashSale", activeFlashSale);
             request.setAttribute("topFlashProducts", topFlashProducts);
         }
-
+        request.setAttribute("newArrivals", newArrivals);
         request.setAttribute("products", products);
         request.setAttribute("bestSeller", bestSellers);
         request.setAttribute("top3Products", top3Products);

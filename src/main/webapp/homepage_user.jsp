@@ -188,7 +188,33 @@
         </div>
     </div>
 </div>
-
+<section class="san-pham-moi-nhat">
+    <div class="container-custom">
+        <h2 class="title">SẢN PHẨM MỚI NHẤT</h2>
+        <p class="section-desc">Vừa cập bến Home Decor - Những thiết kế mộc mạc và hiện đại.</p>
+        <div class="product-grid">
+            <c:forEach items="${newArrivals}" var="p">
+                <div class="product-card">
+                    <div class="new-label">NEW</div> <a href="ProductDetailServlet?id=${p.id}" class="product-link">
+                    <img src="${p.imageUrl}" alt="${p.nameProduct}">
+                    <h2>${p.nameProduct}</h2>
+                </a>
+                    <div class="rating">
+                        <i class="ri-star-s-fill"></i>
+                        <span>(${p.averageRating})</span>
+                    </div>
+                    <div class="price">
+                        <fmt:formatNumber value="${p.price}" type="number" groupingUsed="true"/> VNĐ
+                    </div>
+                    <div class="action-buttons">
+                        <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
+                        <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</section>
 
 <section class="san-pham-moi">
     <h2 class="title">SẢN PHẨM BÁN CHẠY</h2>

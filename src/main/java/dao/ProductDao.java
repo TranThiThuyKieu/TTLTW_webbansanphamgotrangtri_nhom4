@@ -1210,4 +1210,38 @@ public class ProductDao {
         }
         return list;
     }
+    public List<Product> getLatestProducts(int limit) {
+        List<Product> list = new ArrayList<>();
+        String sql = """
+        SELECT 
+            p.id, p.name_product, p.price, 
+            i.urlImage, 
+            COALESCE(AVG(r.rate), 0) AS avgRating
+        FROM products p
+        LEFT JOIN images i ON p.primary_image_id = i.id
+        LEFT JOIN reviews r ON p.id = r.product_id
+        WHERE p.isActive = 1
+        GROUP BY p.id, p.name_product, p.price, i.urlImage
+        ORDER BY p.id DESC
+        LIMIT ?
+        """;
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, limit);
+             try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Product p = new Product();
+                    p.setId(rs.getInt("id"));
+                    p.setNameProduct(rs.getString("name_product"));
+                    p.setPrice(rs.getDouble("price"));
+                    p.setImageUrl(rs.getString("urlImage"));
+                    p.setAverageRating(rs.getDouble("avgRating"));
+                    list.add(p);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
