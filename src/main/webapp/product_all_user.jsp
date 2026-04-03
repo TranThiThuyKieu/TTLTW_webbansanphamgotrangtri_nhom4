@@ -41,7 +41,21 @@
 </section>
 <jsp:include page="danh_muc_loc.jsp"></jsp:include>
 <section class="product-all">
-    <h2 class="titleProduct">TẤT CẢ SẢN PHẨM</h2>
+    <div class="product-header">
+        <h2 class="titleProduct">TẤT CẢ SẢN PHẨM</h2>
+        <form method="get" action="ProductAllServlet" class="sort-form">
+            <label>Sắp xếp:</label>
+            <select name="sort" onchange="this.form.submit()">
+                <option value="">Mặc định</option>
+                <option value="price_asc" ${param.sort == 'price_asc' ? 'selected' : ''}>
+                    Giá tăng dần
+                </option>
+                <option value="price_desc" ${param.sort == 'price_desc' ? 'selected' : ''}>
+                    Giá giảm dần
+                </option>
+            </select>
+        </form>
+    </div>
     <div class="product-container">
 
         <jsp:include page="filter.jsp"></jsp:include>
