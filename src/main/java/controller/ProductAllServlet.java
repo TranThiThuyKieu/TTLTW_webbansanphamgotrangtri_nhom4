@@ -17,7 +17,8 @@ public class ProductAllServlet extends HttpServlet {
             throws ServletException, IOException {
         ProductDao dao = new ProductDao();
         CategoryDao cDao = new CategoryDao();
-        List<Product> listP = dao.getAllProducts();
+        String sort = request.getParameter("sort");
+        List<Product> listP = dao.getAllProductsSorted(sort);
         List<Category> listCC = cDao.getAllCategory();
         request.setAttribute("listCC", listCC);
         request.setAttribute("listType", dao.getAllProductTypes());

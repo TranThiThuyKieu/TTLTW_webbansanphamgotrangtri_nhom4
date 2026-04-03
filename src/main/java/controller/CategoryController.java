@@ -19,6 +19,7 @@ public class CategoryController extends HttpServlet {
             throws ServletException, IOException {
 
         String cid = request.getParameter("cid");
+        String sort = request.getParameter("sort");
         if (cid == null) {
             response.sendRedirect("ProductAllServlet");
             return;
@@ -27,9 +28,9 @@ public class CategoryController extends HttpServlet {
         int categoryId = Integer.parseInt(cid);
 
         ProductDao pD = new ProductDao();
+        List<Product> listP = pD.getProductsByCategorySorted(categoryId, sort);
         CategoryDao cD = new CategoryDao();
 
-        List<Product> listP = pD.getProductsByCategory(categoryId);
         List<ProductType> listT = pD.getAllProductTypes();
         List<model.ProductColor> listColor = pD.getAllColors();
         List<Category> listCC = cD.getAllCategory();

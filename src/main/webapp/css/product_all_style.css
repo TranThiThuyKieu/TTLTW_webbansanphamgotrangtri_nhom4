@@ -454,3 +454,51 @@ aside.filter-sidebar button[type="submit"] {
 aside.filter-sidebar button[type="submit"]:hover {
     background-color: #333333 !important;
 }
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px auto;
+    width: 90%;
+    flex-wrap: nowrap;
+    position: relative;
+}
+.titleProduct {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: var(--text-color);
+    letter-spacing: 1px;
+    text-align: center;
+    width: 100%;
+}
+.product-header h2 {
+    margin: 0;
+}
+.sort-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+.sort-form label {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+}
+.sort-form select {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.sort-form select:hover {
+    border-color: var(--primary-color);
+}
+.sort-form select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(139, 94, 60, 0.3);
+}

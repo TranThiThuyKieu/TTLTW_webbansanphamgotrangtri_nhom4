@@ -32,6 +32,21 @@
         </div>
     </div>
 </section>
+<div class="sort-container">
+    <form method="get" action="CategoryController" class="sort-form">
+        <input type="hidden" name="cid" value="${param.cid}" />
+        <label>Sắp xếp:</label>
+        <select name="sort" onchange="this.form.submit()">
+            <option value="">Mặc định</option>
+            <option value="price_asc" ${param.sort == 'price_asc' ? 'selected' : ''}>
+                Giá tăng dần
+            </option>
+            <option value="price_desc" ${param.sort == 'price_desc' ? 'selected' : ''}>
+                Giá giảm dần
+            </option>
+        </select>
+    </form>
+</div>
 <section id="productSection">
     <div class="product-container">
         <jsp:include page="filter.jsp"></jsp:include>

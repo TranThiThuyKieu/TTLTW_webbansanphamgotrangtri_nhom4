@@ -703,3 +703,20 @@ body {
 .page-btn:has(span) {
     pointer-events: none;
 }
+.sort-container {
+    width: 90%;
+    margin: 30px auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.sort-form label {
+    margin-right: 10px;
+    font-weight: 600;
+}
+.sort-form select {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}

@@ -1138,4 +1138,76 @@ public class ProductDao {
         } catch (Exception e) { e.printStackTrace(); }
         return list;
     }
+    public List<Product> getAllProductsSorted(String sort) {
+        List<Product> list = new ArrayList<>();
+        String sql = """
+        SELECT 
+            p.id, p.name_product, p.price, p.isActive, 
+            i.urlImage, 
+            COALESCE(AVG(r.rate), 0) AS avgRating
+        FROM products p
+        LEFT JOIN images i ON p.primary_image_id = i.id
+        LEFT JOIN reviews r ON p.id = r.product_id
+        WHERE p.isActive = 1
+        GROUP BY p.id, p.name_product, p.price, p.isActive, i.urlImage
+    """;
+        if ("price_asc".equals(sort)) {
+            sql += " ORDER BY p.price ASC";
+        } else if ("price_desc".equals(sort)) {
+            sql += " ORDER BY p.price DESC";
+        }
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getInt("id"));
+                p.setNameProduct(rs.getString("name_product"));
+                p.setPrice(rs.getDouble("price"));
+                p.setIsActive(rs.getInt("isActive"));
+                p.setImageUrl(rs.getString("urlImage"));
+                p.setAverageRating(rs.getDouble("avgRating"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Product> getProductsByCategorySorted(int categoryId, String sort) {
+        List<Product> list = new ArrayList<>();
+        String sql = """
+        SELECT 
+            p.id, p.name_product, p.price, 
+            i.urlImage,
+            COALESCE(AVG(r.rate), 0) AS avgRating
+        FROM products p
+        LEFT JOIN images i ON p.primary_image_id = i.id
+        LEFT JOIN reviews r ON p.id = r.product_id
+        WHERE p.category_id = ? AND p.isActive = 1
+        GROUP BY p.id, p.name_product, p.price, i.urlImage
+    """;
+        if ("price_asc".equals(sort)) {
+            sql += " ORDER BY p.price ASC";
+        } else if ("price_desc".equals(sort)) {
+            sql += " ORDER BY p.price DESC";
+        }
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, categoryId);
+             ResultSet rs = ps.executeQuery();
+             while (rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getInt("id"));
+                p.setNameProduct(rs.getString("name_product"));
+                p.setPrice(rs.getDouble("price"));
+                p.setImageUrl(rs.getString("urlImage"));
+                p.setAverageRating(rs.getDouble("avgRating"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
