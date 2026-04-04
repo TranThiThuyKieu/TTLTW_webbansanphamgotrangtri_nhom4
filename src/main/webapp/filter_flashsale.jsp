@@ -34,8 +34,8 @@
         color: white;
     }
 </style>
-<form id = "filterForm" action="ProductFilterServlet" method="get">
-    <input type="hidden" name="cid" value="${param.cid}">
+<form id = "filterForm" action="ProductAllFlashSaleServlet" method="get">
+    <input type="hidden" name="id" value="${flashSale.id}">
     <input type="hidden" name="returnPage"
            value="${pageContext.request.servletPath}">
     <aside class="filter-sidebar">
