@@ -44,7 +44,7 @@
                 <div class="fs-header">
                     <div class="name-flashsale">
                         <h2>${flashSale.campaignName}</h2>
-                        <a href="FlashSaleDetailServlet?id=${flashSale.id}" class="fs-view-all">
+                        <a href="ProductAllFlashSaleServlet?id=${flashSale.id}" class="fs-view-all">
                             Xem tất cả <i class="ri-arrow-right-s-line"></i>
                         </a>
                     </div>
@@ -65,40 +65,40 @@
                             <a href="ProductDetailServlet?id=${p.id}" class="product-link">
                                 <img src="${p.imageUrl}" alt="${p.nameProduct}">
                                 <h2>${p.nameProduct}</h2>
-                            </a>
-                            <div class="rating">
-                                <i class="ri-star-s-fill"></i>
-                                <span>(${p.averageRating})</span>
-                            </div>
+                                <div class="rating">
+                                    <i class="ri-star-s-fill"></i>
+                                    <span>(${p.averageRating})</span>
+                                </div>
 
-                            <div class="price">
-                                <c:choose>
-                                    <c:when test="${p.originalPrice > p.flashPrice}">
-                                        <span class="price-old">
-                                            <del>
-                                                <fmt:formatNumber value="${p.originalPrice}" type="number"
-                                                                  groupingUsed="true"/> VNĐ
-                                            </del>
-                                        </span>
-                                        <br>
-                                        <span class="price-sale">
+                                <div class="price">
+                                    <c:choose>
+                                        <c:when test="${p.originalPrice > p.flashPrice}">
+                                            <span class="price-old">
+                                                <del>
+                                                    <fmt:formatNumber value="${p.originalPrice}" type="number"
+                                                                      groupingUsed="true"/> VNĐ
+                                                </del>
+                                            </span>
+                                            <br>
+                                            <span class="price-sale">
                                             <fmt:formatNumber value="${p.flashPrice}" type="number"
                                                               groupingUsed="true"/> VNĐ
-                                        </span>
-                                    </c:when>
+                                            </span>
+                                        </c:when>
 
-                                    <c:otherwise>
-                                        <span class="price-normal">
-                                            <fmt:formatNumber value="${p.originalPrice}" type="number"
-                                                              groupingUsed="true"/> VNĐ
-                                        </span>
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
+                                        <c:otherwise>
+                                            <span class="price-normal">
+                                                <fmt:formatNumber value="${p.originalPrice}" type="number"
+                                                                  groupingUsed="true"/> VNĐ
+                                            </span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
 
-                            <div class="fs-stock">
-                                <p>Đã bán: ${p.sold}</p>
-                            </div>
+                                <div class="fs-stock">
+                                    <p>Đã bán: ${p.sold}</p>
+                                </div>
+                            </a>
                             <div class="action-buttons">
                                 <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
                                 <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
@@ -195,10 +195,11 @@
         <div class="product-grid">
             <c:forEach items="${newArrivals}" var="p">
                 <div class="product-card">
-                    <div class="new-label">NEW</div> <a href="ProductDetailServlet?id=${p.id}" class="product-link">
-                    <img src="${p.imageUrl}" alt="${p.nameProduct}">
-                    <h2>${p.nameProduct}</h2>
-                </a>
+                    <div class="new-label">NEW</div>
+                    <a href="ProductDetailServlet?id=${p.id}" class="product-link">
+                        <img src="${p.imageUrl}" alt="${p.nameProduct}">
+                        <h2>${p.nameProduct}</h2>
+                    </a>
                     <div class="rating">
                         <i class="ri-star-s-fill"></i>
                         <span>(${p.averageRating})</span>

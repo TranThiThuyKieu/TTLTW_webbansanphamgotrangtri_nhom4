@@ -3,9 +3,12 @@ package dao;
 import dao.DBContext;
 import model.FlashSale;
 import model.FlashSaleDetail;
+import model.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class FlashSaleDAO {
@@ -254,6 +257,133 @@ public class FlashSaleDAO {
                 d.setAverageRating(rs.getDouble("avg_rate"));
                 d.setInventory(rs.getInt("inventory_quantity"));
 
+                d.setProductId(rs.getInt("productId"));
+                d.setNameProduct(rs.getString("name_product"));
+                d.setImageUrl(rs.getString("urlImage"));
+                d.setSold(rs.getInt("totalSold"));
+
+                list.add(d);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public List<FlashSaleDetail> filterFlashSaleProducts(
+            int flashSaleId,
+            Integer categoryId,
+            String[] types,
+            String[] prices,
+            String[] ratings,
+            String colorId,
+            String sourceId,
+            String minPrice,
+            String maxPrice,
+            String sort
+    ) {
+        List<FlashSaleDetail> list = new ArrayList<>();
+        List<Object> params = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT fsd.id, fsd.discountPercent, pv.price_sale, " +
+                        "pv.variant_price, pv.inventory_quantity, " +
+                        "p.id AS productId, p.name_product, img.urlImage, " +
+                        "AVG(r.rate) AS avg_rate, " +
+                        "COALESCE(SUM(CASE WHEN o.status = 'Đã giao' THEN od.quantity ELSE 0 END), 0) AS totalSold " +
+                        "FROM FlashSaleDetails fsd " +
+                        "JOIN product_variants pv ON fsd.product_variant_id = pv.id " +
+                        "JOIN products p ON pv.product_id = p.id " +
+                        "LEFT JOIN images img ON p.primary_image_id = img.id " +
+                        "LEFT JOIN reviews r ON p.id = r.product_id " +
+                        "LEFT JOIN order_details od ON od.product_variant_id = pv.id " +
+                        "LEFT JOIN orders o ON o.id = od.order_id " +
+                        "WHERE fsd.flashSaleId = ? "
+        );
+
+        params.add(flashSaleId);
+
+        if (categoryId != null) {
+            sql.append(" AND p.category_id = ? ");
+            params.add(categoryId);
+        }
+
+        if (types != null && types.length > 0) {
+            sql.append(" AND p.product_type_id IN (");
+            sql.append(String.join(",", Collections.nCopies(types.length, "?")));
+            sql.append(")");
+            for (String t : types) params.add(Integer.parseInt(t));
+        }
+
+        if (colorId != null && !colorId.isEmpty()) {
+            sql.append(" AND pv.color_id = ? ");
+            params.add(Integer.parseInt(colorId));
+        }
+
+        if (sourceId != null && !sourceId.isEmpty()) {
+            sql.append(" AND p.source_id = ? ");
+            params.add(Integer.parseInt(sourceId));
+        }
+
+        if (minPrice != null && !minPrice.isEmpty()) {
+            sql.append(" AND pv.price_sale >= ? ");
+            params.add(Double.parseDouble(minPrice));
+        }
+        if (maxPrice != null && !maxPrice.isEmpty()) {
+            sql.append(" AND pv.price_sale <= ? ");
+            params.add(Double.parseDouble(maxPrice));
+        }
+
+        if (prices != null && prices.length > 0) {
+            List<String> conds = new ArrayList<>();
+
+            for (String p : prices) {
+                switch (p) {
+                    case "1": conds.add("pv.price_sale < 1000000"); break;
+                    case "2": conds.add("pv.price_sale BETWEEN 1000000 AND 3000000"); break;
+                    case "3": conds.add("pv.price_sale BETWEEN 3000000 AND 5000000"); break;
+                    case "4": conds.add("pv.price_sale BETWEEN 5000000 AND 10000000"); break;
+                    case "5": conds.add("pv.price_sale > 10000000"); break;
+                }
+            }
+
+            if (!conds.isEmpty()) {
+                sql.append(" AND (").append(String.join(" OR ", conds)).append(") ");
+            }
+        }
+
+        sql.append(" GROUP BY fsd.id ");
+
+        if (ratings != null && ratings.length > 0) {
+            int min = Arrays.stream(ratings).mapToInt(Integer::parseInt).min().orElse(0);
+            sql.append(" HAVING avg_rate >= ? ");
+            params.add(min);
+        }
+
+        if ("price_asc".equals(sort)) {
+            sql.append(" ORDER BY pv.price_sale ASC ");
+        } else if ("price_desc".equals(sort)) {
+            sql.append(" ORDER BY pv.price_sale DESC ");
+        }
+
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                FlashSaleDetail d = new FlashSaleDetail();
+
+                d.setId(rs.getInt("id"));
+                d.setDiscountPercent(rs.getInt("discountPercent"));
+                d.setFlashPrice(rs.getDouble("price_sale"));
+                d.setOriginalPrice(rs.getDouble("variant_price"));
+                d.setAverageRating(rs.getDouble("avg_rate"));
                 d.setProductId(rs.getInt("productId"));
                 d.setNameProduct(rs.getString("name_product"));
                 d.setImageUrl(rs.getString("urlImage"));

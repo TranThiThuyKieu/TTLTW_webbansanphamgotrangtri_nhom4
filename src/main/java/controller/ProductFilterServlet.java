@@ -8,7 +8,6 @@ import jakarta.servlet.annotation.*;
 import model.Product;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 @WebServlet(name = "ProductFilterServlet", value = "/ProductFilterServlet")
@@ -42,5 +41,6 @@ public class ProductFilterServlet extends HttpServlet {
             returnPage = "product_all_user.jsp";
         }
         request.getRequestDispatcher(returnPage)
-                .forward(request, response);;
-    }}
+                .forward(request, response);
+    }
+}
