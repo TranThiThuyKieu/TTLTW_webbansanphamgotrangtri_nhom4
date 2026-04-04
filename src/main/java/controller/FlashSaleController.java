@@ -13,6 +13,7 @@ import java.util.List;
 
 @WebServlet(name = "FlashSaleController", value = "/FlashSaleController")
 public class FlashSaleController extends HttpServlet {
+    FlashSaleDAO dao = new FlashSaleDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,6 +32,17 @@ public class FlashSaleController extends HttpServlet {
             request.getRequestDispatcher("admin_edit_flashsale.jsp").forward(request, response);
             return;
         }
+        if ("checkOverlapUpdate".equals(action)) {
+            String start = request.getParameter("startDate");
+            String end = request.getParameter("endDate");
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            boolean isOverlap = dao.isTimeOverlapExcludeId(start, end, id);
+
+            response.setContentType("application/json");
+            response.getWriter().write("{\"overlap\": " + isOverlap + "}");
+            return;
+        }
 
 
         request.getRequestDispatcher("admin_create_flashsale.jsp").forward(request, response);
@@ -41,12 +53,23 @@ public class FlashSaleController extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
-        FlashSaleDAO dao = new FlashSaleDAO();
+
         if ("toggleStatus".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
             int status = Integer.parseInt(request.getParameter("status"));
+
+            FlashSale fs = dao.getFlashSaleById(id);
+
+            if (status == 1 && dao.isTimeOverlap(fs.getStartDate().toString(), fs.getEndDate().toString())) {
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":\"TIME_OVERLAP\"}");
+                return;
+            }
+
             dao.updateStatus(id, status);
-            response.getWriter().write("OK");
+
+            response.setContentType("application/json");
+            response.getWriter().write("{\"success\":true}");
             return;
         }
         if ("update".equals(action)) {
@@ -55,11 +78,20 @@ public class FlashSaleController extends HttpServlet {
             String note = request.getParameter("note");
             String start = request.getParameter("startDate");
             String end = request.getParameter("endDate");
+
+            if (dao.isTimeOverlapExcludeId(start, end, id)) {
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"TIME_OVERLAP\"}");
+                return;
+            }
+
             boolean success = dao.updateFlashSale(id, name, note, start, end);
+
+            response.setContentType("application/json");
             if (success) {
-                response.sendRedirect("FlashSaleAdminServlet?msg=success");
+                response.getWriter().write("{\"success\": true}");
             } else {
-                response.sendRedirect("FlashSaleAdminServlet?msg=error");
+                response.getWriter().write("{\"error\": \"UPDATE_FAILED\"}");
             }
             return;
         }
@@ -73,6 +105,27 @@ public class FlashSaleController extends HttpServlet {
             }
             return;
         }
+        if ("checkOverlap".equals(action)) {
+            String start = request.getParameter("startDate");
+            String end = request.getParameter("endDate");
+
+            boolean isOverlap = dao.isTimeOverlap(start, end);
+
+            response.setContentType("application/json");
+            response.getWriter().write("{\"overlap\": " + isOverlap + "}");
+            return;
+        }
+        if ("checkOverlapUpdate".equals(action)) {
+            String start = request.getParameter("startDate");
+            String end = request.getParameter("endDate");
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            boolean isOverlap = dao.isTimeOverlapExcludeId(start, end, id);
+
+            response.setContentType("application/json");
+            response.getWriter().write("{\"overlap\": " + isOverlap + "}");
+            return;
+        }
         String campaignName = request.getParameter("campaignName");
         String note = request.getParameter("note");
         String start = request.getParameter("startDate");
@@ -81,13 +134,20 @@ public class FlashSaleController extends HttpServlet {
         String[] percents = request.getParameterValues("discountPercent[]");
         String[] flashPrices = request.getParameterValues("flashPrice[]");
         String[] stocks = request.getParameterValues("saleStock[]");
+        if (dao.isTimeOverlap(start, end)) {
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"TIME_OVERLAP\"}");
+            return;
+        }
         boolean success = dao.insertFlashSale(campaignName, note, start, end,
                 variantIds, percents, flashPrices, stocks);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
         if (success) {
-            response.sendRedirect("FlashSaleController?msg=success");
+            response.getWriter().write("{\"success\": true}");
         } else {
-            response.sendRedirect("FlashSaleController?msg=error");
+            response.getWriter().write("{\"error\": \"INSERT_FAILED\"}");
         }
     }
 }

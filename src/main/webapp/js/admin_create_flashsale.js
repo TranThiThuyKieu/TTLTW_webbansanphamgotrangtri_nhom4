@@ -109,3 +109,67 @@ function applyBulk(type) {
         }
     });
 }
+document.addEventListener('DOMContentLoaded', function() {
+    const startDateInput = document.getElementById("startDate");
+    const endDateInput = document.getElementById("endDate");
+    const errorBox = document.getElementById("timeError");
+    const form = document.querySelector("form");
+
+    if (form) {
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch("FlashSaleController", {
+                method: "POST",
+                body: new URLSearchParams(formData)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error === "TIME_OVERLAP") {
+                        if (errorBox) {
+                            errorBox.innerText = "Thời gian này đã có chiến dịch khác diễn ra!";
+                            errorBox.style.display = "block";
+                            errorBox.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    } else if (data.success) {
+                        window.location.href = "FlashSaleController?msg=success";
+                    } else {
+                        alert("Lỗi: " + (data.error || "Không thể thực hiện"));
+                    }
+                })
+                .catch(err => console.error("Lỗi hệ thống:", err));
+        });
+    }
+
+    if (startDateInput && endDateInput) {
+        [startDateInput, endDateInput].forEach(input => {
+            input.addEventListener("input", function() {
+                if (errorBox) errorBox.style.display = "none";
+                checkTimeUpdate();
+            });
+        });
+    }
+});
+
+function checkTimeUpdate() {
+    const start = document.getElementById("startDate")?.value;
+    const end = document.getElementById("endDate")?.value;
+    const idInput = document.querySelector("input[name='id']");
+    const id = idInput ? idInput.value : 0;
+
+    if (!start || !end) return;
+
+    fetch(`FlashSaleController?action=checkOverlapUpdate&startDate=${encodeURIComponent(start)}&endDate=${encodeURIComponent(end)}&id=${id}`)
+        .then(res => res.json())
+        .then(data => {
+            const errorBox = document.getElementById("timeError");
+            if (errorBox) {
+                if (data.overlap) {
+                    errorBox.innerText = "Thời gian bị trùng với chiến dịch khác!";
+                    errorBox.style.display = "block";
+                } else {
+                    errorBox.style.display = "none";
+                }
+            }
+        });
+}

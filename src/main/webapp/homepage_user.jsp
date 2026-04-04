@@ -111,7 +111,7 @@
         </div>
     </div>
     <div class="main-action-wrapper">
-        <a href="flashsale_all_user.jsp" class="btn-discover-events">
+        <a href="FlashSaleAllServlet" class="btn-discover-events">
             Xem tất cả chương trình giảm giá
         </a>
     </div>

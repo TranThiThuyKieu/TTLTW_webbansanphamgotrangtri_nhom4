@@ -19,9 +19,11 @@
         <main class="content">
             <div class="product-management-container">
                 <h2 class="page-title">Tạo Chương trình giảm giá</h2>
-
                 <form action="FlashSaleController" method="POST">
-                    <input type="hidden" name="action" value="create">
+                    <input type="hidden" name="action" value="${flashSale != null ? 'update' : 'create'}">
+                    <c:if test="${flashSale != null}">
+                        <input type="hidden" name="id" value="${flashSale.id}">
+                    </c:if>
                     <div class="form-container">
                         <div class="form-section">
                             <h3>Thông tin chiến dịch</h3>
@@ -38,14 +40,15 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Ngày bắt đầu</label>
-                                    <input type="datetime-local" name="startDate" required>
+                                    <input type="datetime-local" id="startDate" name="startDate" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Ngày kết thúc</label>
-                                    <input type="datetime-local" name="endDate" required>
+                                    <input type="datetime-local" id="endDate" name="endDate" required>
                                 </div>
                             </div>
+                            <div id="timeError" class="alert alert-danger" style="display:none;"></div>
                         </div>
 
                         <div class="form-section">

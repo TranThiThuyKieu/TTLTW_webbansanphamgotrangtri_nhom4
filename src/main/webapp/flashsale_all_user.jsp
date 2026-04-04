@@ -32,57 +32,69 @@
         </div>
 
         <div class="sale-events-grid">
+            <c:forEach items="${saleList}" var="fs">
+                <jsp:useBean id="now" class="java.util.Date" />
+                <fmt:parseDate value="${fs.startDate}" pattern="yyyy-MM-dd'T'HH:mm" var="startDt" type="both" />
+                <fmt:parseDate value="${fs.endDate}" pattern="yyyy-MM-dd'T'HH:mm" var="endDt" type="both" />
 
-            <div class="sale-card active">
-                <div class="sale-header">
-                    <div class="sale-info">
-                        <h2 class="sale-name">FLASH SALE 1/4</h2>
-                        <a href="#" class="view-all">Xem tất cả <i class="ri-arrow-right-s-line"></i></a>
-                    </div>
-                    <div class="sale-timer">
-                        <span class="status-label">Đang diễn ra:</span>
-                        <div class="countdown-boxes">
-                            <span class="box">02</span> : <span class="box">45</span> : <span class="box">10</span>
+                <c:set var="diffMs" value="${startDt.time - now.time}" />
+                <c:set var="diffDays" value="${diffMs / (1000 * 60 * 60 * 24)}" />
+
+                <c:choose>
+                    <c:when test="${now.after(startDt) && now.before(endDt)}">
+                        <div class="sale-card active" data-countdown="${fs.endDate}">
+                            <div class="sale-header">
+                                <div class="sale-info">
+                                    <h2 class="sale-name">${fs.campaignName}</h2>
+                                    <a href="FlashSaleDetail?id=${fs.id}" class="view-all">Xem tất cả <i class="ri-arrow-right-s-line"></i></a>
+                                </div>
+                                <div class="sale-timer">
+                                    <span class="status-label">Đang diễn ra:</span>
+                                    <div class="countdown-boxes" id="timer-${fs.id}"></div>
+                                </div>
+                            </div>
+                            <p class="sale-note">${fs.note}</p>
                         </div>
-                    </div>
-                </div>
-                <p class="sale-note">Chương trình ưu đãi hấp dẫn.</p>
-            </div>
+                    </c:when>
 
-            <div class="sale-card upcoming">
-                <div class="sale-header">
-                    <div class="sale-info">
-                        <h2 class="sale-name">XẢ KHO CUỐI THÁNG</h2>
-                        <span class="view-all disabled">Sắp diễn ra</span>
-                    </div>
-                    <div class="sale-timer">
-                        <span class="status-label">Bắt đầu sau:</span>
-                        <div class="countdown-boxes">
-                            <span class="box gray">05</span> : <span class="box gray">12</span> : <span class="box gray">00</span>
+                    <c:when test="${now.before(startDt) && diffDays < 30}">
+                        <div class="sale-card upcoming" data-countdown="${fs.startDate}">
+                            <div class="sale-header">
+                                <div class="sale-info">
+                                    <h2 class="sale-name">${fs.campaignName}</h2>
+                                    <span class="view-all disabled">Sắp diễn ra</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span class="status-label">Bắt đầu sau:</span>
+                                    <div class="countdown-boxes" id="timer-${fs.id}"></div>
+                                </div>
+                            </div>
+                            <p class="sale-note">${fs.note}</p>
                         </div>
-                    </div>
-                </div>
-                <p class="sale-note">Bắt đầu lúc 00:00 - 30/04/2026</p>
-            </div>
+                    </c:when>
 
-            <div class="sale-card future">
-                <div class="sale-header">
-                    <div class="sale-info">
-                        <h2 class="sale-name">ĐẠI TIỆC GIÁNG SINH</h2>
-                        <span class="view-all disabled">Chưa diễn ra</span>
-                    </div>
-                    <div class="sale-timer">
-                        <span class="status-label">Bắt đàu vào:</span>
-                        <div class="start-date">24/12/2026 - 08:00</div>
-                    </div>
-                </div>
-                <p class="sale-note">Sự kiện lớn nhất năm với ưu đãi lên tới 70%.</p>
-            </div>
-
+                    <c:otherwise>
+                        <div class="sale-card future">
+                            <div class="sale-header">
+                                <div class="sale-info">
+                                    <h2 class="sale-name">${fs.campaignName}</h2>
+                                    <span class="view-all disabled">Chưa diễn ra</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span class="status-label">Bắt đầu vào:</span>
+                                    <div class="start-date"><fmt:formatDate value="${startDt}" pattern="dd/MM/yyyy - HH:mm"/></div>
+                                </div>
+                            </div>
+                            <p class="sale-note">${fs.note}</p>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
         </div>
     </div>
 </section>
 
 <jsp:include page="footer.jsp"></jsp:include>
+<script src="${pageContext.request.contextPath}/js/flashsale_all_user.js"></script>
 </body>
 </html>
