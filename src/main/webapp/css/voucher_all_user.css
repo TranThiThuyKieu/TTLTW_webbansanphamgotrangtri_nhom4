@@ -129,3 +129,135 @@ p.v-label.dacquyen{
     padding: 8px;
     word-break: break-word;
 }
+.v-detail-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 0 15px;
+    font-family: Arial, sans-serif;
+}
+
+.v-detail-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+}
+
+.v-preview {
+    display: flex;
+    background: #fff;
+    border-bottom: 2px dashed #ddd;
+    height: 160px;
+}
+
+.v-preview-left {
+    background: #8b5e3c;
+    color: #fff;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.v-preview-right {
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.v-type-label {
+    font-size: 12px;
+    color: #999;
+    text-transform: uppercase;
+    margin: 0; }
+.v-value { font-size: 32px;
+    color: #8b5e3c;
+    margin: 5px 0; }
+.v-code-text {
+    font-size: 14px;
+    color: #555;
+    margin: 0; }
+
+.v-info-section { padding: 30px; }
+.v-name {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px; }
+.v-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px; }
+.v-divider { border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0; }
+
+.v-specs p {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 8px; }
+
+.v-rank-box {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fffaf5;
+    border-radius: 8px;
+    border: 1px solid #f5e1d2;
+}
+
+.v-rank-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #8b5e3c; }
+.v-rank-tags {
+    display: flex; gap: 8px; }
+
+.v-tag-item {
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.v-tag-item.vang {
+    background: #ffd700;
+    color: #856404; }
+.v-tag-item.bac { background: #e2e3e5;
+    color: #383d41; }
+
+.v-action {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.v-btn-copy, .v-btn-use {
+    flex: 1;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.v-btn-copy {
+    background: #f0f0f0;
+    color: #333; }
+.v-btn-copy:hover {
+    background: #e0e0e0; }
+
+.v-btn-use {
+    background: #8b5e3c;
+    color: #fff; }
+.v-btn-use:hover {
+    background: #6f4a30; }
