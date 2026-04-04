@@ -1,7 +1,7 @@
 // roi
 package controller;
 
-import dao.CategoryDao;
+import dao.*;
 import dao.FlashSaleDAO;
 import dao.ProductDao;
 import jakarta.servlet.*;
@@ -33,9 +33,10 @@ public class HomeServlet extends HttpServlet {
 
         List<Product> top3Products = dao.getTop3FeaturedProducts();
 
+        VoucherDAO voucherdao = new VoucherDAO();
+        List<Voucher> vouchers = voucherdao.getTop3AvailableVoucher();
 
         FlashSaleDAO fsDao = new FlashSaleDAO();
-
         FlashSale activeFlashSale = fsDao.getActiveFlashSale();
 
         if (activeFlashSale != null) {
@@ -45,11 +46,14 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("flashSale", activeFlashSale);
             request.setAttribute("topFlashProducts", topFlashProducts);
         }
+
         request.setAttribute("newArrivals", newArrivals);
         request.setAttribute("products", products);
         request.setAttribute("bestSeller", bestSellers);
         request.setAttribute("top3Products", top3Products);
         request.setAttribute("listCC", listCC);
+        request.setAttribute("vouchers", vouchers);
+
 
         request.getRequestDispatcher("/homepage_user.jsp").forward(request, response);
     }

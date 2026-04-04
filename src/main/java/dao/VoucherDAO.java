@@ -151,4 +151,36 @@ public class VoucherDAO {
             return false;
         }
     }
+    public List<Voucher> getTop3AvailableVoucher() {
+        List<Voucher> list = new ArrayList<>();
+        String sql = "SELECT * FROM vouchers   WHERE status = 1 " +
+                "AND reward_style = 'NORMAL' " +
+                "AND total_release > 0 " +
+                "AND start_date <= NOW() " +
+                "AND end_date >= NOW() " +
+                "ORDER BY created_at DESC LIMIT 3";
+
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Voucher v = new Voucher();
+                v.setVoucherCode(rs.getString("voucher_code"));
+                v.setVoucherName(rs.getString("voucher_name"));
+                v.setPromoType(rs.getString("promo_type"));
+                v.setPromoValue(rs.getDouble("promo_value"));
+                v.setMinOrderValue(rs.getDouble("min_order_value"));
+                v.setTotalRelease(rs.getInt("total_release"));
+                v.setStartDate(rs.getTimestamp("start_date").toLocalDateTime());
+                v.setEndDate(rs.getTimestamp("end_date").toLocalDateTime());
+
+                list.add(v);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }
