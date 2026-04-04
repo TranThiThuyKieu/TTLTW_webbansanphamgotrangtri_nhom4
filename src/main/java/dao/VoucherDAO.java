@@ -166,6 +166,7 @@ public class VoucherDAO {
 
             while (rs.next()) {
                 Voucher v = new Voucher();
+                v.setId(rs.getInt("id"));
                 v.setVoucherCode(rs.getString("voucher_code"));
                 v.setVoucherName(rs.getString("voucher_name"));
                 v.setPromoType(rs.getString("promo_type"));
