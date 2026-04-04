@@ -24,6 +24,7 @@
         </div>
                 <a class="menu" id=" " href="purchasing_policy_user.jsp" >CHÍNH SÁCH MUA HÀNG</a>
         <a class="menu" id="introduce" href="introduce_user.jsp" >GIỚI THIỆU</a>
+        <a class="menu" id="uu dai" href="voucher_all_user.jsp" >UU DAI</a>
         <a class="menu" id="contact" href="contact_user.jsp">LIÊN HỆ</a>
 
     </nav>

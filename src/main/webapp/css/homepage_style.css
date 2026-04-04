@@ -707,27 +707,6 @@ body {
 }
 
 
-.v-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.v-code {
-    font-weight: bold;
-    color: var(--text-color);
-    background: #f9f9f9;
-    padding: 3px 8px;
-    border-radius: 4px;
-    border: 1px solid #eee; }
-
-.v-btn {
-    background: var(--btn);
-    color: #fff;
-    border: none;
-    padding: 5px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-}
 .discount-programs {
     background-color: #fcfaf8;
     padding: 60px 0;
