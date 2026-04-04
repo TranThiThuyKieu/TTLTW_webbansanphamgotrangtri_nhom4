@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header_user.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer_user.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/homepage_style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/voucher_all_user.css">
+
     <link
             href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css"
             rel="stylesheet"
@@ -157,37 +159,56 @@
         </div>
     </div>
 </section>
-
 <div class="v-section">
     <h2 class="v-title">ƯU ĐÃI ĐẶC BIỆT</h2>
+    <p class="section-desc">Xem thêm</p>
     <div class="v-grid">
-        <div class="v-card">
-            <div class="v-left"><i class="fas fa-ticket-alt"></i></div>
-            <div class="v-right">
-                <p class="v-label">Giảm trực tiếp</p>
-                <h3>50.000 VNĐ</h3>
-                <p class="v-min">Đơn từ 500.000 VNĐ</p>
-                <div class="v-footer">
-                    <span class="v-code">WOOD50</span>
-                    <button class="v-btn">LƯU</button>
+        <c:forEach var="v" items="${vouchers}">
+            <div class="v-card">
+                <div class="v-left">
                 </div>
-            </div>
-        </div>
+                <div class="v-right">
+                    <p class="v-label">
+                        <c:choose>
+                            <c:when test="${v.promoType == 'PERCENT'}">
+                                Chiết khấu
+                            </c:when>
+                            <c:otherwise>
+                                Giảm trực tiếp
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
+                    <h3>
+                        <c:choose>
+                            <c:when test="${v.promoType == 'PERCENT'}">
+                                GIẢM ${v.promoValue}%
+                            </c:when>
+                            <c:otherwise>
+                                ${v.promoValue} VNĐ
+                            </c:otherwise>
+                        </c:choose>
+                    </h3>
+                    <p class="v-min">
+                        Đơn từ ${v.minOrderValue} VNĐ
+                    </p>
+                    <p class="v-time">
+                        HSD: ${v.endDate}
+                    </p>
+                    <p class="v-quantity">
+                        Còn lại: ${v.totalRelease}
+                    </p>
 
-        <div class="v-card">
-            <div class="v-left"><i class="fas fa-percent"></i></div>
-            <div class="v-right">
-                <p class="v-label">Chiết khấu</p>
-                <h3>GIẢM 10% TỔNG</h3>
-                <p class="v-min">Đơn từ 2.000.000 VNĐ</p>
-                <div class="v-footer">
-                    <span class="v-code">DECOR10</span>
-                    <button class="v-btn">LƯU</button>
+                    <div class="v-footer">
+                        <span class="v-code">${v.voucherCode}</span>
+                        <button class="v-btn">Xem chi tiết</button>
+                    </div>
+
                 </div>
             </div>
-        </div>
+        </c:forEach>
     </div>
 </div>
+
 <section class="san-pham-moi-nhat">
     <div class="container-custom">
         <h2 class="title">SẢN PHẨM MỚI NHẤT</h2>
