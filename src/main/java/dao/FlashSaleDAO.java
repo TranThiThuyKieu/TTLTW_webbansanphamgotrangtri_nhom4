@@ -232,7 +232,7 @@ public class FlashSaleDAO {
                 "LEFT JOIN images img ON p.primary_image_id = img.id " +
                 "LEFT JOIN order_details od ON od.product_variant_id = pv.id " +
                 "LEFT JOIN orders o ON o.id = od.order_id " +
-                "WHERE fsd.flashSaleId = ? " +
+                "WHERE fsd.flashSaleId = ? AND p.isActive = 1 " +
                 "GROUP BY fsd.id, p.id, pv.id, img.id " +
                 "ORDER BY totalSold DESC " +
                 "LIMIT 3";
@@ -299,7 +299,7 @@ public class FlashSaleDAO {
                         "LEFT JOIN reviews r ON p.id = r.product_id " +
                         "LEFT JOIN order_details od ON od.product_variant_id = pv.id " +
                         "LEFT JOIN orders o ON o.id = od.order_id " +
-                        "WHERE fsd.flashSaleId = ? "
+                        "WHERE fsd.flashSaleId = ? AND p.isActive = 1"
         );
 
         params.add(flashSaleId);
