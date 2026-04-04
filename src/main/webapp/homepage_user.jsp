@@ -200,7 +200,7 @@
 
                     <div class="v-footer">
                         <span class="v-code">${v.voucherCode}</span>
-                        <button class="v-btn">Xem chi tiết</button>
+                        <a href="VoucherDetailServlet?id=${v.id}">Xem chi tiết</a>
                     </div>
 
                 </div>
