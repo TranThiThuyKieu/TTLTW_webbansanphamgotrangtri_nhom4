@@ -120,3 +120,27 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+function toggleFlashSaleStatus(id, checkbox) {
+    let status = checkbox.checked ? 1 : 0;
+
+    fetch("FlashSaleController", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `action=toggleStatus&id=${id}&status=${status}`
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                alert("Không thể bật do trùng thời gian!");
+
+                checkbox.checked = !checkbox.checked;
+            }
+        })
+        .catch(err => {
+            console.error(err);
+
+            checkbox.checked = !checkbox.checked;
+        });
+}

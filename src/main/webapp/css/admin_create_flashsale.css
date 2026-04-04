@@ -101,3 +101,10 @@
     justify-content: flex-end;
     gap: 10px;
 }
+.alert-danger {
+    background: #ffe5e5;
+    color: #d60000;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}

@@ -398,4 +398,73 @@ public class FlashSaleDAO {
 
         return list;
     }
+    public boolean isTimeOverlap(String start, String end) {
+        String sql = "SELECT COUNT(*) FROM flashsales " +
+                "WHERE status = 1 " +
+                "AND (? <= endDate AND ? >= startDate)";
+
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, start);
+            ps.setString(2, end);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean isTimeOverlapExcludeId(String start, String end, int excludeId) {
+        String sql = "SELECT COUNT(*) FROM flashsales " +
+                "WHERE status = 1 AND id != ? " +
+                "AND (? <= endDate AND ? >= startDate)";
+
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, excludeId);
+            ps.setString(2, start);
+            ps.setString(3, end);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public List<FlashSale> getAllFlashSalesUser() {
+        List<FlashSale> list = new ArrayList<>();
+        String sql = "SELECT * FROM flashsales f WHERE f.status = 1  ORDER BY f.startDate ASC";
+
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                FlashSale fs = new FlashSale();
+                int id = rs.getInt("id");
+                fs.setId(id);
+                fs.setCampaignName(rs.getString("campaignName"));
+                fs.setNote(rs.getString("note"));
+                fs.setStartDate(rs.getTimestamp("startDate").toLocalDateTime());
+                fs.setEndDate(rs.getTimestamp("endDate").toLocalDateTime());
+                fs.setStatus(rs.getInt("status"));
+                fs.setDetails(getFlashSaleDetails(id));
+                list.add(fs);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
