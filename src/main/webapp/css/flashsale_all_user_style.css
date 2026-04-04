@@ -1,0 +1,137 @@
+:root {
+    --background-color: #FFFFFF;
+    --primary-color: #8B5E3C;
+    --text-color: #3b2f2f;
+    --text-color2:#6b5743;
+    --btn:#A56B43;
+    --dark-brown: #3e322b;
+    --light-brown: #a67c52;
+    --light-bg: #f9f9f9;
+    --border-color: #e0e0e0;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+
+}
+
+.flash-sale-container {
+    padding: 40px 10%;
+    background-color: var(--light-bg);
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page-title h1 {
+    color: var(--primary-color);
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.sale-events-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.sale-card {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.sale-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.sale-name {
+    font-size: 22px;
+    color: var(--light-brown);
+    margin: 0;
+}
+
+.view-all {
+    display: inline-block;
+    border: 1px solid var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--dark-brown);
+    margin-top: 5px;
+}
+
+.view-all:hover {
+    background-color: var(--primary-color);
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(139, 94, 60, 0.2);
+}
+
+.sale-timer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.status-label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.countdown-boxes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+}
+
+.box {
+    background: #222;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    min-width: 30px;
+    text-align: center;
+}
+
+.box.gray {
+    background: #777;
+}
+
+.start-date {
+    font-size: 18px;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.sale-note {
+    margin-top: 15px;
+    color: #666;
+    font-style: italic;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .sale-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}

@@ -34,8 +34,8 @@
     />
     <div class="banner-overlay">
         <div class="banner-content">
-            <h2>BỘ SƯU TẬP SẢN PHẨM</h2>
-            <p>Nâng tầm không gian sống với những sản phẩm decor tinh tế và hiện đại.</p>
+            <h2>${flashSale.campaignName}</h2>
+            <p>${flashSale.note}</p>
         </div>
     </div>
 </section>
