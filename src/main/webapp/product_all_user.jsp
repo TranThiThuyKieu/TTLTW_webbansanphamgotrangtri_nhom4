@@ -45,7 +45,7 @@
         <h2 class="titleProduct">TẤT CẢ SẢN PHẨM</h2>
         <form method="get" action="ProductAllServlet" class="sort-form">
             <label>Sắp xếp:</label>
-            <select name="sort" onchange="this.form.submit()">
+            <select name="sort" onchange="sortProduct(this.value)">
                 <option value="">Mặc định</option>
                 <option value="price_asc" ${param.sort == 'price_asc' ? 'selected' : ''}>
                     Giá tăng dần
@@ -59,43 +59,8 @@
     <div class="product-container">
 
         <jsp:include page="filter.jsp"></jsp:include>
-        <div class="products">
-            <c:forEach items="${listP}" var="p">
-                <div class="product-card">
-                    <a href="ProductDetailServlet?id=${p.id}" class="product-link">
-                        <div class="set">
-                            <img src="${pageContext.request.contextPath}/${p.imageUrl}"
-                                 onerror="this.src='${pageContext.request.contextPath}/img/logo.png'"
-                                 alt="${p.nameProduct}">
-                            <h2>${p.nameProduct}</h2>
-
-                            <div class="rating">
-                                <c:forEach begin="1" end="5" var="i">
-                                    <i class="${i <= p.averageRating ? 'ri-star-s-fill' : 'ri-star-s-line'}"></i>
-                                </c:forEach>
-                                <span>(<fmt:formatNumber value="${p.averageRating}" maxFractionDigits="1"/>)</span>
-                            </div>
-
-                            <div class="price">
-                                <fmt:formatNumber value="${p.price}" type="number"/> VNĐ
-                            </div>
-                        </div>
-                    </a>
-
-                    <div class="action-buttons">
-                        <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
-                        <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
-                    </div>
-                </div>
-            </c:forEach>
-
-            <c:if test="${empty listP}">
-                <div class="no-product">
-                    <p class="no-product-p">
-                        <i class="ri-search-line"></i> Không tìm thấy sản phẩm nào phù hợp.
-                    </p>
-                </div>
-            </c:if>
+        <div class="products" id="productList">
+            <jsp:include page="product_list.jsp"/>
         </div>
     </div>
 </section>
