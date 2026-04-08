@@ -1253,4 +1253,71 @@ public class ProductDao {
         }
         return list;
     }
+    public List<Product> filterProducts(String sort,String[] types, String[] prices, String[] ratings,
+                                        String colorId, String sourceId, String minPrice, String maxPrice) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT p.id, p.name_product, p.price, img.urlImage, IFNULL(AVG(r.rate),0) AS avg_rate " +
+                "FROM products p " +
+                "LEFT JOIN images img ON p.primary_image_id = img.id " +
+                "LEFT JOIN reviews r ON p.id = r.product_id " +
+                "LEFT JOIN product_variants pv ON p.id = pv.product_id " +
+                "WHERE p.isActive = 1 ";
+
+        if (types != null && types.length > 0) {
+            sql += " AND p.product_type_id IN (" + String.join(",", types) + ")";
+        }
+        if (colorId != null && !colorId.isEmpty()) {
+            sql += " AND pv.color_id = " + colorId;
+        }
+        if (sourceId != null && !sourceId.isEmpty()) {
+            sql += " AND p.source_id = " + sourceId;
+        }
+        if (minPrice != null && !minPrice.isEmpty()) {
+            sql += " AND p.price >= " + minPrice;
+        }
+        if (maxPrice != null && !maxPrice.isEmpty()) {
+            sql += " AND p.price <= " + maxPrice;
+        }
+        if (prices != null && prices.length > 0) {
+            String priceCondition = "";
+            for (String p : prices) {
+                if (p.equals("1")) priceCondition += " OR p.price < 1000000";
+                if (p.equals("2")) priceCondition += " OR p.price BETWEEN 1000000 AND 3000000";
+                if (p.equals("3")) priceCondition += " OR p.price BETWEEN 3000000 AND 5000000";
+                if (p.equals("4")) priceCondition += " OR p.price BETWEEN 5000000 AND 10000000";
+                if (p.equals("5")) priceCondition += " OR p.price > 10000000";
+            }
+            sql += " AND (" + priceCondition.substring(4) + ")"; // bỏ " OR "
+        }
+
+        sql += " GROUP BY p.id ";
+        if (ratings != null && ratings.length > 0) {
+            int min = Integer.parseInt(ratings[0]);
+            sql += " HAVING avg_rate >= " + min;
+        }
+        if ("price_asc".equals(sort)) {
+            sql += " ORDER BY p.price ASC ";
+        } else if ("price_desc".equals(sort)) {
+            sql += " ORDER BY p.price DESC ";
+        }
+        try (Connection con = getConnection();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Product p = new Product(
+                        rs.getInt("id"),
+                        rs.getString("name_product"),
+                        rs.getDouble("price"),
+                        rs.getString("urlImage"),
+                        rs.getDouble("avg_rate")
+                );
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }

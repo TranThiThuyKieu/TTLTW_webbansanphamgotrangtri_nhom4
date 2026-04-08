@@ -16,17 +16,34 @@ import java.util.List;
 public class ProductAllServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         ProductDao dao = new ProductDao();
         CategoryDao cDao = new CategoryDao();
         SourceDao sDao = new SourceDao();
         String sort = request.getParameter("sort");
-        List<Product> listP = dao.getAllProductsSorted(sort);
-        List<Category> listCC = cDao.getAllCategory();
+        String ajax = request.getParameter("ajax");
+        String[] type = request.getParameterValues("type");
+        String[] price = request.getParameterValues("price");
+        String[] rating = request.getParameterValues("rating");
+        String color = request.getParameter("color");
+        String source = request.getParameter("source");
+        String minPrice = request.getParameter("minPrice");
+        String maxPrice = request.getParameter("maxPrice");
+
+        List<Product> listP = dao.filterProducts(
+                sort, type, price, rating, color, source, minPrice, maxPrice
+        );
+        if ("true".equals(ajax)) {
+            request.setAttribute("listP", listP);
+            request.getRequestDispatcher("product_list.jsp").forward(request, response);
+            return;
+        }
         request.setAttribute("listSource", sDao.getAllSources());
-        request.setAttribute("listCC", listCC);
+        request.setAttribute("listCC", cDao.getAllCategory());
         request.setAttribute("listType", dao.getAllProductTypes());
         request.setAttribute("listColor", dao.getAllColors());
         request.setAttribute("listP", listP);
+
         request.getRequestDispatcher("product_all_user.jsp").forward(request, response);
     }
     @Override

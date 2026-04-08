@@ -34,7 +34,7 @@
         color: white;
     }
 </style>
-<form id = "filterForm" action="ProductFilterServlet" method="get">
+<form id="filterForm" action="ProductAllServlet" method="get">
     <input type="hidden" name="cid" value="${param.cid}">
     <input type="hidden" name="returnPage"
            value="${pageContext.request.servletPath}">
