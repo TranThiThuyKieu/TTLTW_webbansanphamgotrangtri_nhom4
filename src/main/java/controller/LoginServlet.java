@@ -66,7 +66,7 @@ public class LoginServlet extends HttpServlet {
             }
             session.setAttribute("LOGGED_USER", user);
             if ("Admin".equalsIgnoreCase(user.getRole())) {
-                response.sendRedirect(request.getContextPath() + "/admin_homepage.jsp");
+                response.sendRedirect(request.getContextPath() + "/AdminOverviewOrderServlet");
         } else if ("Staff".equalsIgnoreCase(user.getRole())) {
             response.sendRedirect(request.getContextPath() + "/AdminProfileServlet");}
             else {

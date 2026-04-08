@@ -40,13 +40,7 @@
 
             <h1>Đăng ký</h1>
 
-            <div class="social-container">
-                <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/backend_war_exploded/GoogleLoginServlet&response_type=code&client_id=1089942878583-pq5ui5eubco8s2lav650ln4gn19gogfe.apps.googleusercontent.com&approval_prompt=force" class="social">
-                    <i class="fab fa-google-plus-g"></i>
-                </a>
-            </div>
-
-            <span>hoặc sử dụng email của bạn để đăng ký</span>
+            <span>Sử dụng email của bạn để đăng ký</span>
 
             <div class="infield">
                 <input type="text" name="username" placeholder="Tên" required>
@@ -58,13 +52,19 @@
 
             <div class="infield">
                 <input type="password" name="password" placeholder="Mật khẩu" required minlength="8">
-                <small class="password-note">
-                    Mật khẩu phải chứa ít nhất 8 ký tự, 1 chữ hoa, 1 số và 1 ký tự đặc biệt
-                </small>
+
             </div>
 
             <div class="infield">
                 <input type="password" name="re_password" placeholder="Xác nhận mật khẩu" required>
+            </div>
+            <div class="password-requirements">
+                <ul>
+                    <li>Ít nhất 8 ký tự — càng dài càng tốt</li>
+                    <li>Ít nhất một ký tự viết thường</li>
+                    <li>Ít nhất một ký tự viết hoa</li>
+                    <li>Ít nhất một số, ký hiệu hoặc khoảng trắng</li>
+                </ul>
             </div>
 
             <button>Đăng ký</button>
@@ -81,6 +81,9 @@
             <div class="social-container">
                 <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/backend_war_exploded/GoogleLoginServlet&response_type=code&client_id=1089942878583-pq5ui5eubco8s2lav650ln4gn19gogfe.apps.googleusercontent.com&approval_prompt=force" class="social">
                     <i class="fab fa-google-plus-g"></i>
+                </a>
+                <a href="https://www.facebook.com/v18.0/dialog/oauth?client_id=1298685025550866&redirect_uri=http://localhost:8080/backend_war_exploded/FacebookLoginServlet&scope=email,public_profile" class="social">
+                    <i class="fab fa-facebook"></i>
                 </a>
             </div>
             <h1>Đăng nhập</h1>

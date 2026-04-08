@@ -423,3 +423,16 @@ social-divider {
 .social-container {
     margin: 10px 0 20px 0;
 }
+.password-requirements {
+    background-color: var(--light-bg);
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px dashed var(--border-color);
+}
+
+.password-requirements ul {
+    list-style: disc;
+    padding-left: 20px;
+    font-size: 0.85rem;
+    color: var(--secondary-text-color);
+}

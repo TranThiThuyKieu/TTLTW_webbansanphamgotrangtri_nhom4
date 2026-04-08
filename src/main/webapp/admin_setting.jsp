@@ -92,7 +92,7 @@
                                     <div class="form-group third-width">
                                         <label>Phường / Xã</label>
                                         <input type="text" name="commune"
-                                               value="${address != null ? address.commune : ''}"
+                                               value="${address != null ? address.ward : ''}"
                                                placeholder="Phường / Xã" />
                                     </div>
                                     <div class="form-group third-width">
