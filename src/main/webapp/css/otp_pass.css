@@ -105,7 +105,7 @@ a:hover {
     color: var(--primary-clr);
     font-size: 14px;
     cursor: pointer;
-    text-decoration: underline;
+    text-decoration: none;
     padding: 5px;
 }
 
