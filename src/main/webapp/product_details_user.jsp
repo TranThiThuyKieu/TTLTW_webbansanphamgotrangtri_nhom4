@@ -35,24 +35,18 @@
 <div class="product-detail">
     <div class="product-gallery">
         <div class="main-image">
-            <img id="main-product-img" src="${p.imageUrl}" alt="${p.nameProduct}" style="width: 100%;">
+            <img id="main-product-img" src="${p.imageUrl}" alt="${p.nameProduct}" style="width: 100%;" onclick="openModal(this.src)">
         </div>
 
         <div class="thumb-list" style="display: flex; gap: 5px; margin-top: 10px;">
             <c:forEach var="img" items="${p.subImages}">
                 <img src="${img.urlImage}"
                      onclick="changeMainImage(this.src)"
-                     style="width: 70px; height: 70px; cursor: pointer; border: 1px solid #ddd; object-fit: cover;">
+                     style="width: 70px; height: 70px; cursor: pointer; border: 1px solid #ddd; object-fit: cover;"
+                    >
             </c:forEach>
         </div>
     </div>
-
-    <script>
-        function changeMainImage(newSrc) {
-            document.getElementById('main-product-img').src = newSrc;
-        }
-    </script>
-
     <div class="product-info">
         <h2 class="product-title">${p.nameProduct}</h2>
         <p>Số lượng còn lại: <strong>${p.totalQuantity}</strong> sản phẩm</p>        <div class="rating-price-wrapper">
@@ -297,6 +291,49 @@
 </c:if>
 
 <jsp:include page="footer.jsp"></jsp:include>
+<div id="imageModal" class="modal-overlay" onclick="closeModal()">
+    <span class="close-modal">&times;</span>
+    <div class="modal-img-wrapper" onclick="event.stopPropagation()">
+        <img class="modal-content" id="imgFull">
+    </div>
+</div>
+<script>
+    function changeMainImage(newSrc) {
+        document.getElementById('main-product-img').src = newSrc;
+    }
+    function getScrollbarWidth() {
+        return window.innerWidth - document.documentElement.clientWidth;
+    }
+    let scale = 1;
+    function openModal(src) {
+        const modal = document.getElementById("imageModal");
+        let modalImg = document.getElementById("imgFull");
+        modal.classList.add("show");
+        document.body.classList.add("modal-open");
+        const newImg = modalImg.cloneNode(true);
+        modalImg.replaceWith(newImg);
+        modalImg = document.getElementById("imgFull");
+        modalImg.src = src;
+        let scale = 1;
+        modalImg.style.transform = "scale(1)";
+        modalImg.addEventListener("wheel", function(e) {
+            e.preventDefault();
+            scale += (e.deltaY < 0) ? 0.2 : -0.2;
+            scale = Math.min(Math.max(1, scale), 5);
+            modalImg.style.transform = `scale(${scale})`;
+        }, { passive: false });
+        modalImg.addEventListener("click", function(e) {
+            e.stopPropagation();
+            scale = (scale === 1) ? 2 : 1;
+            modalImg.style.transform = `scale(${scale})`;
+        });
+    }
+    function closeModal() {
+        const modal = document.getElementById("imageModal");
+        modal.classList.remove("show");
+        document.body.classList.remove("modal-open");
+    }
+</script>
 <script>
     const allVariants = [
         <c:forEach var="v" items="${p.variants}" varStatus="status">
@@ -408,7 +445,6 @@
     }
 
 </script>
-</div>
 <script>
     function filterReviews(star) {
         document.querySelectorAll('.review-item').forEach(item => {
@@ -422,6 +458,5 @@
         });
     }
 </script>
-
 </body>
 </html>
