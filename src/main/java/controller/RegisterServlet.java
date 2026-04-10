@@ -17,12 +17,37 @@ public class RegisterServlet extends HttpServlet {
         String action = request.getParameter("action");
         if ("sendOtp".equals(action)) {
             String email = request.getParameter("email");
+            HttpSession session = request.getSession();
+            Integer resendCount = (Integer) session.getAttribute("RESEND_COUNT");
+            Long lastSendTime = (Long) session.getAttribute("LAST_SEND_TIME");
+            Long lockTime = (Long) session.getAttribute("RESEND_LOCK_TIME");
+            if (resendCount == null) resendCount = 0;
+            long now = System.currentTimeMillis();
+            response.setContentType("text/plain; charset=UTF-8");
+            if (lockTime != null && (now - lockTime) < 15 * 60 * 1000) {
+                response.setStatus(429);
+                response.getWriter().write("Vui lòng thử lại sau 15 phút");
+                return;
+            }
+            if (lastSendTime != null && (now - lastSendTime) < 30 * 1000) {
+                response.setStatus(429);
+                response.getWriter().write("Vui lòng chờ 30 giây");
+                return;
+            }
+            if (resendCount >= 3) {
+                session.setAttribute("RESEND_LOCK_TIME", now);
+                response.setStatus(429);
+                response.getWriter().write("Bạn đã gửi quá 3 lần. Vui lòng thử lại sau 15 phút");
+                return;
+            }
             String otp = String.valueOf((int) (Math.random() * 900000 + 100000));
             try {
                 EmailUtils.sendOTP(email, otp);
-                HttpSession session = request.getSession();
                 session.setAttribute("OTP", otp);
                 session.setAttribute("OTP_TIME", System.currentTimeMillis());
+                session.setAttribute("LAST_SEND_TIME", now);
+                session.setAttribute("RESEND_COUNT", resendCount + 1);
+                session.setAttribute("EMAIL_OTP", email);
                 response.setStatus(HttpServletResponse.SC_OK);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -64,6 +89,9 @@ public class RegisterServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("OTP", otp);
         session.setAttribute("OTP_TIME", System.currentTimeMillis());
+        session.setAttribute("EMAIL_OTP", email);
+        session.setAttribute("RESEND_COUNT", 1);
+        session.setAttribute("LAST_SEND_TIME", System.currentTimeMillis());
         User tempUser = new User(username, password, "Active", "User", email, 0);
         session.setAttribute("REG_USER", tempUser);
         request.setAttribute("SHOW_OTP", true);

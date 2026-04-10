@@ -15,6 +15,15 @@ public class VerifyOtpServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
+        Integer failCount = (Integer) session.getAttribute("OTP_FAIL_COUNT");
+        if (failCount == null) failCount = 0;
+        Long lockTime = (Long) session.getAttribute("OTP_LOCK_TIME");
+        if (lockTime != null && (System.currentTimeMillis() - lockTime) < 15 * 60 * 1000) {
+            request.setAttribute("SHOW_OTP", true);
+            request.setAttribute("ERROR", "Bạn đã nhập sai quá 3 lần. Thử lại sau 15 phút!");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
         String action = request.getParameter("action");
         if ("checkOnly".equals(action)) {
             String inputOtp = request.getParameter("otp");
@@ -45,16 +54,31 @@ public class VerifyOtpServlet extends HttpServlet {
             return;
         }
         if (!sessionOtp.equals(inputOtp)) {
-            request.setAttribute("SHOW_OTP", true);
-            request.setAttribute("ERROR", "OTP không đúng!");
+            failCount++;
+            if (failCount >= 3) {
+                session.setAttribute("OTP_LOCK_TIME", System.currentTimeMillis());
+                session.setAttribute("OTP_FAIL_COUNT", 0);
+                request.setAttribute("SHOW_OTP", true);
+                request.setAttribute("ERROR", "Bạn đã nhập sai quá 3 lần. Bị khóa 15 phút!");
+            } else {
+                session.setAttribute("OTP_FAIL_COUNT", failCount);
+                request.setAttribute("SHOW_OTP", true);
+                request.setAttribute("ERROR", "OTP không đúng! Lần " + failCount + "/3");
+            }
             request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
+        session.removeAttribute("OTP_FAIL_COUNT");
+        session.removeAttribute("OTP_LOCK_TIME");
         UserDao dao = new UserDao();
         dao.signup(regUser.getUsername(), regUser.getEmail(), regUser.getPassword());
         session.removeAttribute("OTP");
         session.removeAttribute("OTP_TIME");
         session.removeAttribute("REG_USER");
+        session.removeAttribute("RESEND_COUNT");
+        session.removeAttribute("LAST_SEND_TIME");
+        session.removeAttribute("RESEND_LOCK_TIME");
+        session.removeAttribute("EMAIL_OTP");
         request.setAttribute("MESS_SUCCESS", "Đăng ký thành công! Vui lòng đăng nhập.");
         request.getRequestDispatcher("/login.jsp").forward(request, response);
     }

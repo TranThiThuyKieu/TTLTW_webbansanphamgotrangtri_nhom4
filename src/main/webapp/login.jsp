@@ -115,13 +115,13 @@
             <div class="overlay-panel overlay-left">
                 <h1>HOME DECOR!</h1>
                 <p>Để tiếp tục kết nối với chúng tôi, vui lòng đăng nhập bằng thông tin cá nhân của bạn</p>
-                <button>Đăng nhập</button>
+                <button id = "signIn">Đăng nhập</button>
             </div>
 
             <div class="overlay-panel overlay-right">
                 <h1>HOME DECOR!</h1>
                 <p>Hãy nhập thông tin cá nhân của bạn và bắt đầu hành trình cùng chúng tôi</p>
-                <button>Đăng ký</button>
+                <button id = "signUp">Đăng ký</button>
             </div>
 
         </div>
@@ -136,7 +136,7 @@
     <div class="otp-box">
 
         <h3>Nhập mã OTP</h3>
-
+        <input type="hidden" id="otpEmail" value="${sessionScope.EMAIL_OTP}">
         <c:if test="${not empty ERROR}">
             <div class="error">${ERROR}</div>
         </c:if>
@@ -147,6 +147,10 @@
         </form>
 
         <p class="note">Mã OTP đã được gửi về email của bạn</p>
+        <button type="button" id="resendBtn" disabled>
+            Gửi lại mã (30s)
+        </button>
+        <div id="resendMsg"></div>
 
     </div>
 
