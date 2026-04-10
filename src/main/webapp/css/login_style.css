@@ -429,10 +429,37 @@ social-divider {
     border-radius: 4px;
     border: 1px dashed var(--border-color);
 }
-
 .password-requirements ul {
     list-style: disc;
     padding-left: 20px;
     font-size: 0.85rem;
     color: var(--secondary-text-color);
+}
+#resendBtn {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: block;
+}
+#resendBtn:disabled {
+    background-color: #d1d1d1 !important;
+    color: #777 !important;
+    opacity: 1;
+    cursor: not-allowed;
+}
+#resendBtn:not(:disabled) {
+    background-color: var(--grad-clr1) !important;
+    color: #ffffff !important;
+    opacity: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(139, 94, 60, 0.3);
+}
+#resendBtn:not(:disabled):hover {
+    background-color: var(--grad-clr2) !important;
+    transform: translateY(-2px);
 }
