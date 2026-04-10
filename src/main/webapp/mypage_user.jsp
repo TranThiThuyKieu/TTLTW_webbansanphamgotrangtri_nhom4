@@ -413,6 +413,38 @@
             <span class="label" style="color: #555;">Tổng tích lũy</span>
         </div>
     </div>
+    <div class="revenue-section">
+        <h3> Chi tiêu theo tháng</h3>
+        <table class="revenue-table">
+            <tr>
+                <th>Tháng</th>
+                <th>Tổng tiền</th>
+            </tr>
+            <c:forEach var="i" begin="0" end="11">
+                <tr>
+                    <td>Tháng ${i + 1}</td>
+                    <td class="money">
+                        <fmt:formatNumber value="${monthlyTotal[i]}" pattern="#,###"/> VND
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+        <h3> Chi tiêu theo năm</h3>
+        <table class="revenue-table">
+            <tr>
+                <th>Năm</th>
+                <th>Tổng tiền</th>
+            </tr>
+            <c:forEach var="entry" items="${yearlyTotal}">
+                <tr>
+                    <td>${entry.key}</td>
+                    <td class="money">
+                        <fmt:formatNumber value="${entry.value}" pattern="#,###"/> VND
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
     <div class="order-status-filter">
         <c:set var="currStatus" value="${param.status == null ? 'tat-ca' : param.status}" />
 

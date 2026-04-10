@@ -9,8 +9,10 @@ import jakarta.servlet.annotation.*;
 import model.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 @WebServlet(name = "MyPageServlet", value = "/MyPageServlet")
 public class MyPageServlet extends HttpServlet {
@@ -66,7 +68,27 @@ public class MyPageServlet extends HttpServlet {
                     list.add(o);
                 }
             }
-
+            double[] monthlyTotal = new double[12];
+            Map<Integer, Double> yearlyTotal = new HashMap<>();
+            for (Order o : allOrders) {
+                o.setDetails(orderDao.getDetailsByOrderId(o.getId()));
+                if ("Đã giao".equals(o.getStatus()) && "Đã thanh toán".equals(o.getPaymentStatus())) {
+                    countOrder++;
+                    totalSpent += o.getTotalOrder();
+                    java.util.Calendar cal = java.util.Calendar.getInstance();
+                    cal.setTime(o.getCreateAt());
+                    int month = cal.get(java.util.Calendar.MONTH);
+                    int year = cal.get(java.util.Calendar.YEAR);
+                    monthlyTotal[month] += o.getTotalOrder();
+                    yearlyTotal.put(year,
+                            yearlyTotal.getOrDefault(year, 0.0) + o.getTotalOrder());
+                }
+                if (status == null || status.isEmpty() || o.getStatus().equals(status)) {
+                    list.add(o);
+                }
+            }
+            request.setAttribute("monthlyTotal", monthlyTotal);
+            request.setAttribute("yearlyTotal", yearlyTotal);
             request.setAttribute("listO", list);
             request.setAttribute("countOrder", countOrder);
             request.setAttribute("totalSpent", totalSpent);
