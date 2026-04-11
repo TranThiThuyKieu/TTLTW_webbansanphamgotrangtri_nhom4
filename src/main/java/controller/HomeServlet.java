@@ -11,6 +11,7 @@ import model.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet(name = "HomeServlet", value = "/HomeServlet")
 public class HomeServlet extends HttpServlet {
@@ -23,6 +24,13 @@ public class HomeServlet extends HttpServlet {
         User user = (session != null)
                 ? (User) session.getAttribute("LOGGED_USER")
                 : null;
+
+        FavoritesDao favDao = new FavoritesDao();
+
+        if (user != null) {
+            Set<Integer> favoriteIds = favDao.getFavoriteProductIds(user.getId());
+            request.setAttribute("favoriteIds", favoriteIds);
+        }
 
         ProductDao dao = new ProductDao();
         dao.CategoryDao cDao = new CategoryDao();
