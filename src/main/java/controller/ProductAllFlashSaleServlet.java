@@ -34,7 +34,7 @@ public class ProductAllFlashSaleServlet extends HttpServlet {
         try {
             flashSaleId = Integer.parseInt(idRaw);
         } catch (Exception e) {
-            response.sendRedirect("home");
+            response.sendRedirect("FlashSaleAllServlet");
             return;
         }
 
@@ -42,7 +42,7 @@ public class ProductAllFlashSaleServlet extends HttpServlet {
 
         FlashSale flashSale = fsDao.getFlashSaleById(flashSaleId);
         if (flashSale == null) {
-            response.sendRedirect("home");
+            response.sendRedirect("FlashSaleAllServlet");
             return;
         }
 

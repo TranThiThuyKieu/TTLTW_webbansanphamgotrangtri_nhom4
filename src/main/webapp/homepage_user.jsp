@@ -63,8 +63,11 @@
                             <div class="fs-badge">
                                 -${p.discountPercent}%
                             </div>
+                            <button class="wishlist-btn" onclick="toggleWishlist(this, '${p.id}')" title="Thêm vào yêu thích">
+                                <i class="ri-heart-line"></i>
+                            </button>
 
-                            <a href="ProductDetailServlet?id=${p.id}" class="product-link">
+                            <a href="ProductDetailServlet?id=${p.productId}" class="product-link">
                                 <img src="${p.imageUrl}" alt="${p.nameProduct}">
                                 <h2>${p.nameProduct}</h2>
                                 <div class="rating">
@@ -102,8 +105,7 @@
                                 </div>
                             </a>
                             <div class="action-buttons">
-                                <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
-                                <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
+                                <a href="ProductDetailServlet?id=${p.productId}" class="add-cart">Thêm giỏ hàng</a>
                             </div>
 
                         </div>
@@ -121,6 +123,9 @@
 <div class="products">
     <c:forEach items="${top3Products}" var="p">
         <div class="product-card">
+            <button class="wishlist-btn" onclick="toggleWishlist(this, '${p.id}')" title="Thêm vào yêu thích">
+                <i class="ri-heart-line"></i>
+            </button>
             <a href="ProductDetailServlet?id=${p.id}" class="product-link">
                 <img src="${p.imageUrl}" alt="${p.nameProduct}">
                 <h2>${p.nameProduct}</h2>
@@ -137,7 +142,6 @@
             </div>
             <div class="action-buttons">
                 <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
-                <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
             </div>
         </div>
     </c:forEach>
@@ -216,7 +220,10 @@
         <div class="product-grid">
             <c:forEach items="${newArrivals}" var="p">
                 <div class="product-card">
-                    <div class="new-label">NEW</div>
+                    <div class="new-label">MỚI</div>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, '${p.id}')" title="Thêm vào yêu thích">
+                        <i class="ri-heart-line"></i>
+                    </button>
                     <a href="ProductDetailServlet?id=${p.id}" class="product-link">
                         <img src="${p.imageUrl}" alt="${p.nameProduct}">
                         <h2>${p.nameProduct}</h2>
@@ -228,9 +235,11 @@
                     <div class="price">
                         <fmt:formatNumber value="${p.price}" type="number" groupingUsed="true"/> VNĐ
                     </div>
+                    <div class="fs-stock">
+                        <p>Đã bán 2 </p>
+                    </div>
                     <div class="action-buttons">
                         <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
-                        <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
                     </div>
                 </div>
             </c:forEach>
@@ -244,6 +253,9 @@
     <div class="san-pham-nb">
         <c:forEach items="${bestSeller}" var="p">
             <div class="product-card">
+                <button class="wishlist-btn" onclick="toggleWishlist(this, '${p.id}')" title="Thêm vào yêu thích">
+                    <i class="ri-heart-line"></i>
+                </button>
                 <a href="ProductDetailServlet?id=${p.id}" class="product-link">
                     <img src="${p.imageUrl}" alt="${p.nameProduct}">
                     <h2>${p.nameProduct}</h2>
@@ -260,7 +272,6 @@
                 </div>
                 <div class="action-buttons">
                     <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
-                    <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
                 </div>
             </div>
         </c:forEach>
