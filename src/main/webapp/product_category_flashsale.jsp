@@ -53,6 +53,9 @@
         <div class="product">
             <c:forEach items="${listP}" var="p">
                 <div class="product-card">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, '${p.id}')" title="Thêm vào yêu thích">
+                        <i class="ri-heart-line"></i>
+                    </button>
                     <a href="ProductDetailServlet?id=${p.id}" class="product-link">
                         <div class="set">
                             <img src="${pageContext.request.contextPath}/${p.imageUrl}"

@@ -46,7 +46,7 @@
                             <div class="sale-header">
                                 <div class="sale-info">
                                     <h2 class="sale-name">${fs.campaignName}</h2>
-                                    <a href="FlashSaleDetail?id=${fs.id}" class="view-all">Xem tất cả <i class="ri-arrow-right-s-line"></i></a>
+                                    <a href="ProductAllFlashSaleServlet?id=${fs.id}" class="view-all">Xem tất cả <i class="ri-arrow-right-s-line"></i></a>
                                 </div>
                                 <div class="sale-timer">
                                     <span class="status-label">Đang diễn ra:</span>

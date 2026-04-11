@@ -66,16 +66,17 @@
                     <div class="fs-badge">
                         -${p.discountPercent}%
                     </div>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, '${p.id}')" title="Thêm vào yêu thích">
+                        <i class="ri-heart-line"></i>
+                    </button>
                     <a href="ProductDetailServlet?id=${p.productId}" class="product-link">
                         <div class="set">
                             <img src="${p.imageUrl}" alt="${p.nameProduct}">
                             <h2>${p.nameProduct}</h2>
 
                             <div class="rating">
-                                <c:forEach begin="1" end="5" var="i">
-                                    <i class="${i <= p.averageRating ? 'ri-star-s-fill' : 'ri-star-s-line'}"></i>
-                                </c:forEach>
-                                <span>(<fmt:formatNumber value="${p.averageRating}" maxFractionDigits="1"/>)</span>
+                                <i class="ri-star-s-fill"></i>
+                                <span>(${p.averageRating})</span>
                             </div>
 
                             <div class="price">
@@ -110,7 +111,6 @@
 
                     <div class="action-buttons">
                         <a href="ProductDetailServlet?id=${p.id}" class="add-cart">Thêm giỏ hàng</a>
-                        <a href="ProductDetailServlet?id=${p.id}" class="buy-now">Mua hàng</a>
                     </div>
                 </div>
             </c:forEach>

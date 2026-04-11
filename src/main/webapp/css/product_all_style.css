@@ -526,7 +526,7 @@ aside.filter-sidebar button[type="submit"]:hover {
 }
 .fs-badge {
     position: absolute;
-    top: 10px; left: 10px;
+    top: 10px; right: 10px;
     background: var(--btn);
     color: #fff;
     padding: 4px 10px;
@@ -534,4 +534,56 @@ aside.filter-sidebar button[type="submit"]:hover {
     font-size: 12px;
     font-weight: bold;
     z-index: 1;
+}
+.fs-stock p {
+    font-size: 11px;
+    color: var(--text-color2);
+    margin: 0; }
+.wishlist-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eee;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 5;
+}
+
+.wishlist-btn i {
+    font-size: 1.3rem;
+    color: #8B5E3C;
+    transition: color 0.3s ease;
+}
+
+.wishlist-btn:hover {
+    background-color: #8B5E3C;
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(139, 94, 60, 0.3);
+}
+
+.wishlist-btn:hover i {
+    color: #ffffff;
+}
+
+.wishlist-btn.active {
+    background-color: #A56B43;
+    border-color: #A56B43;
+}
+
+.wishlist-btn.active i {
+    color: #ffffff;
+    animation: heartBeat 0.5s ease-out;
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
 }
