@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Voucher {
@@ -55,4 +56,9 @@ public class Voucher {
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
     public List<String> getApplicableRanks() { return applicableRanks; }
     public void setApplicableRanks(List<String> applicableRanks) { this.applicableRanks = applicableRanks; }
+    public String getEndDateTimeFormat() {
+        if (endDate == null) return "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+        return endDate.format(formatter);
+    }
 }
