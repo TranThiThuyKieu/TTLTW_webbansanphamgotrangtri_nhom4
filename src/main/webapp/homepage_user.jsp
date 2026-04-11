@@ -123,8 +123,18 @@
 <div class="products">
     <c:forEach items="${top3Products}" var="p">
         <div class="product-card">
-            <button class="wishlist-btn" onclick="toggleWishlist(this, '${p.id}')" title="Thêm vào yêu thích">
-                <i class="ri-heart-line"></i>
+            <button class="wishlist-btn ${favoriteIds != null && favoriteIds.contains(p.id) ? 'active' : ''}"
+                    onclick="toggleWishlist(this, '${p.id}')">
+
+                <c:choose>
+                    <c:when test="${favoriteIds != null && favoriteIds.contains(p.id)}">
+                        <i class="ri-heart-fill"></i>
+                    </c:when>
+                    <c:otherwise>
+                        <i class="ri-heart-line"></i>
+                    </c:otherwise>
+                </c:choose>
+
             </button>
             <a href="ProductDetailServlet?id=${p.id}" class="product-link">
                 <img src="${p.imageUrl}" alt="${p.nameProduct}">
