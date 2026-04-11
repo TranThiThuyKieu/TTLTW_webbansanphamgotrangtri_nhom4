@@ -22,7 +22,7 @@
         <div class="v-preview">
             <div class="v-preview-left">
                 <span><c:choose>
-                    <c:when test="${voucher.rewardStyle == 'MEMBER'}">
+                    <c:when test="${voucher.rewardStyle == 'SPECIAL'}">
                         HỘI VIÊN
                     </c:when>
                     <c:otherwise>
