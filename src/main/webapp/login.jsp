@@ -52,20 +52,21 @@
 
             <div class="infield">
                 <input type="password" name="password" placeholder="Mật khẩu" required minlength="8">
+            </div>
 
+            <div class="password-requirements">
+                <ul>
+                    <li id="length">Ít nhất 8 ký tự</li>
+                    <li id="lowercase">Ít nhất một ký tự viết thường</li>
+                    <li id="uppercase">Ít nhất một ký tự viết hoa</li>
+                    <li id="number">Ít nhất một số</li>
+                </ul>
             </div>
 
             <div class="infield">
                 <input type="password" name="re_password" placeholder="Xác nhận mật khẩu" required>
             </div>
-            <div class="password-requirements">
-                <ul>
-                    <li>Ít nhất 8 ký tự — càng dài càng tốt</li>
-                    <li>Ít nhất một ký tự viết thường</li>
-                    <li>Ít nhất một ký tự viết hoa</li>
-                    <li>Ít nhất một số, ký hiệu hoặc khoảng trắng</li>
-                </ul>
-            </div>
+
 
             <button>Đăng ký</button>
 
