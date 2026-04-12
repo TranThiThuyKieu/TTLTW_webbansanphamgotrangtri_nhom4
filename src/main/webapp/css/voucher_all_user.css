@@ -261,3 +261,27 @@ p.v-label.dacquyen{
     color: #fff; }
 .v-btn-use:hover {
     background: #6f4a30; }
+.v-filter-btn {
+    display: flex;
+    gap: 10px;
+    margin: 40px 422px;
+}
+
+.v-filter-btn button {
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.25s ease;
+}
+.v-filter-btn button:hover {
+    background: #fff3e6;
+    border-color: var(--primary-color);
+}
+.v-filter-btn button.active {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}

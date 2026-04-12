@@ -8,10 +8,10 @@
     <meta charset="UTF-8">
     <title>HOME DECOR - Voucher ALL</title>
     <link rel="icon" type="image/png" href="img/logo.png" >
-    <link rel="stylesheet" href="css/voucher_all_user.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header_user.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer_user.css">
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/voucher_all_user.css">
 </head>
 <body>
 
@@ -19,12 +19,11 @@
 <main class="v-container">
     <div class="v-section">
         <h2 class="v-title">ƯU ĐÃI HÔM NAY</h2>
-
-<%--        <div class="v-filter">--%>
-<%--            <button class="v-f-btn active" onclick="filterVouchers('all', this)">Tất cả</button>--%>
-<%--            <button class="v-f-btn" onclick="filterVouchers('thuong', this)">Voucher thường</button>--%>
-<%--            <button class="v-f-btn" onclick="filterVouchers('uudai', this)">Voucher ưu đãi</button>--%>
-<%--        </div>--%>
+        <div class="v-filter-btn">
+            <button onclick="filterVoucher('ALL')" class="active">Tất cả</button>
+            <button onclick="filterVoucher('NORMAL')">Voucher thường</button>
+            <button onclick="filterVoucher('SPECIAL')">Hội viên</button>
+        </div>
 
         <div class="v-grid" id="voucherGrid">
             <c:forEach var="v" items="${voucherList}">
@@ -76,7 +75,7 @@
                         </p>
                         <div class="v-footer">
                             <span class="v-code">${v.voucherCode}</span>
-                            <button class="v-btn">LƯU</button>
+                            <a href="VoucherDetailServlet?id=${v.id}">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
@@ -87,4 +86,6 @@
 </main>
 <jsp:include page="footer.jsp"></jsp:include>
 </body>
+<script src="${pageContext.request.contextPath}/js/voucher_all_user.js"></script>
+
 </html>
