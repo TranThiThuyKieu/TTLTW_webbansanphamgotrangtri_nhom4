@@ -1,4 +1,4 @@
-FROM gradle:9.2-jdk21 AS build
+FROM gradle:9.0-jdk21 AS build
 USER root
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
