@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class DBContext {
     public static Connection getConnection() throws Exception {
-        String url = "jdbc:mysql://localhost:3306/webbansanphamgotrangtri_db";
+        String url = "jdbc:mysql://db:3306/webbansanphamgotrangtri_db";
         String user = "root";
         String password = "";
 
