@@ -366,17 +366,26 @@
         <form action="ChangePasswordUser" method="post" class="password-change-form">
             <div class="form-group">
                 <label>Mật khẩu hiện tại *</label>
-                <input type="password" name="currentPassword" required>
+                <div class="password-field">
+                    <input type="password" name="currentPassword" id="currentPassword" required>
+                    <i class="fas fa-eye toggle-password" onclick="togglePassword('currentPassword', this)"></i>
+                </div>
             </div>
 
             <div class="form-group">
                 <label>Mật khẩu mới *</label>
-                <input type="password" name="newPassword" required>
+                <div class="password-field">
+                    <input type="password" name="newPassword" id="newPassword" required>
+                    <i class="fas fa-eye toggle-password" onclick="togglePassword('newPassword', this)"></i>
+                </div>
             </div>
 
             <div class="form-group">
                 <label>Xác nhận mật khẩu *</label>
-                <input type="password" name="confirmPassword" required>
+                <div class="password-field">
+                    <input type="password" name="confirmPassword" id="confirmPassword" required>
+                    <i class="fas fa-eye toggle-password" onclick="togglePassword('confirmPassword', this)"></i>
+                </div>
             </div>
 
             <button type="submit" class="save-btn">Lưu</button>
@@ -749,7 +758,20 @@
 </div>
 
 <script src="${pageContext.request.contextPath}/ckfinder/ckfinder.js"></script>
-
+<script>
+    function togglePassword(inputId, icon) {
+        const input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+</script>
 <script>
     function selectAvatarWithCKFinder() {
         var finder = new CKFinder();
