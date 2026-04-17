@@ -36,7 +36,18 @@ public class UpdateProfileController extends HttpServlet {
             String gender = request.getParameter("gender");
             String birthDateStr = request.getParameter("birthDate");
             String avatarUrlRaw = request.getParameter("avatar_id");
-
+            if (fullName == null || fullName.trim().isEmpty()) {
+                request.setAttribute("error", "Tên không được để trống!");
+                request.setAttribute("activeTab", "ho-so");
+                request.getRequestDispatcher("mypage_user.jsp").forward(request, response);
+                return;
+            }
+            if (!fullName.matches("^[\\p{L} ]{2,50}$")) {
+                request.setAttribute("error", "Tên chỉ được chứa chữ cái và không có ký tự đặc biệt!");
+                request.setAttribute("activeTab", "ho-so");
+                request.getRequestDispatcher("mypage_user.jsp").forward(request, response);
+                return;
+            }
             String relativeAvatarUrl = null;
             if (avatarUrlRaw != null && !avatarUrlRaw.trim().isEmpty()) {
                 relativeAvatarUrl = avatarUrlRaw.trim();
