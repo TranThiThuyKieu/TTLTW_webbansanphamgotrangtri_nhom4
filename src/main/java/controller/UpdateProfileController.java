@@ -5,6 +5,9 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import dao.UserDao;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
+
 import model.User;
 
 @WebServlet(name = "UpdateProfileController", value = "/UpdateProfileController")
@@ -51,6 +54,21 @@ public class UpdateProfileController extends HttpServlet {
             userToUpdate.setGender(gender);
 
             if (birthDateStr != null && !birthDateStr.trim().isEmpty()) {
+                LocalDate birthDate = LocalDate.parse(birthDateStr);
+                LocalDate today = LocalDate.now();
+                if (birthDate.isAfter(today)) {
+                    request.setAttribute("error", "Ngày sinh không được ở tương lai!");
+                    request.setAttribute("activeTab", "ho-so");
+                    request.getRequestDispatcher("mypage_user.jsp").forward(request, response);
+                    return;
+                }
+                int age = Period.between(birthDate, today).getYears();
+                if (age < 13) {
+                    request.setAttribute("error", "Bạn phải đủ 13 tuổi!");
+                    request.setAttribute("activeTab", "ho-so");
+                    request.getRequestDispatcher("mypage_user.jsp").forward(request, response);
+                    return;
+                }
                 userToUpdate.setBirthDate(java.sql.Date.valueOf(birthDateStr));
             }
 
