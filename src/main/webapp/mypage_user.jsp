@@ -88,7 +88,9 @@
         <div id="ho-so" class="tab-content <%= "ho-so".equals(activeTab) ? "active" : "" %>">
             <h2>Hồ sơ</h2>
             <p class="subtitle">Quản lý thông tin hồ sơ để giữ an toàn cho tài khoản của bạn</p>
-
+            <c:if test="${not empty error}">
+                <p style="color:red">${error}</p>
+            </c:if>
             <form action="UpdateProfileController" method="post">
                 <div class="profile-container">
                     <div class="profile-left">
