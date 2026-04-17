@@ -1398,3 +1398,16 @@ button{
     cursor: pointer;
     color: #666;
 }
+.strength-box {
+    margin-top: 8px;
+    font-size: 13px;
+}
+.strength-weak {
+    color: #e74c3c;
+}
+.strength-medium {
+    color: #f39c12;
+}
+.strength-strong {
+    color: #27ae60;
+}

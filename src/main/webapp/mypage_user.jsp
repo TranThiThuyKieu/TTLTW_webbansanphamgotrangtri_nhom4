@@ -378,6 +378,7 @@
                     <input type="password" name="newPassword" id="newPassword" required>
                     <i class="fas fa-eye toggle-password" onclick="togglePassword('newPassword', this)"></i>
                 </div>
+                <div id="passwordStrength" class="strength-box"></div>
             </div>
 
             <div class="form-group">
@@ -771,6 +772,36 @@
             icon.classList.add("fa-eye");
         }
     }
+    const newPass = document.getElementById("newPassword");
+    const strengthBox = document.getElementById("passwordStrength");
+    newPass.addEventListener("input", function () {
+        const value = newPass.value;
+        let strength = 0;
+        if (value.length >= 8) strength++;
+        if (/[a-z]/.test(value) && /[A-Z]/.test(value)) strength++;
+        if (/\d/.test(value)) strength++;
+        if (/[@$!%*?&#]/.test(value)) strength++;
+        if (value.length === 0) {
+            strengthBox.innerHTML = "";
+            return;
+        }
+        if (value.length < 6) {
+            strengthBox.innerHTML = "Quá ngắn (ít nhất 6 ký tự)";
+            strengthBox.className = "strength-box strength-weak";
+        }
+        else if (strength <= 1) {
+            strengthBox.innerHTML = "Yếu";
+            strengthBox.className = "strength-box strength-weak";
+        }
+        else if (strength === 2 || strength === 3) {
+            strengthBox.innerHTML = "Trung bình";
+            strengthBox.className = "strength-box strength-medium";
+        }
+        else {
+            strengthBox.innerHTML = "Mạnh";
+            strengthBox.className = "strength-box strength-strong";
+        }
+    });
 </script>
 <script>
     function selectAvatarWithCKFinder() {
