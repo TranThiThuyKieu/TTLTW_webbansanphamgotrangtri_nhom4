@@ -68,7 +68,7 @@
 <section class="featured">
     <c:choose>
         <c:when test="${not empty listP}">
-            <h2>Sản phẩm tìm được cho: "${txtS}"</h2>
+            <h2>Tìm thấy ${listP.size()} sản phẩm cho: "${txtS}"</h2>
 
             <div class="products">
                 <c:forEach var="p" items="${listP}">
@@ -94,7 +94,9 @@
                 </c:forEach>
             </div>
         </c:when>
-
+        <c:when test="${empty listP and not empty txtS}">
+            <h2>Không tìm thấy sản phẩm nào cho: "${txtS}"</h2>
+        </c:when>
         <c:otherwise>
             <h2>Nhập sản phẩm bạn muốn tìm</h2>
         </c:otherwise>
