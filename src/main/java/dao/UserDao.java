@@ -361,5 +361,19 @@ public class UserDao {
         }
         return null;
     }
+    public boolean isPhoneExists(String phone) {
+        String sql = "SELECT COUNT(*) FROM users WHERE phone = ?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setString(1, phone);
+             ResultSet rs = ps.executeQuery();
+             if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
 

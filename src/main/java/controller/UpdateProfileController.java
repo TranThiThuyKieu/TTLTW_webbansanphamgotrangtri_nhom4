@@ -48,6 +48,25 @@ public class UpdateProfileController extends HttpServlet {
                 request.getRequestDispatcher("mypage_user.jsp").forward(request, response);
                 return;
             }
+            if (phone == null || phone.trim().isEmpty()) {
+                request.setAttribute("error", "Số điện thoại không được để trống!");
+                request.setAttribute("activeTab", "ho-so");
+                request.getRequestDispatcher("mypage_user.jsp").forward(request, response);
+                return;
+            }
+            phone = phone.trim();
+            if (!phone.matches("^0[0-9]{9}$")) {
+                request.setAttribute("error", "Số điện thoại phải có 10 số và bắt đầu bằng 0!");
+                request.setAttribute("activeTab", "ho-so");
+                request.getRequestDispatcher("mypage_user.jsp").forward(request, response);
+                return;
+            }
+            if (!phone.equals(loggedUser.getPhone()) && userDao.isPhoneExists(phone)) {
+                request.setAttribute("error", "Số điện thoại đã tồn tại!");
+                request.setAttribute("activeTab", "ho-so");
+                request.getRequestDispatcher("mypage_user.jsp").forward(request, response);
+                return;
+            }
             String relativeAvatarUrl = null;
             if (avatarUrlRaw != null && !avatarUrlRaw.trim().isEmpty()) {
                 relativeAvatarUrl = avatarUrlRaw.trim();
