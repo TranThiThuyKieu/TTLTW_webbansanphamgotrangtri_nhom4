@@ -58,7 +58,7 @@ function startResendTimer(duration) {
 
 window.onload = function () {
     startMainTimer(60 * 5, document.querySelector('#timer'));
-    startResendTimer(60);
+    startResendTimer(30);
 };
 
 document.getElementById('resend-btn').onclick = function() {
