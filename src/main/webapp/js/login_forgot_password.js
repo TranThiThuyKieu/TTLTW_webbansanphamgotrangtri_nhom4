@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     const passwordInput = document.querySelector('input[name="password"]');
-    const rePasswordInput = document.querySelector('input[name="re_password"]');
 
     const rules = {
         length: document.getElementById("length"),
@@ -136,29 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-    function isValidPassword(value) {
-        return value.length >= 8 &&
-            /[a-z]/.test(value) &&
-            /[A-Z]/.test(value) &&
-            /[0-9]/.test(value);
-    }
-
-    document.querySelectorAll('.sign-up-form').forEach(f => {
-        f.addEventListener("submit", function (e) {
-            const password = passwordInput.value;
-            const rePassword = rePasswordInput.value;
-
-            if (!isValidPassword(password)) {
-                e.preventDefault();
-                alert("Mật khẩu chưa đủ điều kiện!");
-                return;
-            }
-
-            if (password !== rePassword) {
-                e.preventDefault();
-                alert("Mật khẩu nhập lại không khớp!");
-                return;
-            }
-        });
-    });
 });
+document.querySelector('.forgot-form').onsubmit = function() {
+    sessionStorage.removeItem('otpEndTime');
+    sessionStorage.removeItem('resendEndTime');
+};
