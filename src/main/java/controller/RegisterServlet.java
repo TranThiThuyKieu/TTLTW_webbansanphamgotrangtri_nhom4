@@ -61,12 +61,15 @@ public class RegisterServlet extends HttpServlet {
         String rePassword = request.getParameter("re_password");
         UserDao dao = new UserDao();
         if (!password.equals(rePassword)) {
-            request.setAttribute("ErrorE", "Mật khẩu xác nhận không khớp!");
+            request.setAttribute("errorEmail", "Mật khẩu xác nhận không khớp!");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
         if (dao.checkEmailExist(email)) {
-            request.setAttribute("Error", "Email đã tồn tại!");
+            request.setAttribute("errorEmail", "Email đã tồn tại!");
+            request.setAttribute("oldUsername", username);
+            request.setAttribute("oldEmail", email);
+            request.setAttribute("hasRegisterError", true);
             request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
