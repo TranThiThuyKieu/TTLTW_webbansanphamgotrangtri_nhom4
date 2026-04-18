@@ -41,13 +41,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const errorMessages = document.querySelectorAll('.messages .error');
-    let hasRegisterError = false;
+    let hasHeaderError = false;
     errorMessages.forEach(msg => {
-        if (msg.innerText.trim() !== "") hasRegisterError = true;
+        if (msg.innerText.trim() !== "") hasHeaderError = true;
     });
 
+    const emailError = document.querySelector('small[style*="color: red"]');
+
+    const registerErrorFlag = document.getElementById('registerErrorFlag');
+    const isServletError = (registerErrorFlag && registerErrorFlag.value === "true");
+
     const otpModal = document.getElementById("otpModal");
-    if (hasRegisterError && container && (!otpModal || !otpModal.classList.contains("show"))) {
+    const isOtpShowing = otpModal && otpModal.classList.contains("show");
+
+    if ((hasHeaderError || emailError || isServletError) && !isOtpShowing) {
         activateRightPanel();
     }
 

@@ -43,11 +43,16 @@
             <span>Sử dụng email của bạn để đăng ký</span>
 
             <div class="infield">
-                <input type="text" name="username" placeholder="Tên" required>
+                <input type="text" name="username" value="${oldUsername}" placeholder="Tên" required>
             </div>
 
             <div class="infield">
-                <input type="email" name="email" placeholder="Email" required>
+                <input type="email" name="email" placeholder="Email" value="${oldEmail}" required>
+                <c:if test="${not empty errorEmail}">
+                    <small style="color: red; display: block; margin-top: 5px; text-align: left;">
+                            ${errorEmail}
+                    </small>
+                </c:if>
             </div>
 
             <div class="infield">
@@ -159,7 +164,7 @@
     </div>
 
 </div>
-
+<input type="hidden" id="registerErrorFlag" value="${hasRegisterError}">
 
 <script src="js/login_JS.js"></script>
 
