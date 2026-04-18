@@ -161,4 +161,33 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+    function startMainTimer(duration, display) {
+        let endTime = sessionStorage.getItem('otpEndTime');
+        let now = Date.now();
+
+        if (!endTime || now > endTime) {
+            endTime = now + duration * 1000;
+            sessionStorage.setItem('otpEndTime', endTime);
+        }
+
+        let x = setInterval(function () {
+            now = Date.now();
+            let distance = endTime - now;
+
+            let minutes = Math.floor(distance / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            display.textContent = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+
+            if (distance <= 0) {
+                clearInterval(x);
+                display.textContent = "00:00";
+                document.getElementById('main-countdown').innerHTML = "Mã đã hết hạn!";
+                sessionStorage.removeItem('otpEndTime');
+            }
+        }, 1000);
+    }
+    window.onload = function () {
+        startMainTimer(60 * 5, document.querySelector('#timer'));
+    };
 });

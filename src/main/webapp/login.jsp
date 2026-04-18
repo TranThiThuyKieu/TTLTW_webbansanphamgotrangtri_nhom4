@@ -144,6 +144,9 @@
 
         <form action="${pageContext.request.contextPath}/VerifyOtpServlet" method="post">
             <input type="text" name="otp" placeholder="Nhập mã OTP" required>
+            <p id="countdown-text">
+                Mã hết hạn sau: <span id="timer" >05:00</span>
+            </p>
             <button type="submit">XÁC NHẬN</button>
         </form>
 
