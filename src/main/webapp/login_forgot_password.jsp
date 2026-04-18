@@ -38,6 +38,12 @@
 
 </div>
 <script src="js/login_JS.js"></script>
+<script>
+    document.querySelector('.forgot-form').onsubmit = function() {
+        sessionStorage.removeItem('otpEndTime');
+        sessionStorage.removeItem('resendEndTime');
+    };
+</script>
 
 </body>
 </html>
