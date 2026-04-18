@@ -17,7 +17,6 @@ public class ReviewDao {
         String sql = """
                     SELECT COUNT(*) 
                     FROM reviews 
-                    WHERE user_id = ? AND product_id = ?
                 """;
 
         try (Connection conn = DBContext.getConnection();
@@ -114,7 +113,7 @@ public class ReviewDao {
     }
 
     public int getReviewCount(int productId) {
-        String query = "SELECT COUNT(*) FROM reviews WHERE product_id = ?";
+        String query = "SELECT COUNT(*) FROM reviews WHERE product_id = ? AND response_id = 0";
         try (Connection conn = DBContext.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, productId);
@@ -210,6 +209,7 @@ public class ReviewDao {
                     r.setComment(rs.getString("comment"));
                     r.setCreateAt(rs.getTimestamp("createAt"));
                     r.setProductName(rs.getString("name_product"));
+                    r.setReplied(rs.getBoolean("is_replied"));
 
                     String userName = rs.getString("user_name");
 
@@ -279,6 +279,7 @@ public class ReviewDao {
                         r.setComment(rs.getString("comment"));
                         r.setCreateAt(rs.getTimestamp("createAt"));
                         r.setProductName(rs.getString("product_name"));
+                        r.setReplied(rs.getBoolean("is_replied"));
 
                         String userName = rs.getString("user_name");
 
@@ -419,6 +420,7 @@ public class ReviewDao {
                     r.setComment(rs.getString("comment"));
                     r.setCreateAt(rs.getTimestamp("createAt"));
                     r.setProductName(rs.getString("product_name"));
+                    r.setReplied(rs.getBoolean("is_replied"));
 
                     String userName = rs.getString("user_name");
 
@@ -479,6 +481,50 @@ public class ReviewDao {
         }
 
         return 0;
+    }
+    public List<Reviews> getAllReviewsWithReplies(int productId) {
+        List<Reviews> list = new ArrayList<>();
+
+        String sql = """
+        SELECT r.*, u.full_name AS user_name
+        FROM reviews r
+        LEFT JOIN users u ON r.user_id = u.id
+        WHERE r.product_id = ?
+        ORDER BY r.createAt ASC
+    """;
+
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, productId);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Reviews r = new Reviews();
+
+                r.setId(rs.getInt("id"));
+                r.setRespone_id(rs.getInt("response_id"));
+                r.setUserId(rs.getInt("user_id"));
+                r.setRating(rs.getInt("rate"));
+                r.setComment(rs.getString("comment"));
+                r.setCreateAt(rs.getTimestamp("createAt"));
+
+                String userName = rs.getString("user_name");
+                if (userName != null) {
+                    User user = new User();
+                    user.setId(r.getUserId());
+                    user.setUsername(userName);
+                    r.setUser(user);
+                }
+
+                list.add(r);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
 }

@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.*;
 import model.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,29 @@ public class ProductDetailServlet extends HttpServlet {
                 userNames.put(r.getUserId(), name);
             }
         }
+        List<Reviews> all = reviewDao.getAllReviewsWithReplies(productId);
+
+        Map<Integer, Reviews> parentMap = new HashMap<>();
+        List<Reviews> rootReviews = new ArrayList<>();
+
+        for (Reviews r : all) {
+            if (r.getRespone_id() == 0) {
+                r.setReplies(new ArrayList<>());
+                parentMap.put(r.getId(), r);
+                rootReviews.add(r);
+            }
+        }
+
+        for (Reviews r : all) {
+            if (r.getRespone_id() != 0) {
+                Reviews parent = parentMap.get(r.getRespone_id());
+                if (parent != null) {
+                    parent.getReplies().add(r);
+                }
+            }
+        }
+
+        request.setAttribute("reviewList", rootReviews);
         request.setAttribute("p", p);
         request.setAttribute("userNames", userNames);
         request.getRequestDispatcher("product_details_user.jsp").forward(request, response);

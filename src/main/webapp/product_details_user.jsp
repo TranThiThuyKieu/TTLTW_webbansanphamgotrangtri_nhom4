@@ -198,7 +198,7 @@
                 <fmt:formatNumber value="${p.averageRating}" maxFractionDigits="1"/> / 5
             </strong>
 
-            <p>${p.reviewList.size()} đánh giá</p>
+            <p>${p.totalReviews} đánh giá</p>
         </div>
     </div>
 
@@ -240,19 +240,11 @@
         </div>
     </c:if>
 
-    <c:if test="${empty sessionScope.LOGGED_USER}">
-        <p>
-            <a href="${pageContext.request.contextPath}/login.jsp">
-                Đăng nhập để đánh giá
-            </a>
-        </p>
-    </c:if>
-
     <div class="review-list">
 
         <c:choose>
             <c:when test="${not empty p.reviewList}">
-                <c:forEach var="rev" items="${p.reviewList}">
+                <c:forEach var="rev" items="${reviewList}">
 
                     <div class="review-item">
 
@@ -262,11 +254,32 @@
                             <i class="${i <= rev.rating ? 'ri-star-s-fill' : 'ri-star-s-line'}"></i>
                         </c:forEach>
 
-                        <span style="font-size:12px;color:#999">
-<fmt:formatDate value="${rev.createAt}" pattern="dd/MM/yyyy"/>
-</span>
-
                         <p>${rev.comment}</p>
+                        <span style="font-size:12px;color:#999">
+                            <fmt:formatDate value="${rev.createAt}" pattern="HH:mm - dd/MM/yyyy"/>
+                        </span>
+
+                        <c:if test="${not empty rev.replies}">
+                            <button class="toggle-reply-btn" onclick="toggleReply(${rev.id})">
+                                <i class="ri-arrow-down-s-line"></i> Hiển thị phản hồi (${rev.replies.size()})
+                            </button>
+
+                            <div id="reply-${rev.id}" class="reply-box">
+                                <c:forEach var="rep" items="${rev.replies}">
+                                    <div class="reply-item">
+                                        <div class="reply-header">
+                                            <span class="admin-badge">Home Decord</span>
+                                            <span class="reply-time">
+                                                <fmt:formatDate value="${rep.createAt}" pattern="HH:mm - dd/MM/yyyy"/>
+                                            </span>
+                                        </div>
+                                        <div class="reply-content">
+                                                ${rep.comment}
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </c:if>
 
                     </div>
 
@@ -297,6 +310,20 @@
         <img class="modal-content" id="imgFull">
     </div>
 </div>
+<script>
+    function toggleReply(id) {
+        const replyDiv = document.getElementById('reply-' + id);
+        const btn = event.currentTarget;
+
+        if (replyDiv.style.display === "none" || replyDiv.style.display === "") {
+            replyDiv.style.display = "block";
+            btn.innerHTML = `<i class="ri-arrow-up-s-line"></i> Ẩn phản hồi`;
+        } else {
+            replyDiv.style.display = "none";
+            btn.innerHTML = `<i class="ri-arrow-down-s-line"></i> Hiển thị phản hồi`;
+        }
+    }
+</script>
 <script>
     function changeMainImage(newSrc) {
         document.getElementById('main-product-img').src = newSrc;

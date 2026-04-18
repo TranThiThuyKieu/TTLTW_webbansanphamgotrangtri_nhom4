@@ -1024,7 +1024,7 @@ public class ProductDao {
         return total;
     }
     public double getAverageRating(int productId) {
-        String sql = "SELECT IFNULL(AVG(rate),0) FROM reviews WHERE product_id=?";
+        String sql = "SELECT IFNULL(AVG(rate),0) FROM reviews WHERE product_id=? AND response_id = 0";
         try (Connection conn = DBContext.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
              ps.setInt(1, productId);
