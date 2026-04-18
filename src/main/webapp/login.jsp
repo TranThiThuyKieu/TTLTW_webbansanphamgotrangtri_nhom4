@@ -36,7 +36,7 @@
 <div class="container" id="container">
     <div class="form-container sign-up">
 
-        <form action="${pageContext.request.contextPath}/RegisterServlet" method="post">
+        <form action="${pageContext.request.contextPath}/RegisterServlet" method="post" class="sign-up-form">
 
             <h1>Đăng ký</h1>
 

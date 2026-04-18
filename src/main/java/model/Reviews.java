@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Reviews {
     private int id;
@@ -23,6 +24,7 @@ public class Reviews {
     private boolean isReplied;
     private String userName;
     private User user;
+    private List<Reviews> replies;
 
     public Reviews() {}
     public int getOrderId() {
@@ -109,5 +111,12 @@ public class Reviews {
 
     public void setReplied(boolean replied) {
         isReplied = replied;
+    }
+    public List<Reviews> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reviews> replies) {
+        this.replies = replies;
     }
 }

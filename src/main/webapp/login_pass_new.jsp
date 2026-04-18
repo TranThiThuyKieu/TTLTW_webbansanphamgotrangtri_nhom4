@@ -24,12 +24,20 @@
         </c:if>
 
         <input type="password" name="password" placeholder="Mật khẩu mới" required>
+        <div class="password-requirements">
+            <ul>
+                <li id="length">Ít nhất 8 ký tự</li>
+                <li id="lowercase">Ít nhất một ký tự viết thường</li>
+                <li id="uppercase">Ít nhất một ký tự viết hoa</li>
+                <li id="number">Ít nhất một số</li>
+            </ul>
+        </div>
         <input type="password" name="re_password" placeholder="Nhập lại mật khẩu" required>
 
         <button type="submit">Đặt lại mật khẩu</button>
     </form>
 </div>
-
+<script src="js/login_pass_new.js"></script>
 
 </body>
 </html>

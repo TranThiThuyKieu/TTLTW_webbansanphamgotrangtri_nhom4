@@ -37,7 +37,7 @@
     </form>
 
 </div>
-<script src="js/login_JS.js"></script>
+<script src="js/login_forgot_password.js"></script>
 
 </body>
 </html>

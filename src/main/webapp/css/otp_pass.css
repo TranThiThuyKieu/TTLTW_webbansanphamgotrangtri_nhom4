@@ -112,3 +112,41 @@ a:hover {
 .resend-btn:hover {
     color: var(--secondary-clr);
 }
+.resend-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #f4f1ee !important;
+    color: var(--primary-clr) !important;
+    border: 1px solid var(--primary-clr);
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.resend-btn:hover {
+    background-color: var(--primary-clr) !important;
+    color: #fff !important;
+}
+#countdown-text{
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+#timer{
+    font-weight: bold; color: var(--primary-clr);
+}
+.resend-btn:disabled {
+    background-color: #cccccc !important;
+    color: #666666 !important;
+    border-color: #999999 !important;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+#resend-timer {
+    margin-left: 5px;
+    font-weight: bold;
+}

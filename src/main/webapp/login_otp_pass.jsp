@@ -25,14 +25,18 @@
         </c:if>
 
         <input type="text" name="otp" placeholder="Nhập mã OTP" required>
+        <p id="countdown-text">
+            Mã hết hạn sau: <span id="timer" >05:00</span>
+        </p>
 
         <button type="submit">Tiếp tục</button>
         <div class="resend">
             <button type="submit"
+                    id="resend-btn"
                     formaction="${pageContext.request.contextPath}/ResendOtpServlet"
                     formnovalidate
                     class="resend-btn">
-                Gửi lại mã
+                Gửi lại mã<span id="resend-timer"></span>
             </button>
         </div>
 
@@ -40,6 +44,6 @@
         <a href="login_forgot_password.jsp">Quay lại</a>
     </form>
 </div>
-
+<script src="js/login_otp_pass.js"></script>
 </body>
 </html>
