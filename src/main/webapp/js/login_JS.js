@@ -80,29 +80,40 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById("otpEmail")?.value;
             if (!email) return alert("Không tìm thấy email!");
 
-            this.disabled = true;
-            this.innerText = "Đang gửi...";
+            const btn = this;
+            btn.disabled = true;
+            btn.innerText = "Đang gửi...";
 
             const contextPath = window.location.pathname.split("/")[1];
-            const url = (contextPath ? "/" + contextPath : "") + "/RegisterServlet?action=sendOtp";
+            const url = (contextPath ? "/" + contextPath : "") + "/LoginServlet?action=sendOtp";
 
             fetch(url, {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams({ email: email })
             })
-                .then(res => {
-                    if(res.ok) {
+                .then(async (res) => {
+                    const message = await res.text();
+
+                    if (res.ok) {
                         document.getElementById("resendMsg").innerHTML = "<span style='color:green;'>Đã gửi lại!</span>";
                         startCountdown();
+                        if (typeof startMainTimer === "function") {
+                            startMainTimer(60 * 5, document.querySelector('#timer'), true);
+                        }
+                    } else if (res.status === 403) {
+                        document.getElementById("resendMsg").innerHTML = `<span style='color:red; font-weight:bold;'>${message}</span>`;
+                        btn.innerText = "Bị tạm khóa";
+                        btn.disabled = true;
                     } else {
-                        throw new Error();
+                        throw new Error(message || "Lỗi hệ thống");
                     }
                 })
-                .catch(() => {
-                    this.disabled = false;
-                    this.innerText = "Gửi lại mã";
-                    alert("Gửi mã thất bại!");
+                .catch((err) => {
+                    btn.disabled = false;
+                    btn.innerText = "Gửi lại mã";
+                    console.error(err);
+                    alert("Gửi mã thất bại! Chi tiết: " + err.message);
                 });
         });
     }
@@ -161,7 +172,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    function startMainTimer(duration, display) {
+    function startMainTimer(duration, display, isReset = false) {
+        if (isReset) {
+            sessionStorage.removeItem('otpEndTime');
+        }
+
         let endTime = sessionStorage.getItem('otpEndTime');
         let now = Date.now();
 
@@ -170,7 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
             sessionStorage.setItem('otpEndTime', endTime);
         }
 
-        let x = setInterval(function () {
+        if (window.otpInterval) clearInterval(window.otpInterval);
+
+        window.otpInterval = setInterval(function () {
             now = Date.now();
             let distance = endTime - now;
 
@@ -180,9 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
             display.textContent = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
 
             if (distance <= 0) {
-                clearInterval(x);
+                clearInterval(window.otpInterval);
                 display.textContent = "00:00";
-                document.getElementById('main-countdown').innerHTML = "Mã đã hết hạn!";
                 sessionStorage.removeItem('otpEndTime');
             }
         }, 1000);

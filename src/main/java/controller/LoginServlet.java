@@ -20,11 +20,47 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+
+        if ("sendOtp".equals(action)) {
+            String email = request.getParameter("email");
+            String resendCountKey = "resendCount_" + email;
+            String otpLockTimeKey = "otpLockTime_" + email;
+
+            Integer resendCount = (Integer) session.getAttribute(resendCountKey);
+            Long otpLockTime = (Long) session.getAttribute(otpLockTimeKey);
+            if (resendCount == null) resendCount = 0;
+
+            if (otpLockTime != null) {
+                long diff = System.currentTimeMillis() - otpLockTime;
+                if (diff < 15 * 60 * 1000) {
+                    sendError(response, "Vui lòng thử lại sau 15 phút!");
+                    return;
+                } else {
+                    session.removeAttribute(otpLockTimeKey);
+                    resendCount = 0;
+                }
+            }
+
+            if (resendCount >= 3) {
+                session.setAttribute(otpLockTimeKey, System.currentTimeMillis());
+                sendError(response, "Bạn đã gửi quá 3 lần. Vui lòng thử lại sau 15 phút!");
+                return;
+            }
+
+            resendCount++;
+            session.setAttribute(resendCountKey, resendCount);
+            response.setStatus(200);
+            response.getWriter().write("OK");
+            return;
+        }
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        HttpSession session = request.getSession();
         Integer failedAttempts = (Integer) session.getAttribute("failedAttempts");
         Long lockTime = (Long) session.getAttribute("lockTime");
+
         if (failedAttempts == null) failedAttempts = 0;
         if (lockTime != null) {
             long currentTime = System.currentTimeMillis();
@@ -73,5 +109,11 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/HomeServlet");
             }
         }
+    }
+    private void sendError(HttpServletResponse response, String msg) throws IOException {
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(403);
+        response.getWriter().write(msg);
     }
 }

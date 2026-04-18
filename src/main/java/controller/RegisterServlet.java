@@ -14,10 +14,10 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
         String action = request.getParameter("action");
         if ("sendOtp".equals(action)) {
             String email = request.getParameter("email");
-            HttpSession session = request.getSession();
             Integer resendCount = (Integer) session.getAttribute("RESEND_COUNT");
             Long lastSendTime = (Long) session.getAttribute("LAST_SEND_TIME");
             Long lockTime = (Long) session.getAttribute("RESEND_LOCK_TIME");
@@ -77,6 +77,18 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
+
+        String resendCountKey = "resendCount_" + email;
+        String otpLockTimeKey = "otpLockTime_" + email;
+
+        Long otpLockTime = (Long) session.getAttribute(otpLockTimeKey);
+        if (otpLockTime != null && (System.currentTimeMillis() - otpLockTime < 15 * 60 * 1000)) {
+            request.setAttribute("MESS_REGISTER", "Email này đang bị tạm khóa gửi mã. Thử lại sau 15 phút!");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
+        session.setAttribute(resendCountKey, 1);
+        session.removeAttribute(otpLockTimeKey);
         String otp = String.valueOf((int) (Math.random() * 900000 + 100000));
         try {
             EmailUtils.sendOTP(email, otp);
@@ -86,7 +98,6 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
-        HttpSession session = request.getSession();
         session.setAttribute("OTP", otp);
         session.setAttribute("OTP_TIME", System.currentTimeMillis());
         session.setAttribute("EMAIL_OTP", email);
