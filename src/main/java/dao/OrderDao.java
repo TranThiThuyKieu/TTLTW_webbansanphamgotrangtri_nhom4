@@ -305,4 +305,26 @@ public class OrderDao {
         }
         return list;
     }
+    public int countOrdersByTime(String type) {
+        String sql = "";
+        switch (type) {
+            case "week":
+                sql = "SELECT COUNT(*) FROM orders WHERE createAt >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
+                break;
+            case "month":
+                sql = "SELECT COUNT(*) FROM orders WHERE MONTH(createAt) = MONTH(NOW()) AND YEAR(createAt)=YEAR(NOW())";
+                break;
+            case "year":
+                sql = "SELECT COUNT(*) FROM orders WHERE YEAR(createAt) = YEAR(NOW())";
+                break;
+        }
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+             if (rs.next()) return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

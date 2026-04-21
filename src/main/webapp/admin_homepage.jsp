@@ -67,7 +67,7 @@
                 <%
                     System.out.println("Order Count (JSP): " + request.getAttribute("orderCount"));
                 %>
-                <div class="kpi-card-modern">
+                <div class="kpi-card-modern" onclick="openOrderPopup()">
                     <div class="kpi-label-modern">Số Lượng Đơn Hàng</div>
                     <div class="kpi-value-modern">
 
@@ -120,7 +120,22 @@
         </main>
     </div>
 </div>
-
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeOrderPopup()">&times;</span>
+        <h3>Thống kê đơn hàng</h3>
+        <div class="filter-btns">
+            <button onclick="loadOrderStats('week')">Tuần</button>
+            <button onclick="loadOrderStats('month')">Tháng</button>
+            <button onclick="loadOrderStats('year')">Năm</button>
+        </div>
+        <div id="orderResult">
+        </div>
+    </div>
+</div>
+<script>
+    const contextPath = '<%= request.getContextPath() %>';
+</script>
 <script src="js/homepage_admin.js"></script>
 </body>
 </html>
