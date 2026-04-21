@@ -43,7 +43,10 @@ function changeQty(btn, delta) {
 
     let qty = (parseInt(qtyInput.value) || 0) + delta;
 
-    if (qty < 1) return;
+    if (qty < 1) {
+        alert("Số lượng sản phẩm tối thiểu là 1");
+        return;
+    }
 
     const oldQty = qtyInput.value;
 

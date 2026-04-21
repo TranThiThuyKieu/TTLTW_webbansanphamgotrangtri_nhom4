@@ -311,6 +311,9 @@
     </div>
 </div>
 <script>
+    const isLoggedIn = ${not empty sessionScope.LOGGED_USER};
+</script>
+<script>
     function toggleReply(id) {
         const replyDiv = document.getElementById('reply-' + id);
         const btn = event.currentTarget;
@@ -445,7 +448,13 @@
 
     }
     function submitAddToCart() {
-
+        if (!isLoggedIn) {
+            const choice = confirm("Bạn cần đăng nhập để thực hiện chức năng này.\n\nNhấn OK để đăng nhập, Cancel để hủy.");
+            if (choice) {
+                window.location.href = "${pageContext.request.contextPath}/login.jsp";
+            }
+            return false;
+        }
         if (!selectedColorId || !selectedSizeId) {
             alert("Vui lòng chọn đầy đủ Màu sắc và Kích thước");
             return false;
