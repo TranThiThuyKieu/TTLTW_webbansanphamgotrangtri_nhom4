@@ -33,7 +33,18 @@ function openProductModal(isEdit = false) {
     }
     modal.style.display = 'flex';
 }
-function closeProductModal() {
-    document.getElementById('product-modal').style.display = 'none';
+function openOrderPopup() {
+    document.getElementById("orderModal").style.display = "block";
+    loadOrderStats('week');
 }
-
+function closeOrderPopup() {
+    document.getElementById("orderModal").style.display = "none";
+}
+function loadOrderStats(type) {
+    fetch(contextPath + "/OrderStatsServlet?type=" + type)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("orderResult").innerHTML =
+                "<p>Tổng đơn: " + data.count + "</p>";
+        });
+}

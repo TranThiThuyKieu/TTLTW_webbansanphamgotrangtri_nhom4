@@ -11,7 +11,7 @@ import model.Category;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "CategoryServlet", urlPatterns = {"/update-category", "/add-category", "/delete-category"})
+@WebServlet(name = "CategoryServlet", urlPatterns = {"/search-category","/update-category", "/add-category", "/delete-category"})
 public class CategoryServlet extends HttpServlet {
 
     @Override
@@ -20,7 +20,16 @@ public class CategoryServlet extends HttpServlet {
 
         String action = request.getServletPath();
         CategoryDao dao = new CategoryDao();
-
+        if (action.equals("/search-category")) {
+            String keyword = request.getParameter("keyword");
+            if (keyword == null) keyword = "";
+            List<Category> listC = dao.getAllCategoriesWithTotalInventory(keyword);
+            request.setAttribute("listC", listC);
+            request.setAttribute("keyword", keyword);
+            request.setAttribute("activePage", "category");
+            request.getRequestDispatcher("/admin_category.jsp").forward(request, response);
+            return;
+        }
         if (action.equals("/delete-category")) {
             int id = Integer.parseInt(request.getParameter("id"));
 

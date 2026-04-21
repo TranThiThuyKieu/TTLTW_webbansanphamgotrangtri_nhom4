@@ -24,12 +24,20 @@
                 <h2 class="page-title">Quản Lý Danh Mục Sản Phẩm</h2>
 
                 <div class="search-filter">
-                    <div class="search-input" style="flex-grow: 1;">
-                        <input type="text" placeholder="Tìm kiếm danh mục" class="search-input" id="searchInput" value="${keyword}">
-                    </div>
-                    <button class="add-new-category" onclick="openCategoryModal()">
-                        <i class="fa-solid fa-plus"></i> Thêm Danh Mục Mới
-                    </button>
+                    <form action="${pageContext.request.contextPath}/search-category" method="get" class="search-filter">
+                        <div class="search-input" style="flex-grow: 1;">
+                            <input type="text"
+                                   name="keyword"
+                                   placeholder="Tìm kiếm danh mục"
+                                   value="${keyword}">
+                        </div>
+                        <button type="submit" class="add-new-category">
+                            <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
+                        </button>
+                        <button type="button" class="add-new-category" onclick="openCategoryModal()">
+                            <i class="fa-solid fa-plus"></i> Thêm Danh Mục Mới
+                        </button>
+                    </form>
 
                 </div>
                         <div class="category-wrapper">

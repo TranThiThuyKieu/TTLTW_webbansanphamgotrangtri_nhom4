@@ -107,4 +107,22 @@ public class CategoryDao {
         }
         return false;
     }
+    public List<Category> searchCategory(String keyword) {
+        List<Category> list = new ArrayList<>();
+        String sql = "SELECT * FROM categories WHERE category_name LIKE ?";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setString(1, "%" + keyword + "%");
+             ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Category c = new Category();
+                c.setId(rs.getInt("id"));
+                c.setCategoryName(rs.getString("category_name"));
+                list.add(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
