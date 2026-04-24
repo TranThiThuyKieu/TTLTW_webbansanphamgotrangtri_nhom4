@@ -94,5 +94,15 @@
 </div>
 <script src="js/admin_category.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<c:if test="${not empty sessionScope.msg}">
+    <script>
+        Swal.fire({
+            icon: '${sessionScope.msgType}',
+            text: '${sessionScope.msg}'
+        });
+    </script>
+    <c:remove var="msg" scope="session"/>
+    <c:remove var="msgType" scope="session"/>
+</c:if>
 </body>
 </html>
