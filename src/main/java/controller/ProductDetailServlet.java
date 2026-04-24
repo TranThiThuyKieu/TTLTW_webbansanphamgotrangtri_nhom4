@@ -36,6 +36,8 @@ public class ProductDetailServlet extends HttpServlet {
             response.sendRedirect("homepage_user.jsp");
             return;
         }
+        List<Product> relatedProducts = dao.getRelatedProducts(p.getCategoryId(), productId, 4);
+        request.setAttribute("relatedProducts", relatedProducts);
         int totalStock = dao.getTotalStockByProductId(productId);
         p.setTotalQuantity(totalStock);
         p.setSubImages(dao.getProductImages(productId));
