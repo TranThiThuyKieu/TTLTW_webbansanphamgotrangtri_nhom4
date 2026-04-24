@@ -295,7 +295,31 @@
     </div>
 
 </section>
-
+<div class="related-products-container">
+    <h2 class="description-title">Sản phẩm liên quan</h2>
+    <div class="related-grid">
+        <c:forEach var="rp" items="${relatedProducts}">
+            <div class="related-card">
+                <a href="ProductDetailServlet?id=${rp.id}">
+                    <div class="related-img">
+                        <img src="${rp.imageUrl}" alt="${rp.nameProduct}">
+                    </div>
+                    <div class="related-info">
+                        <h4 class="related-name">${rp.nameProduct}</h4>
+                        <div class="related-rating">
+                            <c:forEach begin="1" end="5" var="i">
+                                <i class="${i <= rp.averageRating ? 'ri-star-s-fill' : 'ri-star-s-line'}"></i>
+                            </c:forEach>
+                        </div>
+                        <p class="related-price">
+                            <fmt:formatNumber value="${rp.price}" pattern="#,###"/> VND
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </c:forEach>
+    </div>
+</div>
 
 <c:if test="${param.review == 'true'}">
     <script>
