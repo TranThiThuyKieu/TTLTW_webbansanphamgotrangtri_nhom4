@@ -1411,3 +1411,74 @@ button{
 .strength-strong {
     color: #27ae60;
 }
+.user-rank-display {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+}
+.rank-label {
+    background-color: #bdc3c7;
+    color: #ffffff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.view-detail-link {
+    font-size: 0.75rem;
+    color: #3498db;
+    text-decoration: none;
+    margin-left: 8px;
+    transition: color 0.3s ease;
+}
+
+.view-detail-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+.view-detail-link i {
+    font-size: 0.6rem;
+}
+.rank-silver { background-color: #bdc3c7; }
+.rank-gold   { background-color: #f1c40f; }
+.rank-diamond { background-color: #3498db; }
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.user-rank-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+}
+.rank-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+}
+.rank-silver { background-color: #bdc3c7; }
+.view-detail-link {
+    font-size: 0.75rem;
+    color: #3498db;
+    text-decoration: none;
+    transition: 0.2s;
+}
+.view-detail-link:hover {
+    text-decoration: underline;
+}

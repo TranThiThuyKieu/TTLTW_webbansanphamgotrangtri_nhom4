@@ -1,0 +1,190 @@
+:root {
+    --primary-color: #d35400;
+    --secondary-color: #8d6e63;
+    --gold-color: #f1c40f;
+    --silver-color: #bdc3c7;
+    --diamond-color: #3498db;
+    --bg-light: #fdfaf5;
+}
+
+.membership-detail-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 50px;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+.rank-progress-section {
+    padding: 60px 30px 40px;
+    position: relative;
+}
+.progress-track {
+    position: relative;
+    height: 8px;
+    background: #eee;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.progress-bar-fill {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(90deg, var(--silver-color), var(--gold-color));
+    border-radius: 10px;
+    z-index: 1;
+}
+.rank-step {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    background: #fff;
+}
+.rank-icon {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    transition: 0.3s;
+}
+.rank-step.active .rank-icon {
+    border-color: var(--gold-color);
+    color: var(--gold-color);
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.3);
+}
+.user-avatar-progress {
+    position: absolute;
+    top: -62px;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+    transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.user-avatar-progress img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    background: #fff;
+    object-fit: cover;
+    z-index: 2;
+}
+.user-avatar-progress .pointer {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid #fff;
+    margin-top: -3px;
+    z-index: 1;
+}
+.user-avatar-progress::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    width: 8px;
+    height: 8px;
+    background: var(--gold-color);
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+.progress-note {
+    text-align: center;
+    margin-top: 40px;
+    color: #555;
+    font-size: 0.95rem;
+}
+.stats-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 40px 0;
+}
+.stat-box {
+    background: var(--bg-light);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #faebcc;
+}
+
+.stat-box i { font-size: 1.8rem; color: var(--primary-color); }
+.stat-info span { display: block; font-size: 0.85rem; color: #7f8c8d; }
+.stat-info strong { font-size: 1.2rem; color: #2c3e50; }
+.max-rank-achievement {
+    background: linear-gradient(135deg, #fffcf5 0%, #f7e8d0 100%);
+    border: 1px solid #e67e22;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.trophy-icon { font-size: 2.5rem; color: var(--primary-color); }
+.achievement-text h4 { margin: 0; color: var(--primary-color); text-transform: uppercase; font-size: 0.9rem; }
+.achievement-text p { margin: 5px 0 0; color: #5d4037; }
+.benefit-section h3 { color: #2c3e50; margin-bottom: 20px; }
+.benefit-list { list-style: none; padding: 0; margin-bottom: 30px; }
+.benefit-list li { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; color: #555; }
+.benefit-list i { color: #27ae60; }
+
+.rank-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.rank-table th, .rank-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+.rank-table th { background: #f8f9fa; color: var(--secondary-color); font-size: 0.9rem; }
+.rank-table td:first-child { text-align: left; font-weight: 500; color: #5d4037; }
+
+.next-target {
+    background: #fff9f0;
+    color: var(--primary-color);
+    font-weight: bold;
+    border-left: 1px solid #faebcc;
+    border-right: 1px solid #faebcc;
+}
+.rank-table thead th.next-target {
+    background: var(--primary-color);
+    color: #fff;
+}
+.how-to-up-rank {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.how-to-up-rank h4 { margin-top: 0; color: #7f8c8d; }
+.how-to-up-rank p { font-size: 0.9rem; line-height: 1.5; color: #666; margin-bottom: 0; }
