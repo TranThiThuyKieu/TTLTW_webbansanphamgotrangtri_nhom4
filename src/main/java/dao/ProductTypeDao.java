@@ -143,4 +143,20 @@ public class ProductTypeDao {
         }
         return false;
     }
+    public boolean isExistNameForUpdate(String name, int id) {
+        String sql = "SELECT id FROM product_types WHERE product_type_name = ? AND id != ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name.trim());
+            ps.setInt(2, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
