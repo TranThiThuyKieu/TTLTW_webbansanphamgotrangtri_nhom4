@@ -29,6 +29,27 @@ public class AdminProductTypeServlet extends HttpServlet {
         } else {
             listPT = productDao.getAllProductTypes();
         }
+        String typeIdParam = request.getParameter("typeId");
+        if (typeIdParam != null && !typeIdParam.isEmpty()) {
+            try {
+                int typeId = Integer.parseInt(typeIdParam);
+                List<model.Product> productList = productDao.getProductsByTypeId(typeId);
+                request.setAttribute("productList", productList);
+                String selectedTypeName = "";
+                for(ProductType pt : listPT) {
+                    if(pt.getId() == typeId) {
+                        selectedTypeName = pt.getProductTypeName();
+                        break;
+                    }
+                }
+                request.setAttribute("selectedTypeName", selectedTypeName);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        request.setAttribute("viewMode", "products");
+    } else {
+        request.setAttribute("viewMode", "categories");
+    }
         Map<Integer, Integer> productCountMap = productDao.countProductByType();
         request.setAttribute("listPT", listPT);
         request.setAttribute("productCountMap", productCountMap);
