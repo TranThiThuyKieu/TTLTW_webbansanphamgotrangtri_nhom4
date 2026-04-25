@@ -22,17 +22,16 @@ public class SourceDao {
         }
         return false;
     }
-    public List<Source> getAllSourcesWithTotalInventory(String keyword) {
+    public List<Source> getAllSourcesWithProductCount(String keyword) {
         List<Source> list = new ArrayList<>();
 
         String sql = """
         SELECT 
             s.id,
             s.sourcename,
-            COALESCE(SUM(pv.inventory_quantity), 0) AS total_inventory
+            COUNT(p.id) AS total_product
         FROM sources s
-        LEFT JOIN products p ON p.source_id = s.id
-        LEFT JOIN product_variants pv ON pv.product_id = p.id
+        LEFT JOIN products p ON p.source_id = s.id AND p.isActive = 1
         WHERE (? IS NULL OR s.sourcename LIKE ?)
         GROUP BY s.id, s.sourcename
         ORDER BY s.id
@@ -55,12 +54,14 @@ public class SourceDao {
                 Source s = new Source();
                 s.setId(rs.getInt("id"));
                 s.setSourceName(rs.getString("sourcename"));
-                s.setTotalInventory(rs.getLong("total_inventory"));
+                s.setTotalProduct(rs.getInt("total_product"));
                 list.add(s);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return list;
     }
     public boolean insertSource(String name) {

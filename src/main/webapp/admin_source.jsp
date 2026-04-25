@@ -50,7 +50,7 @@
                                 <td class="col-id">${s.id}</td>
                                 <td class="col-name">${s.sourceName}</td>
                                 <td class="col-product">
-                                        ${productCountMap[s.id] != null ? productCountMap[s.id] : 0}
+                                        ${s.totalProduct}
                                 </td>
 
                                 <td class="col-actions">

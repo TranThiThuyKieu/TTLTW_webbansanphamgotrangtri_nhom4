@@ -33,7 +33,7 @@ public class SourceServlet extends HttpServlet {
 
         String keyword = request.getParameter("keyword");
 
-        List<Source> listS = dao.getAllSourcesWithTotalInventory(keyword);
+        List<Source> listS = dao.getAllSourcesWithProductCount(keyword);
 
         request.setAttribute("listS", listS);
         request.setAttribute("activePage", "source");

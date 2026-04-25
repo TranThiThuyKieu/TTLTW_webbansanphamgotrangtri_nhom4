@@ -31,7 +31,7 @@ function searchSourceByName() {
     const params = new URLSearchParams();
 
     if (keyword) {
-        params.append('search', keyword);
+        params.append('keyword', keyword);
     }
     window.location.href = 'source-manager?' + params.toString();
 }
