@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Category;
+import model.Product;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,11 +19,36 @@ public class AdminCountProductCategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         ProductDao productDao = new ProductDao();
-        List<Category> listC = productDao.getAllCategory();
-        Map<Integer, Integer> productCountMap = productDao.countProductByCategory();
-        request.setAttribute("listC", listC);
-        request.setAttribute("productCountMap", productCountMap);
+
+        String categoryIdRaw = request.getParameter("categoryId");
+
+        if (categoryIdRaw != null) {
+            int categoryId = Integer.parseInt(categoryIdRaw);
+
+            List<Product> productList = productDao.getProductsByCategoryId(categoryId);
+
+            List<Category> listC = productDao.getAllCategory();
+            String categoryName = "";
+            for (Category c : listC) {
+                if (c.getId() == categoryId) {
+                    categoryName = c.getCategoryName();
+                    break;
+                }
+            }
+
+            request.setAttribute("productList", productList);
+            request.setAttribute("selectedCategoryName", categoryName);
+
+        } else {
+            List<Category> listC = productDao.getAllCategory();
+            Map<Integer, Integer> productCountMap = productDao.countProductByCategory();
+
+            request.setAttribute("listC", listC);
+            request.setAttribute("productCountMap", productCountMap);
+        }
+
         request.setAttribute("activePage", "category");
         request.getRequestDispatcher("admin_category.jsp").forward(request, response);
     }
