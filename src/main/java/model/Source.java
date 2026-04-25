@@ -3,7 +3,7 @@ package model;
 public class Source {
     private int id;
     private String sourceName;
-    private long totalInventory;
+    public int totalProduct;;
 
 
     public Source() {}
@@ -12,12 +12,6 @@ public class Source {
         this.sourceName = sourceName;
     }
 
-    public long getTotalInventory() {
-        return totalInventory;
-    }
-    public void setTotalInventory(long totalInventory) {
-        this.totalInventory = totalInventory;
-    }
     public int getId() {
         return id;
     }
@@ -29,5 +23,12 @@ public class Source {
     }
     public void setSourceName(String sourceName) {
         this.sourceName = sourceName;
+    }
+    public int getTotalProduct() {
+        return totalProduct;
+    }
+
+    public void setTotalProduct(int totalProduct) {
+        this.totalProduct = totalProduct;
     }
 }
