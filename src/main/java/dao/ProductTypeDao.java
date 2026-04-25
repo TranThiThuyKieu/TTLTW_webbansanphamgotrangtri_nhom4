@@ -128,4 +128,19 @@ public class ProductTypeDao {
         }
         return list;
     }
+    public boolean isExistName(String name) {
+        String sql = "SELECT id FROM product_types WHERE product_type_name = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name.trim());
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
