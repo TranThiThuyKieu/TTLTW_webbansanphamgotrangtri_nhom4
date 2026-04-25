@@ -28,8 +28,11 @@
 
                 <div class="search-filter">
                     <div class="search-input" style="flex-grow: 1;">
-                        <input type="text" placeholder="Tìm kiếm loại sản phẩm"
-                               class="search-input" id="searchInput" value="${keyword}">
+                        <input type="text"
+                               placeholder="Tìm kiếm loại sản phẩm"
+                               class="search-input"
+                               id="searchInput"
+                               value="${keyword}">
                     </div>
                     <button class="add-new-category" onclick="openProductTypeModal()">
                         <i class="fa-solid fa-plus"></i> Thêm Loại SP Mới
