@@ -1385,4 +1385,34 @@ public class ProductDao {
         }
         return list;
     }
+    public List<Product> getProductsByCategoryId(int categoryId) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT p.id, p.name_product, p.price, p.isActive, img.urlImage\n" +
+                "        FROM products p\n" +
+                "        LEFT JOIN images img ON p.primary_image_id = img.id\n" +
+                "        WHERE p.category_id = ?";
+
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, categoryId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getInt("id"));
+                p.setNameProduct(rs.getString("name_product"));
+                p.setPrice(rs.getDouble("price"));
+                p.setIsActive(rs.getInt("isActive"));
+                String imageUrl = rs.getString("urlImage");
+                p.setImageUrl(imageUrl != null ? imageUrl : "img/default-product.png");
+                list.add(p);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }
