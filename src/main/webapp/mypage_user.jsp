@@ -53,7 +53,7 @@
         <i class="fas fa-medal"></i> Hạng Bạc
     </span>
 
-                <a href="${pageContext.request.contextPath}/hang_nguoi_dung.jsp" class="view-detail-link">
+                <a href="${pageContext.request.contextPath}/RankUserServlet" class="view-detail-link">
                     Xem chi tiết <i class="fas fa-chevron-right"></i>
                 </a>
             </div>

@@ -327,4 +327,58 @@ public class OrderDao {
         }
         return 0;
     }
+    public int countUserOrders(int userId) {
+        String sql = """
+                SELECT COUNT(*)\s
+FROM orders\s
+WHERE user_id = ?
+  AND status = 'Đã giao'
+  AND payment_status = 'Đã thanh toán'
+  AND YEAR(update_at) = YEAR(NOW())
+  AND (
+        (MONTH(NOW()) <= 6 AND MONTH(update_at) BETWEEN 1 AND 6)
+     OR (MONTH(NOW()) > 6 AND MONTH(update_at) BETWEEN 7 AND 12)
+  )
+    """;
+
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public double sumUserSpending(int userId) {
+        String sql = """
+                SELECT COALESCE(SUM(totalOrder), 0)
+FROM orders\s
+WHERE user_id = ?
+  AND status = 'Đã giao'
+  AND payment_status = 'Đã thanh toán'
+  AND YEAR(update_at) = YEAR(NOW())
+  AND (
+        (MONTH(NOW()) <= 6 AND MONTH(update_at) BETWEEN 1 AND 6)
+     OR (MONTH(NOW()) > 6 AND MONTH(update_at) BETWEEN 7 AND 12)
+  )
+    """;
+
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getDouble(1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

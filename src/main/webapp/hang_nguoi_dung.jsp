@@ -22,7 +22,7 @@
     <div class="rank-progress-section">
         <div class="progress-track">
             <div class="progress-bar-bg"></div>
-            <div class="progress-bar-fill" style="width: 45%;"></div>
+            <div class="progress-bar-fill" style="width: ${progress}%;"></div>
             <div class="rank-step silver active">
                 <div class="rank-icon"><i class="fas fa-medal"></i></div>
                 <span class="rank-name">Bạc</span>
@@ -35,31 +35,58 @@
                 <div class="rank-icon"><i class="fas fa-gem"></i></div>
                 <span class="rank-name">Kim cương</span>
             </div>
-            <div class="user-avatar-progress" style="left: 45%;">
+            <div class="user-avatar-progress" style="left: ${progress}%;">
                 <img src="https://brocanvas.vn/wp-content/uploads/2024/05/hinh-anh-hoa-hong-dep-nhat-hien-nay.jpg" alt="Me">
                 <div class="pointer"></div>
             </div>
         </div>
-        <p class="progress-note">Bạn cần chi thêm <b>800.000₫</b> và mua ít nhất là <b>3 đơn</b> nữa để lên hạng <b>Vàng</b></p>
+        <p class="progress-note">
+                <c:choose>
+
+                    <c:when test="${currentRank == null}">
+                        Bạn cần chi thêm
+                        <b>
+                            <fmt:formatNumber value="${remainSpending}" type="number"/>₫
+                        </b>
+                        và mua thêm
+                        <b>${remainOrders} đơn</b>
+                        để lên hạng <b>${nextRank.rankName}</b>
+                    </c:when>
+
+                    <c:when test="${nextRank != null}">
+                        Bạn cần chi thêm
+                        <b>
+                            <fmt:formatNumber value="${remainSpending}" type="number"/>₫
+                        </b>
+                        và mua thêm
+                        <b>${remainOrders} đơn</b>
+                        để lên hạng <b>${nextRank.rankName}</b>
+                    </c:when>
+
+                    <c:otherwise>
+                        Bạn đã đạt hạng cao nhất
+                    </c:otherwise>
+
+                </c:choose>
+        </p>
     </div>
     <div class="stats-summary-grid">
         <div class="stat-box">
             <i class="fas fa-shopping-bag"></i>
             <div class="stat-info">
                 <span>Số đơn hàng (6 tháng)</span>
-                <strong>12 đơn</strong>
+                <strong>${orders} đơn</strong>
             </div>
         </div>
         <div class="stat-box">
             <i class="fas fa-wallet"></i>
             <div class="stat-info">
                 <span>Tổng chi tiêu (6 tháng)</span>
-                <strong>4.200.000₫</strong>
+                <strong>
+                    <fmt:formatNumber value="${spending}" type="number"/>₫
+                </strong>
             </div>
         </div>
-    </div>
-    <div class="max-rank-mini">
-        <i class="fas fa-trophy"></i> Hạng cao nhất TỪNG ĐẠT: <span>Kim Cương (20/03/2026)</span>
     </div>
     <div class="benefit-section">
         <h3>Đặc quyền hạng Bạc</h3>

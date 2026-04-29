@@ -1,6 +1,7 @@
 
     package model;
 
+    import java.time.LocalDateTime;
     import java.util.Date;
 
     public class User {
@@ -18,6 +19,7 @@
         private Integer avatarId;
         private Date createAt;
         private Address address;
+        int rank_id;
 
         public User(String username, String password, String status, String role, String email, int id) {
             this.username = username;
@@ -165,6 +167,14 @@
 
         public void setAddress(Address address) {
             this.address = address;
+        }
+
+        public int getRank_id() {
+            return rank_id;
+        }
+
+        public void setRank_id(int rank_id) {
+            this.rank_id = rank_id;
         }
 
     }
