@@ -230,12 +230,20 @@ select {
 }
 
 .radio-container {
-    display: block;
+    display: flex;
+    align-items: center;;
     position: relative;
     padding-left: 35px;
     margin-bottom: 15px;
     cursor: pointer;
     font-weight: 600;
+    line-height: 1;
+}
+.vnpay-logo {
+    width: 60px;
+    height: auto;
+    margin-left: 10px; 
+    display: block;
 }
 
 .btn-order {

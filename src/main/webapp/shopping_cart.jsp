@@ -109,24 +109,20 @@
             </div>
 
 
-            <c:set var="total" value="0"/>
-            <c:forEach var="item" items="${cartItems}">
-                <c:set var="total" value="${total + item.totalPrice}"/>
-            </c:forEach>
 
             <div class="summary-title">Thông tin đơn hàng</div>
 
             <div class="summary-line-new">
                 <span>Tạm tính</span>
                 <span id="sub-total">
-        <fmt:formatNumber value="${total}" pattern="#,###"/> VND
+        <fmt:formatNumber value="${subTotal}" pattern="#,###"/> VND
     </span>
             </div>
 
             <div class="summary-line-new">
-                <span>Thuế GTGT (8%)</span>
+                <span>Thuế GTGT (10%)</span>
                 <span id="tax-amount">
-        <fmt:formatNumber value="${total * 0.08}" pattern="#,###"/> VND
+        <fmt:formatNumber value="${taxAmount}" pattern="#,###"/> VND
     </span>
             </div>
 
