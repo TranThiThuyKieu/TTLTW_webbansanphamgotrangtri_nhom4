@@ -1,7 +1,7 @@
 function updateTotal() {
 
     let subTotal = 0;
-    const taxRate = 0.08;
+    const taxRate = 0.1;
 
     document.querySelectorAll('.cart-item').forEach(item => {
 

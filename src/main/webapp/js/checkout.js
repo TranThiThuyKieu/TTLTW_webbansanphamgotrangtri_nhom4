@@ -227,7 +227,7 @@ async function calculateShipping(districtId, wardCode) {
             const fee = data.data.total;
 
             document.getElementById("shipping-fee").innerText =
-                fee.toLocaleString("vi-VN") + " VND";
+                fee.toLocaleString("vi-VN") + " đ";
 
             updateFinalTotal(fee);
 
@@ -240,12 +240,42 @@ async function calculateShipping(districtId, wardCode) {
     }
 }
 function updateFinalTotal(shippingFee) {
-
     const el = document.querySelector(".total-row-value");
-
     const subtotal = Number(el.dataset.subtotal) || 0;
 
     const final = subtotal + shippingFee;
 
     el.innerText = final.toLocaleString("vi-VN") + " đ";
+
+    const hiddenShippingInput = document.getElementById("hidden_shipping_fee");
+    if (hiddenShippingInput) {
+        hiddenShippingInput.value = shippingFee;
+    }
 }
+document.addEventListener("DOMContentLoaded", function () {
+
+    const checkoutForm = document.getElementById("checkoutForm");
+
+    if (checkoutForm) {
+        checkoutForm.addEventListener("submit", function (e) {
+
+            const select = document.getElementById("old-address");
+
+            if (!select || !select.value) {
+                alert("Vui lòng chọn địa chỉ!");
+                e.preventDefault();
+                return;
+            }
+
+            document.getElementById("selected_address_id").value = select.value;
+
+            document.getElementById("hidden_fullName").value =
+                select.options[select.selectedIndex].dataset.name || "";
+
+            document.getElementById("hidden_phone").value =
+                select.options[select.selectedIndex].dataset.phone || "";
+            document.getElementById('hidden_shipping_fee').value = shippingAmount;
+        });
+    }
+
+});

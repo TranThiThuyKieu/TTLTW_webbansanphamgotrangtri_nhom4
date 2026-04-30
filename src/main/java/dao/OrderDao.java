@@ -110,58 +110,45 @@ public class OrderDao {
         return false;
     }
 
-    public int checkout(int userId,
-                        String fullName,
-                        String phone,
-                        int addressId,
-                        String note,
-                        String paymentMethod,
-                        List<CartItem> cart) throws Exception {
+    public int checkout(int userId, String fullName, String phone, int addressId,
+                        String note, String paymentMethod, List<CartItem> cart,
+                        double shippingFee) throws Exception {
 
         try (Connection conn = DBContext.getConnection()) {
-
             conn.setAutoCommit(false);
-
             BigDecimal subTotal = BigDecimal.ZERO;
 
             for (CartItem item : cart) {
                 BigDecimal itemTotal = item.getVariant().getVariant_price()
                         .multiply(BigDecimal.valueOf(item.getQuantity()));
-
                 subTotal = subTotal.add(itemTotal);
             }
 
-            BigDecimal tax = subTotal.multiply(BigDecimal.valueOf(0.08));
-            BigDecimal shipping = calculateShipping(subTotal);
+            BigDecimal tax = subTotal.multiply(BigDecimal.valueOf(0.1));
+            BigDecimal shipping = BigDecimal.valueOf(shippingFee);
             BigDecimal total = subTotal.add(tax).add(shipping);
 
             String sqlOrder = """
-                    INSERT INTO orders 
-                    (user_id, fullName, phone, address_id, note, createAt, status,
-                     payment_status, totalOrder, subTotal, taxAmount, shippingFee)
-                    VALUES (?, ?, ?, ?, ?, NOW(), 'Chờ xác nhận', ?, ?, ?, ?, ?)
-                    """;
+                INSERT INTO orders 
+                (user_id, fullName, phone, address_id, note, createAt, status,
+                 payment_status, totalOrder, subTotal, taxAmount, shippingFee)
+                VALUES (?, ?, ?, ?, ?, NOW(), 'Chờ xác nhận', ?, ?, ?, ?, ?)
+                """;
 
-            String paymentStatus = paymentMethod.equals("COD")
-                    ? "Chưa thanh toán"
-                    : "Đã thanh toán";
+            String paymentStatus = "COD".equalsIgnoreCase(paymentMethod) ? "Chưa thanh toán" : "Chờ thanh toán";
 
             int orderId;
-
             try (PreparedStatement ps = conn.prepareStatement(sqlOrder, Statement.RETURN_GENERATED_KEYS)) {
-
                 ps.setInt(1, userId);
                 ps.setString(2, fullName);
                 ps.setString(3, phone);
                 ps.setInt(4, addressId);
                 ps.setString(5, note);
                 ps.setString(6, paymentStatus);
-
                 ps.setBigDecimal(7, total);
                 ps.setBigDecimal(8, subTotal);
                 ps.setBigDecimal(9, tax);
                 ps.setBigDecimal(10, shipping);
-
                 ps.executeUpdate();
 
                 ResultSet rs = ps.getGeneratedKeys();
@@ -171,9 +158,7 @@ public class OrderDao {
 
             insertOrderDetails(conn, orderId, cart);
             updateStock(conn, cart);
-
             conn.commit();
-
             return orderId;
         }
     }
