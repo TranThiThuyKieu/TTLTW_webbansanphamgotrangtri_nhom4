@@ -7,6 +7,13 @@
 <%@ page import="dao.OrderDao" %>
 
 <%User user = (User) session.getAttribute("LOGGED_USER");
+    OrderDao dao = new OrderDao();
+    double thisWeek = dao.getRevenueByWeekOffset(0);
+    double lastWeek = dao.getRevenueByWeekOffset(1);
+    double thisMonth = dao.getRevenueByMonthOffset(0);
+    double lastMonth = dao.getRevenueByMonthOffset(1);
+    double weekPercent = lastWeek == 0 ? 100 : ((thisWeek - lastWeek) / lastWeek) * 100;
+    double monthPercent = lastMonth == 0 ? 100 : ((thisMonth - lastMonth) / lastMonth) * 100;
     if (user == null || !"Admin".equalsIgnoreCase(user.getRole())) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;
@@ -78,6 +85,26 @@
                     <div class="kpi-label-modern">Khách Hàng Mới </div>
                     <div class="kpi-value-modern"><%= newUsersLast30Days %></div>
                 </div>
+                <div class="kpi-card-modern">
+                    <div class="kpi-label-modern">Doanh Thu Tuần</div>
+                    <div class="kpi-value-modern">
+                        <fmt:formatNumber value="<%= thisWeek %>" pattern="#,###"/> VND
+                    </div>
+                    <div class="trend <%= weekPercent >= 0 ? "up" : "down" %>">
+                        <%= String.format("%.1f", weekPercent) %>%
+                        <i class="fas <%= weekPercent >= 0 ? "fa-arrow-up" : "fa-arrow-down" %>"></i>
+                    </div>
+                </div>
+                <div class="kpi-card-modern">
+                    <div class="kpi-label-modern">Doanh Thu Tháng</div>
+                    <div class="kpi-value-modern">
+                        <fmt:formatNumber value="<%= thisMonth %>" pattern="#,###"/> VND
+                    </div>
+                    <div class="trend <%= monthPercent >= 0 ? "up" : "down" %>">
+                        <%= String.format("%.1f", monthPercent) %>%
+                        <i class="fas <%= monthPercent >= 0 ? "fa-arrow-up" : "fa-arrow-down" %>"></i>
+                    </div>
+                </div>
             </div>
 
             <div class="widget-full-width">
@@ -145,6 +172,7 @@
         <div id="revenueResult">
             Tổng doanh thu: <fmt:formatNumber value="<%= totalRevenue %>" pattern="#,###"/> VND
         </div>
+    </div>
     </div>
 <script>
     const contextPath = '<%= request.getContextPath() %>';
