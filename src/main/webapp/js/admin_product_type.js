@@ -31,23 +31,26 @@ function closeProductTypeModal() {
     document.getElementById('productTypeModal').style.display = 'none';
 }
 const searchInput = document.getElementById('searchInput');
-
-function searchProductTypeByName() {
-    if (!searchInput) return;
-    const keyword = searchInput.value.trim();
-
-    window.location.href = 'product-type-manager?search=' + encodeURIComponent(keyword);
+function performSearch() {
+    if (searchInput) {
+        const kw = searchInput.value.trim();
+        window.location.href = "AdminProductTypeServlet?keyword=" + encodeURIComponent(kw);
+    }
 }
-
 if (searchInput) {
     searchInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            searchProductTypeByName();
+            performSearch();
         }
     });
 }
-
+function handleSearch(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        performSearch();
+    }
+}
 window.onclick = function(event) {
     const modal = document.getElementById('productTypeModal');
     if (event.target === modal) {
@@ -71,4 +74,5 @@ function deleteProductType(id, name) {
         }
     })
 }
+
 

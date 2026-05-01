@@ -14,7 +14,7 @@ public class ProductTypeDao {
     public List<ProductType> getAll() {
         List<ProductType> list = new ArrayList<>();
         String sql = "SELECT * FROM product_types";
-        try (Connection conn = DBContext.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -100,7 +100,7 @@ public class ProductTypeDao {
     }
     public boolean updateProductType(int id, String name) {
         String sql = "UPDATE product_types SET product_type_name = ? WHERE id = ?";
-        try (Connection conn = DBContext.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, name);
             ps.setInt(2, id);
@@ -110,5 +110,53 @@ public class ProductTypeDao {
             return false;
         }
     }
-
+    public List<ProductType> searchProductTypes(String keyword) {
+        List<ProductType> list = new ArrayList<>();
+        String sql = "SELECT * FROM product_types WHERE product_type_name LIKE ?";
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductType pt = new ProductType();
+                pt.setId(rs.getInt("id"));
+                pt.setProductTypeName(rs.getString("product_type_name"));
+                list.add(pt);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public boolean isExistName(String name) {
+        String sql = "SELECT id FROM product_types WHERE product_type_name = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name.trim());
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean isExistNameForUpdate(String name, int id) {
+        String sql = "SELECT id FROM product_types WHERE product_type_name = ? AND id != ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name.trim());
+            ps.setInt(2, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

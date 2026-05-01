@@ -6,7 +6,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>HOME DECOR - GIỎ HÀNG</title>
+    <title>HOME DECOR - THANH TOÁN</title>
 
     <link rel="icon" href="img/logo.png">
 
@@ -59,38 +59,38 @@
                     <div class="input-group">
                         <label>Thông tin cá nhân</label>
                         <div class="info-wrapper">
-                            <input type="text" value="Nguyễn Minh Hậu" placeholder="Họ và tên" readonly>
+                            <input type="text" placeholder="Họ và tên" readonly>
                             <i class="fas fa-user"></i>
                         </div>
                     </div>
                     <div class="input-group">
                         <label>&nbsp;</label> <div class="info-wrapper">
-                        <input type="text" value="0962967942" placeholder="Số điện thoại" readonly>
+                        <input type="text" placeholder="Số điện thoại" readonly>
                         <i class="fas fa-phone"></i>
                     </div>
                     </div>
                     <div class="input-group">
                         <label>Địa chỉ chi tiết</label>
                         <div class="info-wrapper">
-                            <input type="text" value="Trường Đại học Nông Lâm" placeholder="Địa chỉ cụ thể" readonly>
+                            <input type="text" placeholder="Địa chỉ cụ thể" readonly>
                         </div>
                     </div>
                     <div class="input-group">
                         <label>Tỉnh/Thành phố</label>
                         <div class="info-wrapper">
-                            <input type="text" value="Thành phố Hồ Chí Minh" placeholder="Tỉnh/Thành phố" readonly>
+                            <input type="text" placeholder="Tỉnh/Thành phố" readonly>
                         </div>
                     </div>
                     <div class="input-group">
                         <label>Quận/Huyện</label>
                         <div class="info-wrapper">
-                            <input type="text" value="Quận Thủ Đức" placeholder="Quận/Huyện" readonly>
+                            <input type="text" placeholder="Quận/Huyện" readonly>
                         </div>
                     </div>
                     <div class="input-group">
                         <label>Phường/Xã</label>
                         <div class="info-wrapper">
-                            <input type="text" value="Phường Bình Thọ" placeholder="Phường/Xã" readonly>
+                            <input type="text" placeholder="Phường/Xã" readonly>
                         </div>
                     </div>
                 </div>
@@ -98,20 +98,26 @@
 
             <section class="payment-method-section">
                 <h2 class="section-title">Phương thức thanh toán</h2>
-                <div class="method-box">
-                    <label class="radio-container">
-                        <input type="radio" name="payment" checked>
-                        <span class="checkmark"></span>
-                        Thanh toán khi nhận hàng
-                    </label>
-                    <label class="radio-container">
-                        <input type="radio" name="payment">
-                        <span class="checkmark"></span>
-                        PayPal
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="paypal" width="60">
-                    </label>
-                </div>
-                <button class="btn-order">ĐẶT HÀNG</button>
+                <form id="checkoutForm" action="CheckoutServlet" method="post">
+                    <input type="hidden" name="fullName" id="hidden_fullName">
+                    <input type="hidden" name="phone" id="hidden_phone">
+                    <input type="hidden" name="address_id" id="selected_address_id">
+                    <input type="hidden" name="shipping_fee_input" id="hidden_shipping_fee">
+
+                    <div class="method-box">
+                        <label class="radio-container">
+                            <input type="radio" name="paymentMethod" value="COD" checked>
+                            <span class="checkmark"></span> Thanh toán khi nhận hàng
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="paymentMethod" value="VNPAY">
+                            <span class="checkmark"></span> VNPay
+                            <img src="https://thuonghieumanh.vneconomy.vn/upload/vnpay.png" alt="vnpay" class="vnpay-logo" width="60">
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-order">ĐẶT HÀNG</button>
+                </form>
             </section>
         </div>
 
@@ -153,7 +159,7 @@
                         </tr>
                         <tr class="calc-row">
                             <td>Phí vận chuyển</td>
-                            <td id="shipping-fee" class="text-right">0.000 đ</td>
+                            <td id="shipping-fee" class="text-right"></td>
                         </tr>
                         <tr class="calc-row promotion">
                             <td>Giảm giá</td>

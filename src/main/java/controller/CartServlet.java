@@ -55,19 +55,30 @@ public class CartServlet extends HttpServlet {
                 request.setAttribute("addresses", addrDao.getAddressesByUserId(user.getId()));
                 request.setAttribute("listPayments", payDao.getPaymentsByUserId(user.getId()));
             }
-            BigDecimal total = BigDecimal.ZERO;
+            BigDecimal subTotal = BigDecimal.ZERO;
+            BigDecimal totalTax = BigDecimal.ZERO;
+
             if (cart != null) {
                 for (CartItem item : cart.values()) {
-                    BigDecimal price = item.getVariant().getVariant_price()
+                    BigDecimal itemPrice = item.getVariant().getVariant_price()
                             .multiply(BigDecimal.valueOf(item.getQuantity()));
-                    total = total.add(price);
+                    subTotal = subTotal.add(itemPrice);
+
+                    BigDecimal itemTax = itemPrice.multiply(new BigDecimal("0.1"));
+                    totalTax = totalTax.add(itemTax);
                 }
             }
-            request.setAttribute("total", total);
+
+            BigDecimal totalIncludingTax = subTotal.add(totalTax);
+
+            request.setAttribute("subTotal", subTotal);
+            request.setAttribute("taxAmount", totalTax);
+            request.setAttribute("total", totalIncludingTax);
+
             if (cart != null) {
                 request.setAttribute("cartItems", cart.values());
             }
-            request.getRequestDispatcher("shopping_cart.jsp").forward(request, response);;
+            request.getRequestDispatcher("shopping_cart.jsp").forward(request, response);
         }
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -124,12 +135,28 @@ public class CartServlet extends HttpServlet {
             }
         }
         else if (action.equals("prepareCheckout")) {
-
             String[] selectedItems = request.getParameterValues("selectedItems");
 
             if (selectedItems != null && selectedItems.length > 0) {
+                Map<Integer, CartItem> fullCart = (Map<Integer, CartItem>) session.getAttribute("CART");
+                BigDecimal subtotal = BigDecimal.ZERO;
+
+                for (String idStr : selectedItems) {
+                    int variantId = Integer.parseInt(idStr);
+                    if (fullCart != null && fullCart.containsKey(variantId)) {
+                        CartItem item = fullCart.get(variantId);
+                        BigDecimal itemPrice = item.getVariant().getVariant_price()
+                                .multiply(BigDecimal.valueOf(item.getQuantity()));
+                        subtotal = subtotal.add(itemPrice);
+                    }
+                }
+
+                BigDecimal taxRate = new BigDecimal("0.1");
+                BigDecimal taxAmount = subtotal.multiply(taxRate);
 
                 session.setAttribute("SELECTED_ITEMS", selectedItems);
+                session.setAttribute("CHECKOUT_SUBTOTAL", subtotal);
+                session.setAttribute("CHECKOUT_TAX", taxAmount);
 
                 response.sendRedirect("CheckoutServlet");
                 return;

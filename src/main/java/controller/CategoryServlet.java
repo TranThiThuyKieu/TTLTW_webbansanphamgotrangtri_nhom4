@@ -68,7 +68,10 @@ public class CategoryServlet extends HttpServlet {
 
         if (action.equals("/update-category")) {
             int id = Integer.parseInt(request.getParameter("categoryId"));
-            if (dao.updateCategory(id, name)) {
+            if (dao.isCategoryNameExist(name)) {
+                request.getSession().setAttribute("msg", "Tên danh mục đã tồn tại!");
+                request.getSession().setAttribute("msgType", "error");
+            } else if (dao.updateCategory(id, name)) {
                 request.getSession().setAttribute("msg", "Cập nhật thành công!");
                 request.getSession().setAttribute("msgType", "success");
             } else {
@@ -76,7 +79,10 @@ public class CategoryServlet extends HttpServlet {
                 request.getSession().setAttribute("msgType", "error");
             }
         } else if (action.equals("/add-category")) {
-            if (dao.insertCategory(name)) {
+            if (dao.isCategoryNameExist(name)) {
+                request.getSession().setAttribute("msg", "Tên danh mục đã tồn tại!");
+                request.getSession().setAttribute("msgType", "error");
+            } else if (dao.insertCategory(name)) {
                 request.getSession().setAttribute("msg", "Đã thêm danh mục: " + name);
                 request.getSession().setAttribute("msgType", "success");
             } else {

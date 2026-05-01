@@ -39,15 +39,24 @@
 
     <div class="sidebar">
         <div class="user-info">
-            <div class="avatar-container">
-                <img
-                        src="${pageContext.request.contextPath}${not empty LOGGED_USER.avatarUrl ? LOGGED_USER.avatarUrl : '/img/logo.png'}"
-                        alt="Avatar"
-                        class="avatar-img"
-                        onerror="this.src='${pageContext.request.contextPath}/img/logo.png';"
-                        style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%;" />
-            </div>
+<%--            <div class="avatar-container">--%>
+<%--                <img--%>
+<%--                        src="${pageContext.request.contextPath}${not empty LOGGED_USER.avatarUrl ? LOGGED_USER.avatarUrl : '/img/logo.png'}"--%>
+<%--                        alt="Avatar"--%>
+<%--                        class="avatar-img"--%>
+<%--                        onerror="this.src='${pageContext.request.contextPath}/img/logo.png';"--%>
+<%--                        style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%;" />--%>
+<%--            </div>--%>
             <div class="user-name">${LOGGED_USER.username}</div>
+            <div class="user-rank-display">
+    <span class="rank-label rank-silver">
+        <i class="fas fa-medal"></i> Hạng Bạc
+    </span>
+
+                <a href="${pageContext.request.contextPath}/RankUserServlet" class="view-detail-link">
+                    Xem chi tiết <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
         </div>
 
         <div class="menu-list">
