@@ -48,3 +48,18 @@ function loadOrderStats(type) {
                 "<p>Tổng đơn: " + data.count + "</p>";
         });
 }
+function openRevenuePopup() {
+    document.getElementById("revenueModal").style.display = "block";
+    loadRevenueStats('week');
+}
+function closeRevenuePopup() {
+    document.getElementById("revenueModal").style.display = "none";
+}
+function loadRevenueStats(type) {
+    fetch(contextPath + "/RevenueStatsServlet?type=" + type)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("revenueResult").innerHTML =
+                "<p>Tổng doanh thu: " + data.revenue.toLocaleString() + " VND</p>";
+        });
+}
