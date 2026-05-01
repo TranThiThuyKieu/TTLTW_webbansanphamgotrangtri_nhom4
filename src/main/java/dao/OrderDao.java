@@ -366,4 +366,26 @@ WHERE user_id = ?
         }
         return 0;
     }
+    public double getRevenueByTime(String type) {
+        String sql = "";
+        switch (type) {
+            case "week":
+                sql = "SELECT COALESCE(SUM(totalOrder),0) FROM orders WHERE createAt >= DATE_SUB(NOW(), INTERVAL 7 DAY) AND payment_status='Đã thanh toán' AND status='Đã giao'";
+                break;
+            case "month":
+                sql = "SELECT COALESCE(SUM(totalOrder),0) FROM orders WHERE MONTH(createAt)=MONTH(NOW()) AND YEAR(createAt)=YEAR(NOW()) AND payment_status='Đã thanh toán' AND status='Đã giao'";
+                break;
+            case "year":
+                sql = "SELECT COALESCE(SUM(totalOrder),0) FROM orders WHERE YEAR(createAt)=YEAR(NOW()) AND payment_status='Đã thanh toán' AND status='Đã giao'";
+                break;
+        }
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getDouble(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

@@ -58,8 +58,8 @@
             <h2 class="page-title">Tổng quan</h2>
 
             <div class="kpi-row-modern">
-                <div class="kpi-card-modern">
-                    <div class="kpi-label-modern">Tổng Doanh Thu </div>
+                <div class="kpi-card-modern" onclick="openRevenuePopup()">
+                <div class="kpi-label-modern">Tổng Doanh Thu </div>
                     <div class="kpi-value-modern">
                         <fmt:formatNumber value="<%= totalRevenue %>" pattern="#,###"/>
                         <span class="unit">VND</span></div>
@@ -133,6 +133,19 @@
         </div>
     </div>
 </div>
+<div id="revenueModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeRevenuePopup()">&times;</span>
+        <h3>Thống kê doanh thu</h3>
+        <div class="filter-btns">
+            <button onclick="loadRevenueStats('week')">Tuần</button>
+            <button onclick="loadRevenueStats('month')">Tháng</button>
+            <button onclick="loadRevenueStats('year')">Năm</button>
+        </div>
+        <div id="revenueResult">
+            Tổng doanh thu: <fmt:formatNumber value="<%= totalRevenue %>" pattern="#,###"/> VND
+        </div>
+    </div>
 <script>
     const contextPath = '<%= request.getContextPath() %>';
 </script>
