@@ -388,4 +388,40 @@ WHERE user_id = ?
         }
         return 0;
     }
+    public double getRevenueByWeekOffset(int weekOffset) {
+        String sql = """
+        SELECT COALESCE(SUM(totalOrder),0)
+        FROM orders
+        WHERE YEARWEEK(createAt,1) = YEARWEEK(NOW(),1) - ?
+          AND payment_status='Đã thanh toán'
+          AND status='Đã giao'
+    """;
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, weekOffset);
+             ResultSet rs = ps.executeQuery();
+             if (rs.next()) return rs.getDouble(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public double getRevenueByMonthOffset(int monthOffset) {
+        String sql = """
+        SELECT COALESCE(SUM(totalOrder),0)
+        FROM orders
+        WHERE TIMESTAMPDIFF(MONTH, createAt, NOW()) = ?
+          AND payment_status='Đã thanh toán'
+          AND status='Đã giao'
+    """;
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, monthOffset);
+             ResultSet rs = ps.executeQuery();
+             if (rs.next()) return rs.getDouble(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
