@@ -148,3 +148,11 @@ document
             btn.innerHTML = 'Đang xử lý...';
         }
     });
+document.querySelectorAll('.remove-link').forEach(link => {
+    link.addEventListener('click', function (e) {
+        const ok = confirm("Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng không?");
+        if (!ok) {
+            e.preventDefault();
+        }
+    });
+});

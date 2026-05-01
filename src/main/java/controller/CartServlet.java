@@ -37,8 +37,16 @@ public class CartServlet extends HttpServlet {
                         item.setTotalPrice(price);
                         session.setAttribute("CART", cart);
                         response.getWriter().print("{\"success\":true}");
-                    } else {
-                        response.getWriter().print("{\"success\":false}");
+                    } if (variant == null) {
+                        response.getWriter().print("""
+                                {"success":false,"message":"Sản phẩm không tồn tại"}""");
+                        return;
+                    }
+                    if (quantity > variant.getInventory_quantity()) {
+                        response.getWriter().print("""
+                                        {"success":false,"message":"Số lượng vượt quá tồn kho. Còn lại: """ + variant.getInventory_quantity() + """ 
+                                        sản phẩm"}""");
+                        return;
                     }
                 } else {
                     response.getWriter().print("{\"success\":false}");
