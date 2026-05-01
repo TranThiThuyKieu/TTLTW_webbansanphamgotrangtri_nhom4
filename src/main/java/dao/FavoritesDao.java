@@ -1,9 +1,13 @@
 package dao;
 
+import model.Product;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FavoritesDao {
@@ -77,6 +81,31 @@ public class FavoritesDao {
         }
         return set;
     }
-
-
+    public List<Product> getFavoriteByUser(int userId) {
+        List<Product> list = new ArrayList<>();
+        String sql = """
+            SELECT p.id, p.name_product, p.price, i.urlImage
+            FROM favorites f
+            JOIN products p ON f.product_id = p.id
+            LEFT JOIN images i ON p.primary_image_id = i.id
+            WHERE f.user_id = ?
+            ORDER BY f.created_at DESC
+        """;
+        try (Connection conn = new DBContext().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             ps.setInt(1, userId);
+             ResultSet rs = ps.executeQuery();
+             while (rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getInt("id"));
+                p.setNameProduct(rs.getString("name_product"));
+                p.setPrice(rs.getDouble("price"));
+                p.setImageUrl(rs.getString("urlImage"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

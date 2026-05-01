@@ -182,3 +182,9 @@
     color: var(--primary-color);
     background: rgba(139, 94, 60, 0.08);
 }
+#wishlist-link {
+    color: #333;
+}
+#wishlist-link:hover {
+    color: var(--primary-color);
+}

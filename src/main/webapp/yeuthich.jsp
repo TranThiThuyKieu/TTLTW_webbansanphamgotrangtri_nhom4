@@ -31,103 +31,36 @@
     </div>
 
     <div class="product-container">
-        <div class="products" id="productList" >
-            <div class="product-card">
-                <button class="wishlist-btn"><i class="ri-heart-line"></i></button>
-                <div class="set">
-                    <img src="https://moho.com.vn/blogs/noi-that-ung-dung/tim-hieu-ve-cac-loai-go-tu-nhien-thong-dung?srsltid=AfmBOopnDq-NilAEiQXtahC83JVuyhgdxK9XWxMGWQAQoXQExRVpiY5y" alt="Sản phẩm 1">
-                    <h2>SP gỗ cao cấp gường ngủ 3 tầng</h2>
-                    <div class="rating"><i class="ri-star-s-fill"></i> <span>(4.9)</span></div>
-                    <div class="price">29,990,000 VNĐ</div>
-                    <div class="fs-stock"><p>Đã bán 150</p></div>
-                    <div class="action-buttons"><span class="add-cart">Thêm giỏ hàng</span></div>
+        <div class="products">
+            <c:forEach items="${listFav}" var="p">
+                <div class="product-card">
+                    <button class="wishlist-btn active">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <a href="ProductDetailServlet?id=${p.id}" class="product-link">
+                        <div class="set">
+                            <img src="${empty p.imageUrl ? 'img/default.png' : p.imageUrl}"
+                                 alt="${p.nameProduct}">
+                            <h2>${p.nameProduct}</h2>
+                            <div class="rating">
+                                <i class="ri-star-s-fill"></i>
+                                <span>(${p.averageRating != 0 ? p.averageRating : '5.0'})</span>
+                            </div>
+                            <div class="price">
+                                <fmt:formatNumber value="${p.price}" type="number"/> VNĐ
+                            </div>
+                            <div class="fs-stock">
+                                <p>Đã bán ${p.totalSold != 0 ? p.totalSold : 0}</p>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="action-buttons">
+                        <a href="CartServlet?action=add&id=${p.id}" class="add-cart">
+                            Thêm giỏ hàng
+                        </a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="product-card">
-                <button class="wishlist-btn"><i class="ri-heart-line"></i></button>
-                <div class="set">
-                    <img src="https://moho.com.vn/blogs/noi-that-ung-dung/tim-hieu-ve-cac-loai-go-tu-nhien-thong-dung?srsltid=AfmBOopnDq-NilAEiQXtahC83JVuyhgdxK9XWxMGWQAQoXQExRVpiY5y" alt="Sản phẩm 2">
-                    <h2>tủ áo</h2>
-                    <div class="rating"><i class="ri-star-s-fill"></i> <span>(4.8)</span></div>
-                    <div class="price">24,500,000 VNĐ</div>
-                    <div class="fs-stock"><p>Đã bán 89</p></div>
-                    <div class="action-buttons"><span class="add-cart">Thêm giỏ hàng</span></div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <button class="wishlist-btn"><i class="ri-heart-line"></i></button>
-                <div class="set">
-                    <img src="https://moho.com.vn/blogs/noi-that-ung-dung/tim-hieu-ve-cac-loai-go-tu-nhien-thong-dung?srsltid=AfmBOopnDq-NilAEiQXtahC83JVuyhgdxK9XWxMGWQAQoXQExRVpiY5y" alt="Sản phẩm 3">
-                    <h2>giá đỡ bằng gỗ nhẹ maay</h2>
-                    <div class="rating"><i class="ri-star-s-fill"></i> <span>(4.7)</span></div>
-                    <div class="price">4,990,000 VNĐ</div>
-                    <div class="fs-stock"><p>Đã bán 1.2k</p></div>
-                    <div class="action-buttons"><span class="add-cart">Thêm giỏ hàng</span></div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <button class="wishlist-btn"><i class="ri-heart-line"></i></button>
-                <div class="set">
-                    <img src="https://moho.com.vn/blogs/noi-that-ung-dung/tim-hieu-ve-cac-loai-go-tu-nhien-thong-dung?srsltid=AfmBOopnDq-NilAEiQXtahC83JVuyhgdxK9XWxMGWQAQoXQExRVpiY5y" alt="Sản phẩm 4">
-                    <h2>bàn học tiện ích</h2>
-                    <div class="rating"><i class="ri-star-s-fill"></i> <span>(4.6)</span></div>
-                    <div class="price">18,900,000 VNĐ</div>
-                    <div class="fs-stock"><p>Đã bán 45</p></div>
-                    <div class="action-buttons"><span class="add-cart">Thêm giỏ hàng</span></div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <button class="wishlist-btn"><i class="ri-heart-line"></i></button>
-                <div class="set">
-                    <img src="https://moho.com.vn/blogs/noi-that-ung-dung/tim-hieu-ve-cac-loai-go-tu-nhien-thong-dung?srsltid=AfmBOopnDq-NilAEiQXtahC83JVuyhgdxK9XWxMGWQAQoXQExRVpiY5y" alt="Sản phẩm 5">
-                    <h2>Bàn phím gỗ để trưng</h2>
-                    <div class="rating"><i class="ri-star-s-fill"></i> <span>(5.0)</span></div>
-                    <div class="price">1,250,000 VNĐ</div>
-                    <div class="fs-stock"><p>Đã bán 300</p></div>
-                    <div class="action-buttons"><span class="add-cart">Thêm giỏ hàng</span></div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <button class="wishlist-btn"><i class="ri-heart-line"></i></button>
-                <div class="set">
-                    <img src="https://moho.com.vn/blogs/noi-that-ung-dung/tim-hieu-ve-cac-loai-go-tu-nhien-thong-dung?srsltid=AfmBOopnDq-NilAEiQXtahC83JVuyhgdxK9XWxMGWQAQoXQExRVpiY5y" alt="Sản phẩm 6">
-                    <h2>Chuột điêu khắc gỗ</h2>
-                    <div class="rating"><i class="ri-star-s-fill"></i> <span>(4.9)</span></div>
-                    <div class="price">950,000 VNĐ</div>
-                    <div class="fs-stock"><p>Đã bán 2.5k</p></div>
-                    <div class="action-buttons"><span class="add-cart">Thêm giỏ hàng</span></div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <button class="wishlist-btn"><i class="ri-heart-line"></i></button>
-                <div class="set">
-                    <img src="https://moho.com.vn/blogs/noi-that-ung-dung/tim-hieu-ve-cac-loai-go-tu-nhien-thong-dung?srsltid=AfmBOopnDq-NilAEiQXtahC83JVuyhgdxK9XWxMGWQAQoXQExRVpiY5y" alt="Sản phẩm 7">
-                    <h2>Đồng hồ treo tường</h2>
-                    <div class="rating"><i class="ri-star-s-fill"></i> <span>(4.8)</span></div>
-                    <div class="price">9,200,000 VNĐ</div>
-                    <div class="fs-stock"><p>Đã bán 67</p></div>
-                    <div class="action-buttons"><span class="add-cart">Thêm giỏ hàng</span></div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <button class="wishlist-btn"><i class="ri-heart-line"></i></button>
-                <div class="set">
-                    <img src="https://moho.com.vn/blogs/noi-that-ung-dung/tim-hieu-ve-cac-loai-go-tu-nhien-thong-dung?srsltid=AfmBOopnDq-NilAEiQXtahC83JVuyhgdxK9XWxMGWQAQoXQExRVpiY5y" alt="Sản phẩm 8">
-                    <h2>Loa điêu khắc kĩ niệm dùng để trưng</h2>
-                    <div class="rating"><i class="ri-star-s-fill"></i> <span>(4.7)</span></div>
-                    <div class="price">3,800,000 VNĐ</div>
-                    <div class="fs-stock"><p>Đã bán 110</p></div>
-                    <div class="action-buttons"><span class="add-cart">Thêm giỏ hàng</span></div>
-                </div>
-            </div>
-
+            </c:forEach>
         </div>
     </div>
 </section>
