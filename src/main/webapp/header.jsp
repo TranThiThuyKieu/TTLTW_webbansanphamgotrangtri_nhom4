@@ -29,6 +29,9 @@
 
     </nav>
     <div class="icons">
+        <a class="nav_item" href="FavoriteServlet" id="wishlist-link">
+            <i class="fas fa-heart"></i>
+        </a>
         <a class="nav_item" href="CartServlet?action=view" id="cart-link">
             <i class="fas fa-shopping-cart"></i>
         </a>
