@@ -33,36 +33,43 @@ function addRow(tableId) {
 
     const newRow = firstRow.cloneNode(true);
 
-    const select = newRow.querySelector('.select2-variant');
+    const $newSelect = $(newRow).find('.select2-variant');
 
-    if (select) {
-        if ($(select).hasClass("select2-hidden-accessible")) {
-            $(select).select2('destroy');
-        }
+    $(newRow).find('.select2-container').remove();
 
-        newRow.querySelectorAll('.select2-container').forEach(el => el.remove());
+    $newSelect.removeClass('select2-hidden-accessible')
+        .removeAttr('data-select2-id')
+        .removeAttr('aria-hidden')
+        .removeAttr('tabindex')
+        .empty(); // Xóa option cũ nếu muốn load từ currentVariants
 
-        select.value = "";
+    $newSelect.append('<option value="" disabled selected>-- Chọn mặt hàng --</option>');
 
-        $(select).removeAttr('data-select2-id').removeClass('select2-hidden-accessible').show();
-
-        $(select).select2({
-            placeholder: "-- Chọn mặt hàng --",
-            allowClear: true,
-            width: '100%'
+    if (currentVariants && currentVariants.length > 0) {
+        currentVariants.forEach(v => {
+            $newSelect.append(new Option(v.sku, v.id));
         });
+        $newSelect.prop('disabled', false);
+    } else {
+        $newSelect.prop('disabled', true);
     }
 
     newRow.querySelectorAll('input').forEach(input => {
         if (input.name === 'qty[]') input.value = 1;
         else if (input.name === 'prc[]') input.value = 0;
-        else input.value = '';
+        else if (input.type !== 'checkbox') input.value = '';
     });
 
     const totalCell = newRow.querySelector('.row-total');
     if (totalCell) totalCell.innerText = "0 đ";
 
     tableBody.appendChild(newRow);
+
+    $newSelect.select2({
+        placeholder: "-- Chọn mặt hàng --",
+        allowClear: true,
+        width: '100%'
+    });
 }
 
 function removeRow(btn, type) {
@@ -201,3 +208,43 @@ $(document).on('change', '.select2, .select2-variant', function() {
     $(this).removeClass('error');
     $(this).nextAll('.error-message').first().remove();
 });
+$(document).ready(function() {
+    $('select[name="supplierId"]').on('change', function() {
+        const supplierId = $(this).val();
+        const variantSelects = $('.select2-variant');
+
+        if (supplierId) {
+            $.ajax({
+                url: 'ImportInventoryStockServlet',
+                type: 'GET',
+                data: {
+                    action: 'getVariants',
+                    supplierId: supplierId
+                },
+                success: function(data) {
+                    updateAllVariantOptions(data);
+                }
+            });
+        } else {
+            variantSelects.prop('disabled', true).val(null).trigger('change');
+        }
+    });
+});
+
+let currentVariants = [];
+
+function updateAllVariantOptions(variants) {
+    currentVariants = variants;
+    const selects = $('.select2-variant');
+
+    selects.each(function() {
+        const $el = $(this);
+        $el.prop('disabled', false);
+        $el.empty().append('<option value="" disabled selected>-- Chọn mặt hàng --</option>');
+
+        variants.forEach(v => {
+            $el.append(new Option(v.sku, v.id));
+        });
+        $el.trigger('change');
+    });
+}
