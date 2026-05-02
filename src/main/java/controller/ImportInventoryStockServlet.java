@@ -6,11 +6,13 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.InventoryStock;
 import model.InventoryStockItem;
+import model.ProductVariants;
 import model.User;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.util.List;
 
 @WebServlet(name = "ImportInventoryStockServlet", value = "/ImportInventoryStockServlet")
 public class ImportInventoryStockServlet extends HttpServlet {
@@ -18,11 +20,23 @@ public class ImportInventoryStockServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        SourceDao sourceDao = new SourceDao();
-        ProductVariantsDao variantDao = new ProductVariantsDao();
+        String action = request.getParameter("action");
 
+        if ("getVariants".equals(action)) {
+            int supplierId = Integer.parseInt(request.getParameter("supplierId"));
+            ProductVariantsDao variantDao = new ProductVariantsDao();
+            List<ProductVariants> variants = variantDao.getVariantsBySource(supplierId);
+
+            String json = new com.google.gson.Gson().toJson(variants);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+            return; 
+        }
+
+        SourceDao sourceDao = new SourceDao();
         request.setAttribute("sources", sourceDao.getAllSources());
-        request.setAttribute("variants", variantDao.getAllVariants());
 
         String success = request.getParameter("success");
         if (success != null) {

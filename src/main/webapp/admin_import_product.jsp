@@ -81,11 +81,9 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <select name="vId[]" class="minimal-input select2-variant" style="width: 100%;">
-                                            <option value="" disabled selected>-- Chọn mặt hàng --</option>
-                                            <c:forEach var="v" items="${variants}">
-                                                <option value="${v.id}">${v.sku}</option>
-                                            </c:forEach>
+                                        <select name="vId[]" class="minimal-input select2-variant" style="width: 100%;" disabled>
+                                            <option value="" disabled selected>-- Vui lòng chọn Nhà cung cấp trước --</option>
+                                        </select>
                                         </select>
                                     </td>
                                     <td><input type="number" name="qty[]" value="1" min="1" class="minimal-input text-center" oninput="updateRowTotal(this, 'import')"></td>
