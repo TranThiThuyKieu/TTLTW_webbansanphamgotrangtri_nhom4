@@ -87,6 +87,52 @@ public class MyPageServlet extends HttpServlet {
                     list.add(o);
                 }
             }
+            String monthRaw = request.getParameter("month");
+            String yearRaw = request.getParameter("year");
+            String yearOnlyRaw = request.getParameter("yearOnly");
+            Double monthlyResult = null;
+            Double yearlyResult = null;
+            if (monthRaw != null && yearRaw != null) {
+                int month = Integer.parseInt(monthRaw) - 1;
+                int year = Integer.parseInt(yearRaw);
+                double total = 0;
+                for (Order o : allOrders) {
+                    if ("Đã giao".equals(o.getStatus()) && "Đã thanh toán".equals(o.getPaymentStatus())) {
+
+                        java.util.Calendar cal = java.util.Calendar.getInstance();
+                        cal.setTime(o.getCreateAt());
+
+                        int m = cal.get(java.util.Calendar.MONTH);
+                        int y = cal.get(java.util.Calendar.YEAR);
+
+                        if (m == month && y == year) {
+                            total += o.getTotalOrder();
+                        }
+                    }
+                }
+                monthlyResult = total;
+            }
+            if (yearOnlyRaw != null) {
+                int year = Integer.parseInt(yearOnlyRaw);
+
+                double total = 0;
+
+                for (Order o : allOrders) {
+                    if ("Đã giao".equals(o.getStatus()) && "Đã thanh toán".equals(o.getPaymentStatus())) {
+                        java.util.Calendar cal = java.util.Calendar.getInstance();
+                        cal.setTime(o.getCreateAt());
+
+                        int y = cal.get(java.util.Calendar.YEAR);
+
+                        if (y == year) {
+                            total += o.getTotalOrder();
+                        }
+                    }
+                }
+                yearlyResult = total;
+            }
+            request.setAttribute("monthlyResult", monthlyResult);
+            request.setAttribute("yearlyResult", yearlyResult);
             request.setAttribute("monthlyTotal", monthlyTotal);
             request.setAttribute("yearlyTotal", yearlyTotal);
             request.setAttribute("listO", list);

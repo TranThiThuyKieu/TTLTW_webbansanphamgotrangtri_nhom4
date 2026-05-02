@@ -435,36 +435,43 @@
         </div>
     </div>
     <div class="revenue-section">
-        <h3> Chi tiêu theo tháng</h3>
-        <table class="revenue-table">
-            <tr>
-                <th>Tháng</th>
-                <th>Tổng tiền</th>
-            </tr>
-            <c:forEach var="i" begin="0" end="11">
-                <tr>
-                    <td>Tháng ${i + 1}</td>
-                    <td class="money">
-                        <fmt:formatNumber value="${monthlyTotal[i]}" pattern="#,###"/> VND
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-        <h3> Chi tiêu theo năm</h3>
-        <table class="revenue-table">
-            <tr>
-                <th>Năm</th>
-                <th>Tổng tiền</th>
-            </tr>
-            <c:forEach var="entry" items="${yearlyTotal}">
-                <tr>
-                    <td>${entry.key}</td>
-                    <td class="money">
-                        <fmt:formatNumber value="${entry.value}" pattern="#,###"/> VND
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
+        <h3>Chi tiêu theo tháng</h3>
+
+        <form action="MyPageServlet" method="get" style="margin-bottom: 15px;">
+            <input type="hidden" name="tab" value="don-hang"/>
+
+            Tháng:
+            <input type="number" name="month" min="1" max="12" value="${param.month}" required>
+
+            Năm:
+            <input type="number" name="year" value="${param.year}" required>
+
+            <button type="submit">Xem</button>
+        </form>
+
+        <c:if test="${monthlyResult != null}">
+            <p>
+                Tổng chi tháng ${param.month}/${param.year}:
+                <b><fmt:formatNumber value="${monthlyResult}" pattern="#,###"/> VND</b>
+            </p>
+        </c:if>
+        <h3>Chi tiêu theo năm</h3>
+
+        <form action="MyPageServlet" method="get" style="margin-bottom: 15px;">
+            <input type="hidden" name="tab" value="don-hang"/>
+
+            Năm:
+            <input type="number" name="yearOnly" value="${param.yearOnly}" required>
+
+            <button type="submit">Xem</button>
+        </form>
+
+        <c:if test="${yearlyResult != null}">
+            <p>
+                Tổng chi năm ${param.yearOnly}:
+                <b><fmt:formatNumber value="${yearlyResult}" pattern="#,###"/> VND</b>
+            </p>
+        </c:if>
     </div>
     <div class="order-status-filter">
         <c:set var="currStatus" value="${param.status == null ? 'tat-ca' : param.status}" />
