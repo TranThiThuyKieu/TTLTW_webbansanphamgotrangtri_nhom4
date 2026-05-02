@@ -78,6 +78,10 @@
                 </span>
                                     </td>
                                     <td class="col-actions">
+                                        <i class="fa-solid ${u.status == 'Active' ? 'fa-lock' : 'fa-unlock'}"
+                                           onclick="toggleUserStatus('${u.id}', '${u.status}')"
+                                           style="cursor:pointer; color:orange; margin-right:10px;"></i>
+
                                         <i class="fa-solid fa-trash-can"
                                            onclick="deleteUser('${u.id}', '${u.displayName}')"
                                            style="cursor:pointer; color:red; margin-left:10px;"></i>
