@@ -9,6 +9,9 @@ public class InventoryStock {
     Timestamp created_at;
     int created_by;
     String note;
+    String sourceName;
+    double totalAmount;
+    String fullName;
 
     public int getId() {
         return id;
@@ -56,5 +59,29 @@ public class InventoryStock {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getSourceName() {
+        return sourceName;
+    }
+
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

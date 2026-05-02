@@ -11,7 +11,7 @@
                 <a href="${pageContext.request.contextPath}/products">Sản phẩm</a>
             </li>
             <li class="${activePage == '' ? 'active' : ''}">
-                <a href="${pageContext.request.contextPath}/admin_inventory.jsp">Quản lý kho</a>
+                <a href="${pageContext.request.contextPath}/InventoryServlet">Quản lý kho</a>
             </li>
             <li class="${activePage == '' ? 'active' : ''}">
                 <a href="${pageContext.request.contextPath}/AdminProductTypeServlet">Loại sản phẩm</a>
