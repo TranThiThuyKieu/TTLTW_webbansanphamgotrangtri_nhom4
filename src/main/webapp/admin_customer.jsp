@@ -23,10 +23,13 @@
                 <h2 class="page-title">Quản Lý Khách Hàng</h2>
 
                 <div class="controls-bar">
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Tìm kiếm">
-                    </div>
+                    <form action="${pageContext.request.contextPath}/admin/customers" method="get">
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <input type="text" name="keyword" placeholder="Tìm kiếm"
+                                   value="${param.keyword}">
+                        </div>
+                    </form>
                     <button class="action-btn customize-btn" onclick="openAddUserModal()">
                         <i class="fa-solid fa-plus"></i> Thêm khách hàng
                     </button>

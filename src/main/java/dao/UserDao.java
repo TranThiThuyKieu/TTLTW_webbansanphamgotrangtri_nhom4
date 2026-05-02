@@ -375,5 +375,46 @@ public class UserDao {
         }
         return false;
     }
+
+    public List<User> searchCustomers(String keyword) {
+        List<User> list = new ArrayList<>();
+        String sql = """
+        SELECT u.id, u.full_name, u.display_name, u.birth_date,
+               u.email, u.phone, u.gender,
+               u.role, u.status, u.createAt
+        FROM users u
+        WHERE LOWER(u.full_name) LIKE ?
+           OR LOWER(u.display_name) LIKE ?
+           OR LOWER(u.email) LIKE ?
+           OR LOWER(u.phone) LIKE ?
+    """;
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            String key = "%" + keyword.toLowerCase() + "%";
+            ps.setString(1, key);
+            ps.setString(2, key);
+            ps.setString(3, key);
+            ps.setString(4, key);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+                u.setId(rs.getInt("id"));
+                u.setUsername(rs.getString("full_name"));
+                u.setDisplayName(rs.getString("display_name"));
+                u.setBirthDate(rs.getDate("birth_date"));
+                u.setEmail(rs.getString("email"));
+                u.setPhone(rs.getString("phone"));
+                u.setGender(rs.getString("gender"));
+                u.setRole(rs.getString("role"));
+                u.setStatus(rs.getString("status"));
+                u.setCreateAt(rs.getTimestamp("createAt"));
+                list.add(u);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }
 
