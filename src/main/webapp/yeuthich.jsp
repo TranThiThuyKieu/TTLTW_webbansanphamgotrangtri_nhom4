@@ -22,16 +22,16 @@
         <h2 class="titleProduct">SẢN PHẨM YÊU THÍCH</h2>
         <form class="">
             <label>Sắp xếp:</label>
-            <select name="sort">
+            <select id="sortSelect" onchange="sortProducts()">
                 <option value="">Mặc định</option>
-                <option value="price_asc">Mới nhất</option>
-                <option value="price_desc">Cũ nhất</option>
+                <option value="newest">Mới nhất</option>
+                <option value="oldest">Cũ nhất</option>
             </select>
         </form>
     </div>
 
     <div class="product-container">
-        <div class="products">
+        <div class="products" id="productList">
             <c:forEach items="${listFav}" var="p">
                 <div class="product-card">
                     <button class="wishlist-btn active">
@@ -66,5 +66,5 @@
 </section>
 <jsp:include page="footer.jsp"></jsp:include>
 </body>
-
+<script src="${pageContext.request.contextPath}/js/yeuthich.js"></script>
 </html>
