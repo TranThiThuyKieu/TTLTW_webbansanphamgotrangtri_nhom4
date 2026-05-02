@@ -76,7 +76,7 @@
 
             <div class="v-rank-box">
                 <p class="v-rank-title"><c:choose>
-                    <c:when test="${voucher.rewardStyle == 'MEMBER'}">
+                    <c:when test="${voucher.rewardStyle == 'SPECIAL'}">
                         Chỉ áp dụng cho hạng thẻ:
                     </c:when>
                     <c:otherwise>
@@ -85,14 +85,13 @@
                 </c:choose></p>
                 <div class="v-rank-tags">
                     <c:choose>
-                        <c:when test="${voucher.rewardStyle == 'MEMBER'}">
+                        <c:when test="${voucher.rewardStyle == 'SPECIAL'}">
                             <c:forEach var="r" items="${voucher.applicableRanks}">
                                 <span class="v-tag-item">${r}</span>
                             </c:forEach>
                         </c:when>
-
                         <c:otherwise>
-                          Tất cả khách hàng
+                            Tất cả khách hàng
                         </c:otherwise>
                     </c:choose>
                 </div>

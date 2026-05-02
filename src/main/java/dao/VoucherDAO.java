@@ -92,6 +92,17 @@ public class VoucherDAO {
                 v.setMaxPerUser(rs.getInt("max_per_user"));
                 v.setStartDate(rs.getTimestamp("start_date").toLocalDateTime());
                 v.setEndDate(rs.getTimestamp("end_date").toLocalDateTime());
+                 String sqlRank = "SELECT rank_name FROM voucher_applicable_ranks WHERE voucher_id = ?";
+                 PreparedStatement ps2 = conn.prepareStatement(sqlRank);
+                 ps2.setInt(1, id);
+                 ResultSet rs2 = ps2.executeQuery();
+
+                 List<String> ranks = new ArrayList<>();
+                 while (rs2.next()) {
+                     ranks.add(rs2.getString("rank_name"));
+                 }
+                 v.setApplicableRanks(ranks);
+                 v.setRewardStyle(rs.getString("reward_style"));
                 return v;
              }
         } catch (Exception e) {
