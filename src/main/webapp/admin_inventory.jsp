@@ -32,7 +32,7 @@
                                 <input type="text" placeholder="Tìm mã phiếu nhập...">
                                 <i class="fas fa-search"></i>
                             </div>
-                            <a href="admin_import_product.jsp" class="btn-add-ticket">
+                            <a href="ImportInventoryStockServlet" class="btn-add-ticket">
                                 <i class="fas fa-plus"></i> Tạo Phiếu Nhập
                             </a>
                         </div>

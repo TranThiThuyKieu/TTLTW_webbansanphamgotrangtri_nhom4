@@ -39,4 +39,15 @@ public class ProductVariantsDao {
         }
         return list;
     }
+    public void updateStock(Connection conn, int variantId, int qty) {
+        String sql = "UPDATE product_variants SET inventory_quantity = inventory_quantity + ? WHERE id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, qty);
+            ps.setInt(2, variantId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
