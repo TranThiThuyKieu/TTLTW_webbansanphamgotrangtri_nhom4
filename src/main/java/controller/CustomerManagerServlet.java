@@ -16,7 +16,14 @@ public class CustomerManagerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         UserDao dao = new UserDao();
-        List<User> list = dao.getAllCustomers();
+        String keyword = request.getParameter("keyword");
+        List<User> list;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            list = dao.searchCustomers(keyword);
+        } else {
+            list = dao.getAllCustomers();
+        }
+        request.setAttribute("listUsers", list);
         request.setAttribute("listUsers", list);
         request.getRequestDispatcher("/admin_customer.jsp").forward(request, response);
     }
