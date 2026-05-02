@@ -68,8 +68,8 @@
                                 <div class="form-group column-right">
                                     <label>Đặc quyền ưu đãi</label>
                                     <select name="rewardStyle" id="rewardStyleSelect" onchange="toggleRankSelection()">
-                                        <option value="NORMAL">Ưu đãi thường</option>
-                                        <option value="SPECIAL">Ưu đãi đặc quyền</option>
+                                        <option value="NORMAL" ${voucher.rewardStyle == 'NORMAL' ? 'selected' : ''}>Ưu đãi thường</option>
+                                        <option value="SPECIAL" ${voucher.rewardStyle == 'SPECIAL' ? 'selected' : ''}>Ưu đãi đặc quyền</option>
                                     </select>
 
                                     <div id="rankWrapper" class="rank-wrapper" style="display: none;">
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Số lượng tối đa / 1 Khách hàng</label>
-                                    <input type="number" name="maxPerUser" value="${voucher.maxPerUser}" value="1" min="1">
+                                    <input type="number" name="maxPerUser" value="${voucher.maxPerUser}" min="1">
                                 </div>
                             </div>
                         </div>
