@@ -451,8 +451,13 @@
 
         <c:if test="${monthlyResult != null}">
             <p>
-                Tổng chi tháng ${param.month}/${param.year}:
+                Tháng ${param.month}/${param.year}:
+                <br>
+                Tổng chi:
                 <b><fmt:formatNumber value="${monthlyResult}" pattern="#,###"/> VND</b>
+                <br>
+                Tổng đơn:
+                <b>${monthlyOrderCount}</b>
             </p>
         </c:if>
         <h3>Chi tiêu theo năm</h3>
@@ -468,8 +473,13 @@
 
         <c:if test="${yearlyResult != null}">
             <p>
-                Tổng chi năm ${param.yearOnly}:
+                Năm ${param.yearOnly}:
+                <br>
+                Tổng chi:
                 <b><fmt:formatNumber value="${yearlyResult}" pattern="#,###"/> VND</b>
+                <br>
+                Tổng đơn:
+                <b>${yearlyOrderCount}</b>
             </p>
         </c:if>
     </div>
