@@ -20,9 +20,20 @@ public class FavoriteServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-        List<Product> list = favoriteDao.getFavoriteByUser(user.getId());
+        String sort = request.getParameter("sort");
+        String ajax = request.getParameter("ajax");
+        List<Product> list;
+        if (sort != null) {
+            list = favoriteDao.getFavoriteByUserSorted(user.getId(), sort);
+        } else {
+            list = favoriteDao.getFavoriteByUser(user.getId());
+        }
         request.setAttribute("listFav", list);
-        request.getRequestDispatcher("yeuthich.jsp").forward(request, response);
+        if ("true".equals(ajax)) {
+            request.getRequestDispatcher("product_list_ajax.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("yeuthich.jsp").forward(request, response);
+        }
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
