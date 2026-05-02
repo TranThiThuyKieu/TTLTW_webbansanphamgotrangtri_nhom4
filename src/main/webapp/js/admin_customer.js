@@ -225,3 +225,11 @@ function submitAddUser() {
         });
 
 }
+function toggleUserStatus(userId, currentStatus) {
+    let newStatus = currentStatus === 'Active' ? 'Inactive' : 'Active';
+
+    if (!confirm("Bạn có chắc muốn " + (newStatus === 'Inactive' ? "khóa" : "mở khóa") + " user này?")) {
+        return;
+    }
+    window.location.href = contextPath + "/admin/customers?action=toggleStatus&id=" + userId + "&status=" + newStatus;
+}

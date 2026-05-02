@@ -23,6 +23,14 @@ public class CustomerManagerServlet extends HttpServlet {
         } else {
             list = dao.getAllCustomers();
         }
+        String action = request.getParameter("action");
+        if ("toggleStatus".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String status = request.getParameter("status");
+            dao.updateStatus(id, status);
+            response.sendRedirect("customers");
+            return;
+        }
         request.setAttribute("listUsers", list);
         request.setAttribute("listUsers", list);
         request.getRequestDispatcher("/admin_customer.jsp").forward(request, response);
