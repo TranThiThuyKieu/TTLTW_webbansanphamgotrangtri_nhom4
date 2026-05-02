@@ -31,6 +31,11 @@
     width: auto;
     font-weight: 500;
 }
+.col-name a {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 500;
+}
 .col-product-count {
     width: 150px;
     text-align: center;

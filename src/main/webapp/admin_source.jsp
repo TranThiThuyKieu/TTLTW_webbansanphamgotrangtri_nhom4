@@ -69,16 +69,19 @@
                 </div>
             </div>
 
-            <div id="sourceModal" class="modal">
+            <div id="sourceModal" class="modal" style="${requestScope.keepModalOpen ? 'display:block;' : ''}">
                 <div class="modal-content">
                     <span class="close-btn" onclick="closeSourceModal()">&times;</span>
-                    <h3 id="modalTitle">Thêm Nguồn Hàng Mới</h3>
-                    <form id="sourceForm" action="add-source" method="POST">
+                    <h3 id="modalTitle">
+                        ${not empty requestScope.currentId ? 'Chỉnh Sửa Nguồn Hàng' : 'Thêm Nguồn Hàng Mới'}
+                    </h3>
+                    <form id="sourceForm" action="${not empty requestScope.currentId ? 'edit-source' : 'add-source'}" method="POST">
                         <div class="form-group">
                             <label for="sourceName">Tên Nguồn Hàng:</label>
-                            <input type="text" name="sourceName" id="sourceName" required>
+                            <input type="text" name="sourceName" id="sourceName"
+                                   value="${not empty requestScope.currentName ? requestScope.currentName : ''}" required>
                         </div>
-                        <input type="hidden" id="sourceId" name="id">
+                        <input type="hidden" id="sourceId" name="id" value="${requestScope.currentId}">
                         <button type="submit" class="submit-btn">Lưu Thông Tin</button>
                     </form>
                 </div>
@@ -88,19 +91,21 @@
     </div>
 </div>
 
-<c:if test="${not empty sessionScope.msg}">
+<c:if test="${not empty requestScope.msg || not empty sessionScope.msg}">
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const message = "${sessionScope.msg}";
-            const type = ("${sessionScope.msgType}").trim().toLowerCase();
+            const message = "${not empty requestScope.msg ? requestScope.msg : sessionScope.msg}";
+            const type = ("${not empty requestScope.msgType ? requestScope.msgType : sessionScope.msgType}").trim().toLowerCase();
 
-            Swal.fire({
-                title: type === 'success' ? 'Thành công!' : 'Thông báo lỗi',
-                text: message,
-                icon: type === 'success' ? 'success' : 'error',
-                confirmButtonColor: type === 'success' ? '#28a745' : '#d33',
-                confirmButtonText: 'Đồng ý'
-            });
+            if (message && message !== "") {
+                Swal.fire({
+                    title: type === 'success' ? 'Thành công!' : 'Thông báo lỗi',
+                    text: message,
+                    icon: type, // 'success' hoặc 'error'
+                    confirmButtonColor: type === 'success' ? '#28a745' : '#d33',
+                    confirmButtonText: 'Đồng ý'
+                });
+            }
         });
     </script>
     <c:remove var="msg" scope="session" />
