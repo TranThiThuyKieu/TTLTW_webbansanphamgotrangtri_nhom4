@@ -92,6 +92,8 @@ public class VoucherDAO {
                 v.setMaxPerUser(rs.getInt("max_per_user"));
                 v.setStartDate(rs.getTimestamp("start_date").toLocalDateTime());
                 v.setEndDate(rs.getTimestamp("end_date").toLocalDateTime());
+                 v.setRewardStyle(rs.getString("reward_style"));
+                 v.setApplicableRanks(getRanksByVoucherId(id));
                 return v;
              }
         } catch (Exception e) {
@@ -114,7 +116,21 @@ public class VoucherDAO {
              ps.setObject(9, v.getStartDate());
              ps.setObject(10, v.getEndDate());
              ps.setInt(11, v.getId());
-             ps.executeUpdate();
+            ps.executeUpdate();
+            PreparedStatement psDel = conn.prepareStatement(
+                    "DELETE FROM voucher_applicable_ranks WHERE voucher_id=?");
+            psDel.setInt(1, v.getId());
+            psDel.executeUpdate();
+            if ("SPECIAL".equals(v.getRewardStyle()) && v.getApplicableRanks() != null) {
+                PreparedStatement psIns = conn.prepareStatement(
+                        "INSERT INTO voucher_applicable_ranks(voucher_id, rank_name) VALUES (?, ?)");
+
+                for (String r : v.getApplicableRanks()) {
+                    psIns.setInt(1, v.getId());
+                    psIns.setString(2, r);
+                    psIns.executeUpdate();
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -211,5 +227,20 @@ public class VoucherDAO {
             e.printStackTrace();
         }
         return list;
+    }
+    public List<String> getRanksByVoucherId(int id) {
+        List<String> ranks = new ArrayList<>();
+        String sql = "SELECT rank_name FROM voucher_applicable_ranks WHERE voucher_id=?";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ranks.add(rs.getString("rank_name"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ranks;
     }
 }

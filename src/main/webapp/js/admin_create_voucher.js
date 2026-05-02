@@ -9,3 +9,6 @@
     checkboxes.forEach(cb => cb.checked = false);
 }
 }
+ window.onload = function () {
+     toggleRankSelection();
+ };
