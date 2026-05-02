@@ -1,6 +1,7 @@
 package controller;
 
 import dao.CategoryDao;
+import dao.ProductDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import model.Category;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "CategoryServlet", urlPatterns = {"/search-category","/update-category", "/add-category", "/delete-category"})
 public class CategoryServlet extends HttpServlet {
@@ -24,7 +26,10 @@ public class CategoryServlet extends HttpServlet {
             String keyword = request.getParameter("keyword");
             if (keyword == null) keyword = "";
             List<Category> listC = dao.getAllCategoriesWithTotalInventory(keyword);
+            ProductDao productDao = new ProductDao();
+            Map<Integer, Integer> productCountMap = productDao.countProductByCategory();
             request.setAttribute("listC", listC);
+            request.setAttribute("productCountMap", productCountMap);
             request.setAttribute("keyword", keyword);
             request.setAttribute("activePage", "category");
             request.getRequestDispatcher("/admin_category.jsp").forward(request, response);

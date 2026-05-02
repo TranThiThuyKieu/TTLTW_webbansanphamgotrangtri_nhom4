@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,7 @@
                                 <input type="text" placeholder="Tìm mã phiếu nhập...">
                                 <i class="fas fa-search"></i>
                             </div>
-                            <a href="admin_import_product.jsp" class="btn-add-ticket">
+                            <a href="ImportInventoryStockServlet" class="btn-add-ticket">
                                 <i class="fas fa-plus"></i> Tạo Phiếu Nhập
                             </a>
                         </div>
@@ -50,16 +51,25 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><strong>PNK-2026001</strong></td>
-                                    <td>Nguyễn Văn A</td>
-                                    <td>Nguyễn Văn A</td>
-                                    <td>23/03/2026</td>
-                                    <td>224326</td>
-                                    <td class="text-center">
-                                        <button class="btn-action view"><i class="fas fa-eye"></i></button>
-                                    </td>
-                                </tr>
+                                <c:forEach var="i" items="${importList}">
+                                    <tr>
+                                        <td><strong>${i.id}</strong></td>
+                                        <td>${i.sourceName}</td>
+                                        <td>${i.fullName}</td>
+                                        <td>
+                                            <fmt:formatDate value="${i.created_at}" pattern="dd/MM/yyyy"/>
+                                        </td>
+                                        <td>
+                                            <fmt:formatNumber value="${i.totalAmount}" type="number" groupingUsed="true"/> đ
+                                        </td>
+
+                                        <td class="text-center">
+                                            <button class="btn-action view">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>

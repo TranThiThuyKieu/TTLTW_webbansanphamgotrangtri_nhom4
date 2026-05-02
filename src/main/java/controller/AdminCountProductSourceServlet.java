@@ -1,6 +1,7 @@
 package controller;
 
 import dao.ProductDao;
+import dao.SourceDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,14 +19,11 @@ public class AdminCountProductSourceServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ProductDao productDao = new ProductDao();
+        SourceDao sourceDao = new SourceDao();
 
-        List<Source> listS = productDao.getAllSources();
-
-        Map<Integer, Integer> productCountMap = productDao.countProductBySource();
+        List<Source> listS = sourceDao.getAllSourcesWithProductCount("");
 
         request.setAttribute("listS", listS);
-        request.setAttribute("productCountMap", productCountMap);
         request.setAttribute("activePage", "source");
 
         request.getRequestDispatcher("admin_source.jsp").forward(request, response);

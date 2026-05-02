@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/homepage_admin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_import_product.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <body>
 
@@ -28,7 +31,18 @@
 
                 <div id="import-tab" class="tab-content active">
                     <div class="paper-form">
-                        <form action="send-request-admin" method="POST" class="document-form">
+                        <c:if test="${not empty errorMessage}">
+                            <div style="
+        background: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+    ">
+                                    ${errorMessage}
+                            </div>
+                        </c:if>
+                        <form action="InventoryStockServlet" method="POST" class="document-form">
                             <div class="paper-header">
                                 <div class="document-type">PHIẾU YÊU CẦU NHẬP KHO</div>
                                 <div class="document-no">Số: PNK-20260323</div>
@@ -36,8 +50,11 @@
                             <div class="paper-info-grid">
                                 <div class="info-item">
                                     <label>Nhà cung cấp:</label>
-                                    <select name="supplierId" class="minimal-input" required>
-                                        <option value="">-- Chọn đối tác --</option>
+                                    <select name="supplierId" class="minimal-input select2" required style="width: 100%;">
+                                        <option value="" disabled selected>-- Chọn Nhà cung cấp --</option>
+                                        <c:forEach var="s" items="${sources}">
+                                            <option value="${s.id}">${s.sourceName}</option>
+                                        </c:forEach>
                                     </select>
                                 </div>
                                 <div class="info-item">
@@ -46,7 +63,8 @@
                                 </div>
                                 <div class="info-item">
                                     <label>Ngày lập:</label>
-                                    <input type="date" name="importDate" class="minimal-input" value="2026-03-23">
+                                    <input type="date" name="importDate" class="minimal-input"
+                                           value="<%= java.time.LocalDate.now() %>">
                                 </div>
                             </div>
 
@@ -63,7 +81,11 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <select name="vId[]" class="minimal-input">
+                                        <select name="vId[]" class="minimal-input select2-variant" style="width: 100%;">
+                                            <option value="" disabled selected>-- Chọn mặt hàng --</option>
+                                            <c:forEach var="v" items="${variants}">
+                                                <option value="${v.id}">${v.sku}</option>
+                                            </c:forEach>
                                         </select>
                                     </td>
                                     <td><input type="number" name="qty[]" value="1" min="1" class="minimal-input text-center" oninput="updateRowTotal(this, 'import')"></td>
